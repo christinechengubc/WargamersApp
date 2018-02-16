@@ -103,7 +103,7 @@ CREATE TABLE Uses(
 )
 
 CREATE TABLE BorrowRecord(
-		recordID INTEGER,
+		recordID CHAR[20],
 		expectedReturnDate CHAR[20],
 		actualReturnDate CHAR[20],
 		dateBorrowed CHAR[20],
@@ -116,7 +116,7 @@ CREATE TABLE BorrowRecord(
 )
 
 CREATE TABLE Contains(
-		recordID INTEGER, 
+		recordID CHAR[20], 
 		gameID INTEGER,
 		gameTitle CHAR[20],
 		PRIMARY KEY (recordID, gameID, gameTitle),
