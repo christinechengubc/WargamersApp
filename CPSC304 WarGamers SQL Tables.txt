@@ -1,6 +1,6 @@
 CREATE TABLE Member(
-		year INTEGER,
 		memberNumber INTEGER,
+		year INTEGER,
 		name CHAR[20],
 		phoneNumber CHAR[20],
 		email CHAR[20],
@@ -92,11 +92,37 @@ CREATE TABLE GameInstance(
 				ON UPDATE CASCADE
 )
 
-CREATE TABLE Uses()
+CREATE TABLE Uses(
+		id INTEGER,
+		gameTitle CHAR[20],
+		eventName CHAR[20],
+		eventDate CHAR[20],
+		PRIMARY KEY (id, gameTitle, eventName, eventDate),
+		FOREIGN KEY (id, gameTitle) REFERENCES GameInstance(id, gameTitle),
+		FOREIGN KEY (eventName, eventDate) REFERENCES Event(name,date)
+)
 
-CREATE TABLE BorrowRecord()
+CREATE TABLE BorrowRecord(
+		recordID INTEGER,
+		expectedReturnDate CHAR[20],
+		actualReturnDate CHAR[20],
+		dateBorrowed CHAR[20],
+		timeBorrowed CHAR[7],
+		memberNumber INTEGER NOT NULL,
+		execNumber INTEGER NOT NULL,
+		PRIMARY KEY (recordID),
+		FOREIGN KEY (memberNumber) REFERENCES Member(memberNumber) 
+		FOREIGN KEY (execNumber) REFERENCES Member(execNumber)
+)
 
-CREATE TABLE Contains()
+CREATE TABLE Contains(
+		recordID INTEGER, 
+		gameID INTEGER,
+		gameTitle CHAR[20],
+		PRIMARY KEY (recordID, gameID, gameTitle),
+		FOREIGN KEY (recordID) REFERENCES BorrowRecord(recordID),
+		FOREIGN KEY (gameID, gameTitle) REFERENCES GameInstance(ID,Title)
+)
 
 
 
