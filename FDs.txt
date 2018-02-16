@@ -1,17 +1,14 @@
 FDs:
 
 Events:
-Name, date-> description, startTime, endTime, location, attendee, hostMemberNumber
-hostMemberNumber -> memberNumber, position
-memberNumber -> name, email, phoneNumber, year 
+Name, date-> description, startTime, endTime, location
 
-Publisher:
-name -> phoneNumber, email, country
 
 Game:
 ID, title -> borrowed, datePurchased, language
 title -> rating, minPlayer, maxPlayer
-title, publisher -> datePublished
+title, publisherName -> datePublished
+publisherName -> phoneNumber, email, country
 
 
 BorrowRecord:
