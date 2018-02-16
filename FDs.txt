@@ -1,0 +1,20 @@
+FDs:
+
+Events:
+Name, date-> description, startTime, endTime, location, attendee, hostMemberNumber
+hostMemberNumber -> memberNumber, position
+memberNumber -> name, email, phoneNumber, year 
+
+Publisher:
+name -> phoneNumber, email, country
+
+Game:
+ID, title -> borrowed, datePurchased, language
+title -> rating, minPlayer, maxPlayer
+title, publisher -> datePublished
+
+
+BorrowRecord:
+recordID -> expectedReturnDate, actualReturnDate, dateBorrowed, timeBorrowed, memberNumber, execMemberNumber
+execMemberNumber -> memberNumber, position
+memberNumber -> name, email, phoneNumber, year
