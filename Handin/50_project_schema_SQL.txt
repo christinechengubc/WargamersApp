@@ -82,7 +82,7 @@ CREATE TABLE HasGenre(
 
 CREATE TABLE GameInstance(
 		id INTEGER,
-		borrowed INTEGER,						******* ASSUMING ITS JUST A SIMPLE 0/1 FLAG *****
+		borrowed INTEGER,						
 		datePurchased CHAR[20],
 		language CHAR[20],
 		gameTitle CHAR[20] NOT NULL,
