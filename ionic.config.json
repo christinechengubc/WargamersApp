@@ -1,0 +1,8 @@
+{
+  "name": "warGamersDatabase",
+  "app_id": "c25a2b1c",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

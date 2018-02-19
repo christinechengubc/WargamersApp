@@ -14,7 +14,6 @@ CREATE TABLE Executive(
 		FOREIGN KEY (memberNumber) REFERENCES Member(memberNumber)
 )
 
-
 CREATE TABLE Event(
 		name CHAR[20],
 		date CHAR[10],
@@ -24,6 +23,7 @@ CREATE TABLE Event(
 		location CHAR[20]
 		PRIMARY KEY (name,date)
 )
+
 
 CREATE TABLE Attends(
 		memberNumber INTEGER,
