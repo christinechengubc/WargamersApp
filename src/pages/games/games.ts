@@ -18,6 +18,10 @@ export class GamesPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  doClick() {
+    return;
+  }
+
   gameInfo() {
     this.navCtrl.push('GameInfoPage');
   }
