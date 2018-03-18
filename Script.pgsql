@@ -83,12 +83,16 @@ CREATE TABLE Game(
 		rating INTEGER,
 		minPlayer INTEGER,
 		maxPlayer INTEGER,
-		PRIMARY KEY (title)
+		minPlaytime INTEGER,
+		maxPlaytime INTEGER,
+		Difficulty CHAR(10),
+		PRIMARY KEY (title),
+		CHECK (minPlaytime <= maxPlayTime)
 );
 
-INSERT INTO Game VALUES ('Monopoly', 5,2,6),
-('Legend of the Five Rings', 4,1,4), ('Photosynthesis', 3,2,8),
-('Sagrada', 5,2,4), ('Charterstone', 4,2,6);
+INSERT INTO Game VALUES ('Monopoly', 5,2,6,30,180,'Easy'),
+('Legend of the Five Rings', 4,1,4,30,60,'Medium'), ('Photosynthesis', 3,2,8,10,20,'Very Easy'),
+('Sagrada', 5,2,4,10,30,'Hard'), ('Charterstone', 4,2,6,5,20, 'Very Hard');
 
 CREATE TABLE PublishedBy(
 		publisherName CHAR(20),
@@ -187,4 +191,5 @@ CREATE TABLE Contains(
 );
 
 INSERT INTO Contains VALUES
-(00001, 00002, 'Monopoly'), (00002, 00004, 'Sagrada'), (00003, 00003, 'Legend of the Five Rings');
+(00001, 00002, 'Monopoly'), (00002, 00004, 'Sagrada'), (00003, 00003, 'Legend of the Five Rings'),
+(00004, 00001, 'Photosynthesis'), (00005, 00005, 'Sagrada');
