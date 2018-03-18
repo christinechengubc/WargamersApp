@@ -1,0 +1,18 @@
+{
+  "name": "wargamersapi",
+  "version": "1.0.0",
+  "description": "Simple Node.js API to service the Wargamers app.",
+  "main": "src/app.js",
+  "author": "Trevin Wong, Christine Cheng, Bryce Miranda, Crystal Kwong",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
+  },
+  "scripts": {
+    "start": "nodemon"
+  }
+}
