@@ -8,6 +8,18 @@ To start modifying it, you should first be familiar with the structure of the di
 
 This folder is used to contain any binaries, scripts or utilities used to maintain the server. Here, you can populate your own local instance of PostgreSQL using the script inside.
 
+A repeat of the instructions on how to use the script:
+
+1. Open cmd prompt
+2. psql -U USERNAME
+2a. Enter Password
+3. Create database DATABASENAME
+4. Quit
+5. psql -U USERNAME DATABASENAME < Script.pgsql
+5a. enter password
+
+Example: psql -U postgres mydb < Script.pgsql
+
 * **src**
 
 This folder is used to contain the source code. Inside of it, you'll find:
