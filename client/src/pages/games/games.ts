@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { PopoverPage } from '../popover/popover';
 
 /**
  * Generated class for the GamesPage page.
@@ -15,11 +16,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class GamesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtr: PopoverController) {
   }
 
-  doClick() {
-    return;
+  presentPopover(event) {
+    let popover = this.popoverCtr.create(PopoverPage);
+    popover.present({
+      ev: event
+    });
   }
 
   gameInfo() {
