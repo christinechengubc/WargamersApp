@@ -7,7 +7,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Wargamers Database
+      Wargamers App
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="presentPopover($event)">
@@ -26,14 +26,18 @@
       </ion-card-header>
 
       <ion-card-content>
-        Published by {{ game.publisher }}
+        Publishers: {{ game.publisher }}
         <br>
         Rating: {{ game.rating }}
         <br>
-        Description: 
+        Description:
       </ion-card-content>
       <ion-card-content class="card-content">
       </ion-card-content>
     </ion-card>
   </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="addGame()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>
