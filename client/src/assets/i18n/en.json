@@ -10,6 +10,7 @@
 
   "TAB1_TITLE": "Games",
   "TAB2_TITLE": "Events",
+  "DATABASE_URL": "http://localhost:5000",
 
   "MAP_TITLE": "Map",
 
