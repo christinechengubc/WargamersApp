@@ -50,6 +50,10 @@ export class GamesPage {
     });
   }
 
+  addGame() {
+    this.navCtrl.push('GameCreatePage');
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad GamesPage');
   }
