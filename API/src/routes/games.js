@@ -1,5 +1,6 @@
 var games = require('express').Router();
 var db = require('../db');
+//testing
 
 games.get('/', (req, res) => {
 	var sql = 'SELECT title, rating, name as publisher ' +
@@ -7,6 +8,7 @@ games.get('/', (req, res) => {
   'WHERE game.title = publishedby.gameTitle AND publisher.name = publishedby.publisherName';
   db.any(sql)
     .then(function (data) {
+
       res.status(200)
         .json({
           status: 'success',
