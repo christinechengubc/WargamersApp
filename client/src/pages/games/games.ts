@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 import { PopoverPage } from '../popover/popover';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the GamesPage page.
@@ -16,7 +18,23 @@ import { PopoverPage } from '../popover/popover';
 })
 export class GamesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtr: PopoverController) {
+  games: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtr: PopoverController, public http: Http, public translateService: TranslateService) {
+    translateService.get('DATABASE_URL').subscribe(value => {
+      this.http.get(value + '/games').map(res => res.json()).subscribe(
+        data => {
+          this.games = data.data;
+          console.log("now logging");
+          console.log(data.data);
+        },
+        err => {
+          console.log("Oops!");
+          console.log(err);
+        }
+      );
+    });
+
   }
 
   presentPopover(event) {
@@ -26,8 +44,10 @@ export class GamesPage {
     });
   }
 
-  gameInfo() {
-    this.navCtrl.push('GameInfoPage');
+  gameInfo(gameTitle) {
+    this.navCtrl.push('GameInfoPage', {
+      gameTitle: gameTitle
+    });
   }
 
   ionViewDidLoad() {

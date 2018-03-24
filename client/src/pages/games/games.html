@@ -19,7 +19,21 @@
 
 
 <ion-content padding>
-  <div padding>
-    <button ion-button block (click)="gameInfo()">{{ 'Example Game' | translate }}</button>
-  </div>
+  <ion-list>
+    <ion-card *ngFor="let game of games" (click)="gameInfo(game.title)" class="card">
+      <ion-card-header class="card-header">
+        {{ game.title }}
+      </ion-card-header>
+
+      <ion-card-content>
+        Published by {{ game.publisher }}
+        <br>
+        Rating: {{ game.rating }}
+        <br>
+        Description: 
+      </ion-card-content>
+      <ion-card-content class="card-content">
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>
