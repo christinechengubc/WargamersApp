@@ -8,13 +8,14 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { HttpModule } from '@angular/http';
 
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/providers';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
-import { PopoverPage } from '../pages/popover/popover'
+import { PopoverPage } from '../pages/popover/popover';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -45,6 +46,7 @@ export function provideSettings(storage: Storage) {
   imports: [
     BrowserModule,
     HttpClientModule,
+    HttpModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -58,7 +60,7 @@ export function provideSettings(storage: Storage) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    PopoverPage
+    PopoverPage,
   ],
   providers: [
     Api,

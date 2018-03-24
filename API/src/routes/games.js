@@ -2,7 +2,9 @@ var games = require('express').Router();
 var db = require('../db');
 
 games.get('/', (req, res) => {
-	var sql = 'SELECT * FROM game';
+	var sql = 'SELECT title, rating, name as publisher ' +
+  'FROM game, publishedby, publisher ' +
+  'WHERE game.title = publishedby.gameTitle AND publisher.name = publishedby.publisherName';
   db.any(sql)
     .then(function (data) {
       res.status(200)
