@@ -76,7 +76,8 @@ INSERT INTO Publisher VALUES ('Hasbro', '8002555516', 'permissions@hasbro.com', 
 ('Parker Bros', '1234567890', 'parkerbros@park.com', 'US'),
 ('Alary Games', '4191852309', 'alarygames@alary.com', 'CAN'),
 ('Asmodee', '0353905987', 'asmodee@asmodee.com', 'CAN'),
-('BLM Games', '5873091743', 'blmgames@blmgames.com', 'CAN');
+('BLM Games', '5873091743', 'blmgames@blmgames.com', 'CAN'),
+('Avalon Hill Games', '8888888888', 'avalonhill@tester.com', 'USA');
 
 CREATE TABLE Game(
 		title CHAR(30),
@@ -102,7 +103,8 @@ CREATE TABLE PublishedBy(
 INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly', '02/06/1935'),
 ('Parker Bros', 'Monopoly', '02/06/1935'), ('Alary Games', 'Charterstone', '03/08/1956'),
 ('Asmodee', 'Photosynthesis', '11/20/2002'), ('Parker Bros', 'Sagrada', '08/18/2010'),
-('Hasbro', 'Betrayal at House on the Hill', '10/05/2010');
+('Hasbro', 'Betrayal at House on the Hill', '10/05/2010'),
+('Avalon Hill Games', 'Betrayal at House on the Hill', '10/05/2010');
 
 CREATE TABLE Genre(
 		name CHAR(20),
