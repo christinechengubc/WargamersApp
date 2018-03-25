@@ -18,4 +18,5 @@ events.get('/', (req, res) => {
 		});
 });
 
+
 module.exports = events;
