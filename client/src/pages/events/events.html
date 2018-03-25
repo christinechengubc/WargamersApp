@@ -19,5 +19,27 @@
 
 
 <ion-content padding>
+  <ion-list>
+    <ion-card *ngFor="let event of events" (click)="eventInfo(event.name, event.date)" class="card">
+      <ion-card-header class="card-header">
+        {{ event.name }}
+      </ion-card-header>
 
+      <ion-card-content>
+        Date: {{ event.date }}
+        <br>
+        Time: {{ event.startTime }} - {{ event.endTime }}
+        <br>
+        Location: {{ event.location }}
+        <br>
+        Description: {{ event. description }}
+      </ion-card-content>
+      <ion-card-content class="card-content">
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>
