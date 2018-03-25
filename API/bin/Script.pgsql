@@ -88,7 +88,7 @@ CREATE TABLE Game(
 
 INSERT INTO Game VALUES ('Monopoly', 5,2,6),
 ('Legend of the Five Rings', 4,1,4), ('Photosynthesis', 3,2,8),
-('Sagrada', 5,2,4), ('Charterstone', 4,2,6);
+('Sagrada', 5,2,4), ('Charterstone', 4,2,6), ('Betrayal at House on the Hill', 4, 3, 6);
 
 CREATE TABLE PublishedBy(
 		publisherName CHAR(20),
@@ -101,7 +101,8 @@ CREATE TABLE PublishedBy(
 
 INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly', '02/06/1935'),
 ('Parker Bros', 'Monopoly', '02/06/1935'), ('Alary Games', 'Charterstone', '03/08/1956'),
-('Asmodee', 'Photosynthesis', '11/20/2002'), ('Parker Bros', 'Sagrada', '08/18/2010');
+('Asmodee', 'Photosynthesis', '11/20/2002'), ('Parker Bros', 'Sagrada', '08/18/2010'),
+('Hasbro', 'Betrayal at House on the Hill', '10/05/2010');
 
 CREATE TABLE Genre(
 		name CHAR(20),
@@ -109,7 +110,7 @@ CREATE TABLE Genre(
 );
 
 INSERT INTO Genre VALUES ('Roll n'' Move'), ('Deck Building'), ('Traditional'),
-('Strategy'), ('Role Playing');
+('Strategy'), ('Role Playing'), ('Horror');
 
 CREATE TABLE HasGenre(
 		gameTitle CHAR(30),
@@ -121,7 +122,8 @@ CREATE TABLE HasGenre(
 
 INSERT INTO HasGenre VALUES ('Monopoly', 'Roll n'' Move'),
 ('Photosynthesis', 'Strategy'), ('Legend of the Five Rings', 'Role Playing'),
-('Sagrada', 'Traditional'), ('Charterstone', 'Strategy');
+('Sagrada', 'Traditional'), ('Charterstone', 'Strategy'), 
+('Betrayal at House on the Hill', 'Strategy'), ('Betrayal at House on the Hill', 'Horror');
 
 CREATE TABLE GameInstance(
 		id INTEGER,
@@ -139,7 +141,9 @@ INSERT INTO GameInstance VALUES (00002, 0, '02/14/2017', 'English','Monopoly'),
 (00001, '1', '02/15/2018', 'English', 'Photosynthesis'),
 (00003, '0', '10/20/2016', 'English', 'Legend of the Five Rings'),
 (00004, '0', '05/08/2010', 'English', 'Sagrada'),
-(00005, '0', '06/10/2011', 'English', 'Sagrada');
+(00005, '0', '06/10/2011', 'English', 'Sagrada'),
+(00006, '1', '03/03/2017', 'English', 'Betrayal at House on the Hill'),
+(00007, '0', '03/06/2017', 'English', 'Betrayal at House on the Hill');
 
 CREATE TABLE Uses(
 		id INTEGER,
