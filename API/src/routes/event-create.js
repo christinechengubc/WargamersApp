@@ -14,11 +14,11 @@ eventcreate.get('/execs', (req, res) => {
         .json({
           status: 'success',
           data: data,
-          message: 'Retrieved genres'
+          message: 'Retrieved execs'
         });
     })
     .catch(function (err) {
-			console.error("Error when retrieving genres " + err);
+			console.error("Error when retrieving execs " + err);
 		});
 });
 
