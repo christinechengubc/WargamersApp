@@ -31,7 +31,7 @@ export class GameInfoPage {
         console.log("Oops!");
         console.log(err);
       }
-      );
+    );
   }
 
   editGame() {

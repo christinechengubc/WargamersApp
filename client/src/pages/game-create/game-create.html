@@ -18,36 +18,44 @@
       <ion-input type="text" value = ""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Publisher</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-label fixed>Publisher(s)</ion-label>
+      <ion-select [(ngModel)]="publishers_selected" multiple="true">
+        <ion-option *ngFor="let publisher of publishers">{{ publisher.name }}</ion-option>
+      </ion-select>
     </ion-item>
     <ion-item>
       <ion-label fixed>Rating</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-input type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Min Players</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-input type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Max Players</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-input type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Min Playtime</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-input type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Max Playtime</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-input type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Difficulty</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-select [(ngModel)]="difficulty">
+        <ion-option>Beginner</ion-option>
+        <ion-option>Intermediate</ion-option>
+        <ion-option>Difficult</ion-option>
+      </ion-select>
     </ion-item>
     <ion-item>
       <ion-label fixed>Genre</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-select [(ngModel)]="genre_selected" multiple="true">
+        <ion-option *ngFor="let genre of genres">{{ genre.name }}</ion-option>
+      </ion-select>
     </ion-item>
     <ion-item>
       <ion-label inline>Date Purchased</ion-label>
