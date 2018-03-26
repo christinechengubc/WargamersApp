@@ -7,10 +7,10 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Wargamers Database
+      Wargamers App
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="doClick()">
+      <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
@@ -19,7 +19,25 @@
 
 
 <ion-content padding>
-  <div padding>
-    <button ion-button block (click)="gameInfo()">{{ 'Example Game' | translate }}</button>
-  </div>
+  <ion-list>
+    <ion-card *ngFor="let game of games" (click)="gameInfo(game.title)" class="card">
+      <ion-card-header class="card-header">
+        {{ game.title }}
+      </ion-card-header>
+
+      <ion-card-content>
+        Publishers: {{ game.publisher }}
+        <br>
+        Rating: {{ game.rating }}
+        <br>
+        Description:
+      </ion-card-content>
+      <ion-card-content class="card-content">
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="addGame()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

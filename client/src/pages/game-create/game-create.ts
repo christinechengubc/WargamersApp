@@ -10,20 +10,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-game-info',
-  templateUrl: 'game-info.html',
+  selector: 'page-game-create',
+  templateUrl: 'game-create.html',
 })
-export class GameInfoPage {
+export class GameCreatePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  editGame() {
-    this.navCtrl.push('GameCreatePage');
-  }
-
   ionViewDidLoad() {
-    console.log('ionViewDidLoad GameInfoPage');
+    console.log('ionViewDidLoad GameCreatePage');
   }
 
 }
