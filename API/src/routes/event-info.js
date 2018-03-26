@@ -1,5 +1,6 @@
 var eventinfo = require('express').Router();
 var db = require('../db');
+var dh = require('./dataHandler')
 
 
 eventinfo.get('/:name/:date', (req, res) => {
@@ -14,10 +15,11 @@ eventinfo.get('/:name/:date', (req, res) => {
   console.log(sql);
 db.any(sql)
   .then(function (data) {
+    var editedData = dh.mergeX(data, 'hosts', 'name');
     res.status(200)
       .json({
         status: 'success',
-        data: data,
+        data: editedData,
         message: 'Retrieved info for ' + req.params.name
       });
   })
