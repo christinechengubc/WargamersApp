@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { API_URL } from '../url';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the EventsPage page.
@@ -15,7 +17,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EventCreatePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  execs: any = [];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+    this.http.get(API_URL + "/event-create/execs").map(res => res.json()).subscribe(
+      data => {
+        this.execs = data.data;
+        console.log(this.execs);
+      },
+      err => {
+        console.log("Oops!");
+        console.log(err);
+      }
+    );
   }
 
   ionViewDidLoad() {
