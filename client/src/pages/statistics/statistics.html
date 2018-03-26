@@ -16,24 +16,34 @@
 <ion-content padding>
   <ion-list>
     <ion-item>
-      <button ion-button full large round item-end icon-left>
+      <button ion-button full large round (click)="getGame('highest')">
         highest rated games
       </button>
     </ion-item>
     <ion-item>
-      <button ion-button color="secondary" full large round item-end icon-left>
+      <button ion-button color="secondary" full large round (click)="getGame('lowest')">
         lowest rated games
       </button>
     </ion-item>
     <ion-item>
-      <button ion-button full large round item-end icon-left>
+      <button ion-button full large round (click)="getEvent('highest')">
         most popular event
       </button>
     </ion-item>
     <ion-item>
-      <button ion-button color="secondary" full large round item-end icon-left>
+      <button ion-button color="secondary" full large round (click)="getEvent('lowest')">
         least popular event
       </button>
     </ion-item>
+    <ion-item-group *ngIf="loadedGames">
+      <ion-item>ID: {{loadedResults?.id}}</ion-item>
+      <ion-item>Title: {{loadedResults?.title}}</ion-item>
+      <ion-item>Author: {{loadedResults?.author.name}}</ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="loadedEvents">
+      <ion-item>ID: {{loadedResults?.id}}</ion-item>
+      <ion-item>Title: {{loadedResults?.title}}</ion-item>
+      <ion-item>Author: {{loadedResults?.author.name}}</ion-item>
+    </ion-item-group>
   </ion-list>
 </ion-content>

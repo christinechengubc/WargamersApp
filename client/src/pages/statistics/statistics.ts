@@ -17,7 +17,18 @@ import { Http } from '@angular/http';
 })
 export class StatisticsPage {
 
+  loadedGames: any = false;
+  loadedEvents: any = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+
+  }
+
+  getGame(rating) {
+
+  }
+
+  getEvent(attendance) {
 
   }
 
