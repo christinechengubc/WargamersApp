@@ -18,7 +18,7 @@ import { Http } from '@angular/http';
 })
 export class GamesPage {
 
-  games: any;
+  games: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtr: PopoverController, public http: Http, public translateService: TranslateService) {
     translateService.get('DATABASE_URL').subscribe(value => {
@@ -45,6 +45,7 @@ export class GamesPage {
   }
 
   gameInfo(gameTitle) {
+    console.log("In games.ts the title is " + gameTitle);
     this.navCtrl.push('GameInfoPage', {
       gameTitle: gameTitle
     });
