@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
-import { API_URL } from '../url';
-import { PopoverPage } from '../popover/popover';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { API_URL } from '../url';
 
 /**
  * Generated class for the GamesPage page.
@@ -17,10 +16,9 @@ import { Http } from '@angular/http';
   templateUrl: 'games.html',
 })
 export class GamesPage {
-
   games: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtr: PopoverController, public http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
       data => {
         this.games = data.data;
@@ -32,13 +30,6 @@ export class GamesPage {
         console.log(err);
       }
     );
-  }
-
-  presentPopover(event) {
-    let popover = this.popoverCtr.create(PopoverPage);
-    popover.present({
-      ev: event
-    });
   }
 
   gameInfo(gameTitle) {
