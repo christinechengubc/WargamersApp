@@ -5,9 +5,9 @@ var db = require('../db');
 gameinfo.get('/:title', (req, res) => {
   var s = 0;
   var sql = 'SELECT g.*, h.genreName AS genre, p.publisherName AS publisher, total.*, free.*' +
-            'FROM (SELECT COUNT(*) AS availableCopies FROM GameInstance WHERE gameTitle = ' + req.params.title + ' AND borrowed = 0) free, ' +
-                 '(SELECT COUNT(*) AS totalCopies FROM GameInstance WHERE gameTitle = ' + req.params.title + ') total, ' +
-                 'Game g, HasGenre h, publishedBy p ' +
+            'FROM (SELECT COUNT(*) AS availableCopies FROM GameInstances WHERE gameTitle = ' + req.params.title + ' AND borrowed = 0) free, ' +
+                 '(SELECT COUNT(*) AS totalCopies FROM GameInstances WHERE gameTitle = ' + req.params.title + ') total, ' +
+                 'Games g, HasGenre h, publishedBy p ' +
             'WHERE g.title = ' + req.params.title +
                  ' AND h.gameTitle = ' + req.params.title +
                  ' AND p.gameTitle = ' + req.params.title +
