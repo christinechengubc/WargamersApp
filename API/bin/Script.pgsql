@@ -3,18 +3,18 @@ DROP TABLE IF EXISTS Members, Executives, Events, Attends, Hosts, Publishers, Ga
 CREATE TABLE Members (
     memberNumber integer NOT NULL,
     year integer,
-    name VARCHAR(20),
-    phoneNumber VARCHAR(20),
-    email VARCHAR(25),
-	PRIMARY KEY (memberNumber)
+    name character(20),
+    phonenumber character(20),
+    email character(25),
+    password character(25),
+	  PRIMARY KEY (memberNumber)
 );
 
-INSERT INTO Members VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.ca'),
-(002, 3, 'Crystal', '5878892238', 't5i0b.ugrad.cs.ubc.ca'),
-(003, 3, 'Trevin', '5877182980', 'd3s0b@ugrad.cs.ubc.ca'),
-(004, 3,'Christine', NULL, 'r8x9a@ugrad.cs.ubc.ca'),
-(005, 4, 'Goober', '8790981283', 'goober@ugrad.cs.ubc.ca'),
-(006, 1, 'Newbie', '4872345678', 'newbie@ugrad.cs.ubc.ca');
+INSERT INTO Members VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.ca', 'testPassword'),
+(002, 3, 'Crystal', '5878892238', 't5i0b.ugrad.cs.ubc.ca', 'testPassword'),
+(003, 3, 'Trevin', '5877182980', 'd3s0b@ugrad.cs.ubc.ca', 'testPassword'),
+(004, 3,'Christine', NULL, 'r8x9a@ugrad.cs.ubc.ca', 'testPassword'),
+(005, 4, 'Goober', '8790981283', 'goober@ugrad.cs.ubc.ca', 'testPassword');
 
 CREATE TABLE Executives(
 		memberNumber integer NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE Attends(
 );
 
 INSERT INTO Attends VALUES (001, 'Boston Pizza Outing', '2018-02-20'),
-(002, 'Heart BoardGames', '2018-02-14'), 
+(002, 'Heart BoardGames', '2018-02-14'),
 (003, 'Tribute to Cthulu', '2018-04-01'),
 (004, 'Boston Pizza Outing', '2018-02-20'), (003, 'Boston Pizza Outing', '2018-02-20'),
 (005, 'D&D', '2018-03-02'), (004, 'D&D', '2018-03-02'),
@@ -92,19 +92,20 @@ CREATE TABLE Games(
 		maxPlayer INTEGER,
 		minPlaytime INTEGER,
 		maxPlaytime INTEGER,
-		firstDatePublished DATE,
+		yearpublished INTEGER,
 		description VARCHAR(100),
-		difficulty VARCHAR(10),
+		difficulty VARCHAR(15),
 		CHECK (rating > 0 AND rating <= 5),
 		PRIMARY KEY (title)
 );
 
-INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, '1988-01-01', 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 'easy'),
-('Legend of the Five Rings', 4.12,1,4,30,60, '1999-01-01', 'much legend, such rings', 'medium'),
-('Photosynthesis', 3.83,2,8,10,30, '2000-01-01', 'I''ve always wanted to be a flower', 'hard'),
-('Sagrada', 4.87,2,4,20,60,'2001-01-01', 'hi', 'very easy'), 
-('Betrayal at House on the Hill', 3.29, 1,3,10,20,'2002-01-01', 'hello', 'medium'),
-('Charterstone', 4.28,2,6,5,10,'2002-01-01','hearthstone','very hard');
+
+INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, 1988, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 'Beginner'),
+('Legend of the Five Rings', 4.12,1,4,30,60, 1999, 'much legend, such rings', 'Intermediate'),
+('Photosynthesis', 3.83,2,8,10,30, 2000, 'I''ve always wanted to be a flower', 'Advanced'),
+('Sagrada', 4.87,2,4,20,60,2001, 'hi', 'Beginner'), 
+('Betrayal at House on the Hill', 3.29, 1,3,10,20,2002, 'hello', 'Intermediate'),
+('Charterstone', 4.28,2,6,5,10,2002,'hearthstone','Advanced');
 
 CREATE TABLE PublishedBy(
 		publisherName VARCHAR(20),
@@ -135,12 +136,12 @@ CREATE TABLE HasGenre(
 
 INSERT INTO HasGenre VALUES ('Monopoly', 'Roll n'' Move'),
 ('Photosynthesis', 'Strategy'), ('Legend of the Five Rings', 'Role Playing'),
-('Sagrada', 'Traditional'), ('Charterstone', 'Strategy'), 
+('Sagrada', 'Traditional'), ('Charterstone', 'Strategy'),
 ('Betrayal at House on the Hill', 'Strategy'), ('Betrayal at House on the Hill', 'Horror');
 
 CREATE TABLE GameInstances(
 		id INTEGER,
-		borrowed INTEGER,						
+		borrowed INTEGER,
 		datePurchased DATE,
 		language VARCHAR(20),
 		gameTitle VARCHAR(30),
@@ -166,7 +167,7 @@ CREATE TABLE BorrowRecords(
 		memberNumber INTEGER NOT NULL,
 		execNumber INTEGER NOT NULL,
 		PRIMARY KEY (recordID),
-		FOREIGN KEY (memberNumber) REFERENCES Members(memberNumber), 
+		FOREIGN KEY (memberNumber) REFERENCES Members(memberNumber),
 		FOREIGN KEY (execNumber) REFERENCES Executives(memberNumber)
 );
 
@@ -178,7 +179,7 @@ INSERT INTO BorrowRecords VALUES
 (00005, '2018-03-18', NULL, '2018-02-13', '16:30:00', 003, 002);
 
 CREATE TABLE Contains(
-		recordID INTEGER, 
+		recordID INTEGER,
 		gameID INTEGER,
 		gameTitle VARCHAR(30),
 		PRIMARY KEY (recordID, gameID, gameTitle),
