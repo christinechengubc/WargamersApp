@@ -18,6 +18,10 @@ import { Http } from '@angular/http';
 export class EventCreatePage {
 
   execs: any = [];
+  days: any = [];
+  years: any = [];
+  hours: any = [];
+  minutes: any = [0,15,30,45];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.http.get(API_URL + "/event-create/execs").map(res => res.json()).subscribe(
@@ -30,6 +34,17 @@ export class EventCreatePage {
         console.log(err);
       }
     );
+    for (let h = 0; h <= 23; h++) {
+      this.hours.push(h);
+    }
+    for (let i = 1; i <= 31; i++) {
+      this.days.push(i);
+    }
+    let startYear = 1900;
+    let endYear = 2018;
+    for (let j = startYear; j <= endYear; j++) {
+      this.years.push(j);
+    }
   }
 
   ionViewDidLoad() {
