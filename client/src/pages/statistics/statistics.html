@@ -35,15 +35,16 @@
         least popular event
       </button>
     </ion-item>
-    <ion-item-group *ngIf="loadedGames">
-      <ion-item>ID: {{loadedResults?.id}}</ion-item>
-      <ion-item>Title: {{loadedResults?.title}}</ion-item>
-      <ion-item>Author: {{loadedResults?.author.name}}</ion-item>
-    </ion-item-group>
-    <ion-item-group *ngIf="loadedEvents">
-      <ion-item>ID: {{loadedResults?.id}}</ion-item>
-      <ion-item>Title: {{loadedResults?.title}}</ion-item>
-      <ion-item>Author: {{loadedResults?.author.name}}</ion-item>
-    </ion-item-group>
+    <div *ngIf="loadedGames">
+      <ion-card *ngFor="let game of loadedGames">
+        <ion-card-header>{{ game.title }}</ion-card-header>
+        <ion-card-content>Rating: {{ game.rating }}</ion-card-content>
+      </ion-card>
+    </div>
+    <div *ngIf="loadedEvents">
+      <ion-card *ngFor="let event of loadedEvents">
+        <ion-card-header>{{ event.name }}</ion-card-header>
+      </ion-card>
+    </div>
   </ion-list>
 </ion-content>

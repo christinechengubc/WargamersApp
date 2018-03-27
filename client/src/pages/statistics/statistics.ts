@@ -25,11 +25,33 @@ export class StatisticsPage {
   }
 
   getGame(rating) {
-
+    this.http.get(API_URL + '/stats/game/' + rating).map(res => res.json()).subscribe(
+      data => {
+        this.loadedEvents = false;
+        this.loadedGames = data.data;
+        console.log("now logging");
+        console.log(data.data);
+      },
+      err => {
+        console.log("Oops!");
+        console.log(err);
+      }
+    );
   }
 
   getEvent(attendance) {
-
+    this.http.get(API_URL + '/stats/event/' + attendance).map(res => res.json()).subscribe(
+      data => {
+        this.loadedGames = false;
+        this.loadedEvents = data.data;
+        console.log("now logging");
+        console.log(data.data);
+      },
+      err => {
+        console.log("Oops!");
+        console.log(err);
+      }
+    );
   }
 
   ionViewDidLoad() {
