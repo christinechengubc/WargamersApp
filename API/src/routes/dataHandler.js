@@ -34,6 +34,6 @@ exports.mergeX = function(data,multipleValue,matchingValue) {
   }
 
   return editedData;
-}
+};
 
 
