@@ -13,14 +13,58 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item class="game-title">-Insert Title of Game Here-</ion-item>
-    <ion-item>By -Insert Publisher here-</ion-item>
-    <ion-item>Rating: -Insert star rating here-</ion-item>
-    <ion-item>Players: -minPlayer- - -maxPlayer-</ion-item>
-    <ion-item>Play Time: -minPlayTime - -maxPlayTime</ion-item>
-    <ion-item>Difficulty: -insert difficulty here-</ion-item>
-    <ion-item>Genres: -insert genres here-</ion-item>
-    <ion-item>Club Owns: -insert value here- Copies</ion-item>
-    <ion-item>Available for Borrowing: -insert value here- Copies</ion-item>
+    <ion-item>
+      <ion-label fixed>Title</ion-label>
+      <ion-input type="text" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Publisher(s)</ion-label>
+      <ion-select [(ngModel)]="publishers_selected" multiple="true">
+        <ion-option *ngFor="let publisher of publishers">{{ publisher.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Rating</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Min Players</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Max Players</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Min Playtime</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Max Playtime</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Difficulty</ion-label>
+      <ion-select [(ngModel)]="difficulty">
+        <ion-option>Beginner</ion-option>
+        <ion-option>Intermediate</ion-option>
+        <ion-option>Difficult</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Genres</ion-label>
+      <ion-select [(ngModel)]="genre_selected" multiple="true">
+        <ion-option *ngFor="let genre of genres">{{ genre.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label inline>Date Purchased</ion-label>
+      <ion-input type="text" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Language</ion-label>
+      <ion-input type="text" value = ""></ion-input>
+    </ion-item>
   </ion-list>
+  <button ion-button>Save</button>
 </ion-content>

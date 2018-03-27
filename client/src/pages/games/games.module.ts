@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { IonicPageModule } from 'ionic-angular';
 import { GamesPage } from './games';
+import { ComponentsModule } from '../../components/components.module'; 
 
 @NgModule({
   declarations: [
@@ -9,7 +9,7 @@ import { GamesPage } from './games';
   ],
   imports: [
     IonicPageModule.forChild(GamesPage),
-    TranslateModule.forChild()
+		ComponentsModule
   ],
   exports: [
     GamesPage
