@@ -1,6 +1,6 @@
 var eventinfo = require('express').Router();
 var db = require('../db');
-var dh = require('./dataHandler')
+var dh = require('./dataHandler');
 
 
 eventinfo.get('/:name/:date', (req, res) => {

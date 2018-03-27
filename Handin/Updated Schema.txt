@@ -1,0 +1,60 @@
+ENTITIES
+
+Members
+- PK: memberNumber
+- O: year, name, phoneNumber, email
+
+Executives
+- PK: memberNumber
+- FK: memberNumber REF Members(memberNumber)
+
+Events
+- PK: name, date
+- O: description, startTime, endTime, location
+
+Publishers
+- PK: name
+- O: email, country
+
+Games
+- PK: title
+- O: rating, minPlayer, maxPlayer, minPlayTime, maxPlayTime, firstDatePublished, description, difficulty
+
+Genres
+- PK: name
+
+GameInstances
+- PK: id, gameTitle
+- FK: gameTitle REF Games(title)
+- O: borrowed, datePurchased, language
+
+BorrowRecords
+- PK: recordID
+- FK: memberNumber REF Members(memberNumber), execNumber REF Executives(memberNumber)
+- O: expectedReturnDate, actualReturnDate, dateBorrowed, timeBorrowed
+
+RELATIONSHIPS
+
+HasGenre
+- PK: gameTitle, genreName
+- FK: gameTitle REF Games(title), genreName REF Genres(name)
+
+Attends
+- PK: memberNumber, eventName, eventDate
+- FK: memberNumber REF Members(memberNumber),
+- FK: eventName, eventDate REF Events(name, date)
+
+Hosts
+- PK: memberNumber, eventName, eventDate
+- FK: memberNumber REF Executives(memberNumber)
+- FK: eventName, eventDate REF Events(name,date)
+
+PublishedBy
+- PK: publisherName, gameTitle
+- FK: publisherName REF Publishers(name)
+- FK: gameTitle REF Games(Title)
+
+Contains
+- PK: recordID, gameID, gameTitle
+- FK: recordID REF BorrowRecords(recordID)
+- FK: gameID, gameTitle REF GameInstances(id, gameTitle)
