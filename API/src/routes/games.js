@@ -1,7 +1,6 @@
 var games = require('express').Router();
 var db = require('../db');
 
-
 games.get('/', (req, res) => {
 	var sql = 'SELECT title, rating, name as publisher ' +
   'FROM games, publishedby, publishers ' +
@@ -62,7 +61,6 @@ db.any(sql)
     console.error("Error when retrieving games " + err);
   });
 });
-
 
 
 /**
