@@ -13,7 +13,8 @@ INSERT INTO Members VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.c
 (002, 3, 'Crystal', '5878892238', 't5i0b.ugrad.cs.ubc.ca'),
 (003, 3, 'Trevin', '5877182980', 'd3s0b@ugrad.cs.ubc.ca'),
 (004, 3,'Christine', NULL, 'r8x9a@ugrad.cs.ubc.ca'),
-(005, 4, 'Goober', '8790981283', 'goober@ugrad.cs.ubc.ca');
+(005, 4, 'Goober', '8790981283', 'goober@ugrad.cs.ubc.ca'),
+(006, 1, 'Newbie', '4872345678', 'newbie@ugrad.cs.ubc.ca');
 
 CREATE TABLE Executives(
 		memberNumber integer NOT NULL,
@@ -52,8 +53,11 @@ CREATE TABLE Attends(
 );
 
 INSERT INTO Attends VALUES (001, 'Boston Pizza Outing', '2018-02-20'),
-(002, 'Heart BoardGames', '2018-02-14'), (003, 'Tribute to Cthulu', '2018-04-01'),
-(004, 'Boston Pizza Outing', '2018-02-20'), (005, 'D&D', '2018-03-02'), (004, 'D&D', '2018-03-02'), (005, 'D&D', '2018-03-10'), (004, 'D&D', '2018-03-10');
+(002, 'Heart BoardGames', '2018-02-14'), 
+(003, 'Tribute to Cthulu', '2018-04-01'),
+(004, 'Boston Pizza Outing', '2018-02-20'), (003, 'Boston Pizza Outing', '2018-02-20'),
+(005, 'D&D', '2018-03-02'), (004, 'D&D', '2018-03-02'),
+(005, 'D&D', '2018-03-10'), (004, 'D&D', '2018-03-10'),(001, 'D&D', '2018-03-10'),(002, 'D&D', '2018-03-10');
 
 CREATE TABLE Hosts(
 		memberNumber INTEGER,
@@ -99,6 +103,7 @@ INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, '1988-01-01', 'Want to get
 ('Legend of the Five Rings', 4.12,1,4,30,60, '1999-01-01', 'much legend, such rings', 'medium'),
 ('Photosynthesis', 3.83,2,8,10,30, '2000-01-01', 'I''ve always wanted to be a flower', 'hard'),
 ('Sagrada', 4.87,2,4,20,60,'2001-01-01', 'hi', 'very easy'), 
+('Betrayal at House on the Hill', 3.29, 1,3,10,20,'2002-01-01', 'hello', 'medium'),
 ('Charterstone', 4.28,2,6,5,10,'2002-01-01','hearthstone','very hard');
 
 CREATE TABLE PublishedBy(
@@ -118,7 +123,7 @@ CREATE TABLE Genres(
 );
 
 INSERT INTO Genres VALUES ('Roll n'' Move'), ('Deck Building'), ('Traditional'),
-('Strategy'), ('Role Playing');
+('Strategy'), ('Role Playing'), ('Horror');
 
 CREATE TABLE HasGenre(
 		gameTitle VARCHAR(30),
