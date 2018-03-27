@@ -6,11 +6,11 @@ CREATE TABLE Members (
     name character(20),
     phonenumber character(20),
     email character(25),
-    password character(25)
-	PRIMARY KEY (memberNumber)
+    password character(25),
+	  PRIMARY KEY (memberNumber)
 );
 
-INSERT INTO Member VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.ca', 'testPassword'),
+INSERT INTO Members VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.ca', 'testPassword'),
 (002, 3, 'Crystal', '5878892238', 't5i0b.ugrad.cs.ubc.ca', 'testPassword'),
 (003, 3, 'Trevin', '5877182980', 'd3s0b@ugrad.cs.ubc.ca', 'testPassword'),
 (004, 3,'Christine', NULL, 'r8x9a@ugrad.cs.ubc.ca', 'testPassword'),
