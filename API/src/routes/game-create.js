@@ -3,9 +3,9 @@ var db = require('../db');
 
 
 gamecreate.get('/genre', (req, res) => {
-	var sql = 'SELECT genre.name ' +
-  'FROM genre ' +
-  'ORDER BY genre.name';
+	var sql = 'SELECT genres.name ' +
+  'FROM genres ' +
+  'ORDER BY genres.name';
   db.any(sql)
     .then(function (data) {
 

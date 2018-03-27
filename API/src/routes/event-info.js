@@ -6,15 +6,15 @@ var dh = require('./dataHandler');
 eventinfo.get('/:name/:date', (req, res) => {
   var s = 0;
   req.params.date = req.params.date.replace(/-/g, "/");
-  var sql = 'SELECT event.*, member.name as hosts, attend.* ' +
+  var sql = 'SELECT events.*, members.name as hosts, attends.* ' +
             'FROM (SELECT COUNT(*) AS attending FROM attends WHERE attends.eventName = ' + req.params.name +
-            ' AND attends.eventDate = ' + req.params.date + ') attend, event, host, member ' +
-            'WHERE event.name = ' + req.params.name + ' AND event.date = ' + req.params.date +
-            ' AND host.eventName = ' + req.params.name + ' AND host.eventDate = ' + req.params.date +
-            ' AND host.memberNumber = member.memberNumber';
+            ' AND attends.eventDate = ' + req.params.date + ') attends, events, hosts, members ' +
+            'WHERE events.name = ' + req.params.name + ' AND events.date = ' + req.params.date +
+            ' AND hosts.eventName = ' + req.params.name + ' AND hosts.eventDate = ' + req.params.date +
+            ' AND hosts.memberNumber = members.memberNumber';
   console.log(sql);
-db.any(sql)
-  .then(function (data) {
+  db.any(sql)
+    .then(function (data) {
     var editedData = dh.mergeX(data, 'hosts', 'name');
     res.status(200)
       .json({

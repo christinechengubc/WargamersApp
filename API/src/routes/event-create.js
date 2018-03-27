@@ -3,10 +3,10 @@ var db = require('../db');
 
 
 eventcreate.get('/execs', (req, res) => {
-	var sql = 'SELECT member.name ' +
-  'FROM executive, member ' +
-  'WHERE executive.memberNumber = member.memberNumber '
-  'ORDER BY member.memberNumber';
+	var sql = 'SELECT members.name ' +
+  'FROM executives, members ' +
+  'WHERE executives.memberNumber = members.memberNumber '+
+    'ORDER BY members.memberNumber';
   db.any(sql)
     .then(function (data) {
 
