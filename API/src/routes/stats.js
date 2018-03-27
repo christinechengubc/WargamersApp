@@ -10,6 +10,7 @@ stats.get('/game/:rating', (req, res) => {
   var sql = 'SELECT title, rating ' +
             'FROM games WHERE rating = ' +
             '( SELECT ' + aggregation + '(g.rating) FROM games g)';
+
   db.any(sql)
     .then(function (data) {
       res.status(200)
@@ -31,6 +32,7 @@ stats.get('/game/:rating', (req, res) => {
   }
   var sql = 'SELECT name ' +
             'FROM events';
+            
   db.any(sql)
     .then(function (data) {
       res.status(200)
