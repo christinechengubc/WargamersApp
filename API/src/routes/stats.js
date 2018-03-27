@@ -8,7 +8,7 @@ stats.get('/game/:rating', (req, res) => {
     aggregation = 'MIN';
   }
   var sql = 'SELECT title, rating ' +
-            'FROM game WHERE rating = ' +
+            'FROM games WHERE rating = ' +
             '( SELECT ' + aggregation + '(g.rating) FROM game g)';
   db.any(sql)
     .then(function (data) {
@@ -30,7 +30,7 @@ stats.get('/event/:attendance', (req, res) => {
     aggregation = 'MIN';
   }
   var sql = 'SELECT name ' +
-            'FROM event';
+            'FROM events';
   db.any(sql)
     .then(function (data) {
       res.status(200)
