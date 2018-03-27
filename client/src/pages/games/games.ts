@@ -19,17 +19,21 @@ export class GamesPage {
   games: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
-    this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
-      data => {
-        this.games = data.data;
-        console.log("now logging");
-        console.log(data.data);
-      },
-      err => {
-        console.log("Oops!");
-        console.log(err);
-      }
-    );
+    if (typeof navParams.data.showResults === 'undefined') {
+      this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
+        data => {
+          this.games = data.data;
+          console.log("now logging");
+          console.log(data.data);
+        },
+        err => {
+          console.log("Oops!");
+          console.log(err);
+        }
+      );
+    } else if (navParams.data.showResults === true) {
+      this.games = navParams.data.data;
+    }
   }
 
   gameInfo(gameTitle) {
@@ -41,6 +45,10 @@ export class GamesPage {
 
   addGame() {
     this.navCtrl.push('GameCreatePage');
+  }
+
+  searchGame() {
+    this.navCtrl.push('SearchPage');
   }
 
   ionViewDidLoad() {

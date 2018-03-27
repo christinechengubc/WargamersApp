@@ -1,22 +1,86 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>{{ 'SEARCH_TITLE' | translate }}</ion-title>
+    <ion-title>
+      Wargamers App
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
-  <ion-list>
-    <button ion-item (click)="openItem(item)" *ngFor="let item of currentItems">
-      <ion-avatar item-start>
-        <img [src]="item.profilePic" />
-      </ion-avatar>
-      <h2>{{item.name}}</h2>
-      <p>{{item.about}}</p>
-      <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
-    </button>
-  </ion-list>
+  <ion-toolbar>
+    <div padding>
+      <ion-segment [(ngModel)]="searchBy">
+        <ion-segment-button value="game">
+          Search By Game Info
+        </ion-segment-button>
+        <ion-segment-button value="publisher">
+          Search By Publisher
+        </ion-segment-button>
+        <ion-segment-button value="genre">
+          Search By Genre
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+
+  <div [ngSwitch]="searchBy">
+    <ion-list *ngSwitchCase="'game'">
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input type="text" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Minimum Players</ion-label>
+        <ion-input type="number" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Maximum Players</ion-label>
+        <ion-input type="number" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Minimum Play Time</ion-label>
+        <ion-input type="number" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Maximum Play Time</ion-label>
+        <ion-input type="number" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Difficulty</ion-label>
+        <ion-select [(ngModel)]="difficulty">
+          <ion-option>Beginner</ion-option>
+          <ion-option>Intermediate</ion-option>
+          <ion-option>Difficult</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Language</ion-label>
+        <ion-input type="text" value = ""></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'publisher'">
+      <ion-item>
+        <ion-label floating>Name</ion-label>
+        <ion-input type="text" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Country</ion-label>
+        <ion-input type="text" value = ""></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'genre'">
+      <ion-item>
+        <ion-label floating>Genre</ion-label>
+        <ion-input type="text" value = ""></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div padding>
+    <button ion-button (click)="search()">Search</button>
+  </div>
 </ion-content>
