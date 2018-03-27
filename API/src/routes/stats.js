@@ -8,8 +8,8 @@ stats.get('/game/:rating', (req, res) => {
     aggregation = 'MIN';
   }
   var sql = 'SELECT title, rating ' +
-    'FROM game WHERE rating = ' +
-    '( SELECT ' + aggregation + '(g.rating) FROM game g)';
+            'FROM games WHERE rating = ' +
+            '( SELECT ' + aggregation + '(g.rating) FROM games g)';
   db.any(sql)
     .then(function (data) {
       res.status(200)
@@ -30,7 +30,7 @@ stats.get('/game/:rating', (req, res) => {
     aggregation = 'MIN';
   }
   var sql = 'SELECT name ' +
-            'FROM event';
+            'FROM events';
   db.any(sql)
     .then(function (data) {
       res.status(200)
@@ -53,13 +53,22 @@ stats.get('/game/:rating', (req, res) => {
  */
 stats.get('/event/:attendance', (req, res) => {
   var aggregation = 'MAX';
-  if (req.params.rating === 'lowest') {
+  if (req.params.attendance === 'lowest') {
     aggregation = 'MIN';
   }
-  var sql = 'SELECT name, date, COUNT(a) as attendees ' +
-    'FROM event e, attends a ' +
+  var sql1 = 'SELECT name, COUNT(a) as attendees ' +
+    'FROM events e, attends a ' +
     'WHERE a.eventName = e.name ' + ' AND a.eventDate = e.date ' +
     'GROUP BY e.name, e.date ';
+  var sql2 = 'SELECT c.name, AVG(c.attendees) as avg' +
+    ' FROM (' +sql1 + ') c ' +
+    'GROUP BY c.name';
+  var sql3 = '(SELECT ' + aggregation + '(x.avg) as max' +
+  ' FROM (' + sql2 + ') x)';
+  var sql = 'SELECT y.name, y.avg' +
+            ' FROM (' + sql2 + ') y,  ' + sql3 + ' z' +
+            ' WHERE y.avg = z.max';
+
   db.any(sql)
     .then(function (data) {
       res.status(200)

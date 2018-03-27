@@ -5,8 +5,8 @@ var dh = require('./dataHandler');
 
 games.get('/', (req, res) => {
 	var sql = 'SELECT title, rating, name as publisher ' +
-  'FROM game, publishedby, publisher ' +
-  'WHERE game.title = publishedby.gameTitle AND publisher.name = publishedby.publisherName ' +
+  'FROM games, publishedby, publishers ' +
+  'WHERE games.title = publishedby.gameTitle AND publishers.name = publishedby.publisherName ' +
   'ORDER BY title';
   db.any(sql)
     .then(function (data) {
@@ -27,7 +27,7 @@ games.get('/', (req, res) => {
 
 games.get('/has-genre/:genre', (req, res) => {
   var genre = req.params.genre;
-  var sql = 'SELECT gametitle FROM game, hasgenre WHERE gametitle = title AND genrename =' + genre;
+  var sql = 'SELECT gametitle FROM games, hasgenre WHERE gametitle = title AND genrename =' + genre;
 db.any(sql)
   .then(function (data) {
 
@@ -47,7 +47,7 @@ games.get('/title/:partTitle', (req, res) => {
   var partTitle = req.params.partTitle;
   partTitle = partTitle.replace(/\'/g, "");
 
-var sql = 'SELECT title FROM game WHERE title LIKE \'%' + partTitle + '%\'';
+var sql = 'SELECT title FROM games WHERE title LIKE \'%' + partTitle + '%\'';
 db.any(sql)
   .then(function (data) {
 
