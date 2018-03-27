@@ -3,7 +3,7 @@ var db = require('../db');
 
 events.get('/', (req, res) => {
 	var sql = 'SELECT * ' +
-  'FROM event';
+  'FROM events';
   db.any(sql)
     .then(function (data) {
       res.status(200)
