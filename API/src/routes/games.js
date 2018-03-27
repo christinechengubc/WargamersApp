@@ -1,5 +1,6 @@
 var games = require('express').Router();
 var db = require('../db');
+var dh = require('./dataHandler');
 
 games.get('/', (req, res) => {
 	var sql = 'SELECT title, rating, name as publisher ' +
@@ -9,7 +10,7 @@ games.get('/', (req, res) => {
   db.any(sql)
     .then(function (data) {
       //returns JSON with list of distinct titles and array of publishers in the publisher field
-      var editedData = mergePublishers(data);
+      var editedData = dh.mergeX(data,'publisher','title');
 
       res.status(200)
         .json({
@@ -62,33 +63,5 @@ db.any(sql)
   });
 });
 
-
-/**
- * Takes a JSON object with at least a title field and a publisher field,
- * and merges games with the same title but multiple publishers into one.
- *
- * @param data    The JSON object
- *
- * @returns the JSON data with a list of unique titles, their ratings, and their list of publishers
- */
-function mergePublishers(data) {
-  var i = 0;
-  var publishers;
-  var editedData = [];
-  while (data[i]) {
-    var x = i;
-    publishers = [data[i]['publisher']];
-
-    while (data[++i]) {
-      if (data[x]['title'] == data[i]['title']) {
-        publishers.push(data[i]['publisher']);
-      }
-      else break;
-    }
-    data[x]['publisher'] = publishers;
-    editedData.push(data[x]);
-  }
-  return editedData;
-}
 
 module.exports = games;
