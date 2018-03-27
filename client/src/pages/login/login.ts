@@ -36,8 +36,13 @@ export class LoginPage {
   doLogin() {
     this.user.login(this.account).subscribe((resp) => {
       this.navCtrl.push(MainPage);
+      let toast = this.toastCtrl.create({
+        message: 'Logged in successfully! Welcome, ' + this.user._user.name + '!',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
     }, (err) => {
-      this.navCtrl.push(MainPage);
       // Unable to log in
       let toast = this.toastCtrl.create({
         message: this.loginErrorString,

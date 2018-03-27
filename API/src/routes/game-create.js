@@ -40,9 +40,9 @@ gamecreate.get('/publishers', (req, res) => {
 		});
 });
 
-gamecreate.post('/:title/:publishers/:rating/:minPlayers/:maxPlayers/:minPlaytime/:maxPlaytime/:difficulty/:genres', (req, res) => {
+gamecreate.post('/new', (req, res) => {
 	var sql = new PQ('INSERT INTO Game VALUES($1, $2, $3, $4, $5, $6, $7)');
-	sql.values = [req.params.title, req.params.rating, req.params.minPlayers, req.params.maxPlayers, req.params.minPlaytime, req.params.maxPlaytime, req.params.difficulty];
+	sql.values = [req.body.title, req.body.rating, req.body.minPlayers, req.body.maxPlayers, req.body.minPlaytime, req.body.maxPlaytime, req.body.difficulty];
 	var sql2 = new PQ('INSERT INTO PublishedBy VALUES($1, $2, $3)');
 	sql2.values = [];
 	var sql3 = new PQ('INSERT INTO HasGenre VALUES($1, $2)');
@@ -53,12 +53,12 @@ gamecreate.post('/:title/:publishers/:rating/:minPlayers/:maxPlayers/:minPlaytim
 	db.task(t => {
 		return t.none(sql)
 			.then(() => {
-					req.params.publishers.forEach((publisher) => {
-						sql2.values = [publisher.name, req.params.title, publisher.datePublished];
+					req.body.publishers.forEach((publisher) => {
+						sql2.values = [publisher.name, req.body.title, publisher.datePublished];
 						return t.none(sql2)
 							.then(() => {
-									req.params.genres.forEach((genre) => {
-										sql3.values = [req.params.title, genre.name];
+									req.body.genres.forEach((genre) => {
+										sql3.values = [req.body.title, genre.name];
 									})
 							});
 					});
