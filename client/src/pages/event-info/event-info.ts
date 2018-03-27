@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { API_URL } from '../url';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the eventsPage page.
@@ -15,7 +17,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EventInfoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  event: any = {};
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+    var name = navParams.data.eventName.trim();
+    var date = navParams.data.eventDate.trim().replace(/[/]/g, "-")
+    this.http.get(API_URL + "/event-info/'" + name + "'/'" + date + "'").map(res => res.json()).subscribe(
+      data => {
+        this.event = data.data[0];
+      },
+      err => {
+        console.log("Oops!");
+        console.log(err);
+      }
+    );
   }
 
   editEvent() {

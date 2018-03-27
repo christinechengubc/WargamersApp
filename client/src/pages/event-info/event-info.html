@@ -19,15 +19,12 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item class="title">-Insert Title of Game Here-</ion-item>
-    <ion-item>By -Insert Publisher here-</ion-item>
-    <ion-item>Rating: -Insert star rating here-</ion-item>
-    <ion-item>Players: -minPlayer- - -maxPlayer-</ion-item>
-    <ion-item>Play Time: -minPlayTime - -maxPlayTime</ion-item>
-    <ion-item>Difficulty: -insert difficulty here-</ion-item>
-    <ion-item>Genres: -insert genres here-</ion-item>
-    <ion-item>Club Owns: -insert value here- Copies</ion-item>
-    <ion-item>Available for Borrowing: -insert value here- Copies</ion-item>
+    <ion-item class="title">{{ event.name }}</ion-item>
+    <ion-item>Date: {{ event.date }}</ion-item>
+    <ion-item>Time: {{ event.starttime }} - {{ event.endtime }}</ion-item>
+    <ion-item>Description: {{ event.description }}</ion-item>
+    <ion-item>Hosts: {{ event.hosts }}</ion-item>
+    <ion-item>Members Attending: {{ event.attending }}</ion-item>
   </ion-list>
 
   <ion-fab right bottom>

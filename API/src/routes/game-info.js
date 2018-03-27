@@ -1,8 +1,8 @@
-var gamesinfo = require('express').Router();
+var gameinfo = require('express').Router();
 var db = require('../db');
 var dh = require('./dataHandler');
 
-gamesinfo.get('/:title', (req, res) => {
+gameinfo.get('/:title', (req, res) => {
   var s = 0;
   var sql = 'SELECT g.*, h.genreName AS genre, p.publisherName AS publisher, total.*, free.*' +
             'FROM (SELECT COUNT(*) AS availableCopies FROM GameInstance WHERE gameTitle = ' + req.params.title + ' AND borrowed = 0) free, ' +
@@ -31,4 +31,4 @@ db.any(sql)
 
 
 
-module.exports = gamesinfo;
+module.exports = gameinfo;
