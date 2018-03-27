@@ -3,7 +3,7 @@ var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 
 login.post('/', (req, res) => {
-  var sql = new PQ('SELECT memberNumber, year, name, phoneNumber, email FROM member WHERE email = $1 AND password = $2');
+  var sql = new PQ('SELECT memberNumber, year, name, phoneNumber, email FROM members WHERE email = $1 AND password = $2');
   sql.values = [req.body.email, req.body.password];
   db.one(sql)
     .then(function (data) {
@@ -20,11 +20,9 @@ login.post('/', (req, res) => {
         });
     })
       .catch(function (err) {
-        console.error("Retrieved more than one user.");
         res.status(500)
           .json({
             status: 'error',
-            message: 'Retrieved more than one user.'
           });
       });
 });
