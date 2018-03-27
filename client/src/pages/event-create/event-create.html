@@ -13,14 +13,38 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item class="title">-Insert Title of Game Here-</ion-item>
-    <ion-item>By -Insert Publisher here-</ion-item>
-    <ion-item>Rating: -Insert star rating here-</ion-item>
-    <ion-item>Players: -minPlayer- - -maxPlayer-</ion-item>
-    <ion-item>Play Time: -minPlayTime - -maxPlayTime</ion-item>
-    <ion-item>Difficulty: -insert difficulty here-</ion-item>
-    <ion-item>Genres: -insert genres here-</ion-item>
-    <ion-item>Club Owns: -insert value here- Copies</ion-item>
-    <ion-item>Available for Borrowing: -insert value here- Copies</ion-item>
+    <ion-item>
+      <ion-label fixed>Event Name</ion-label>
+      <ion-input type="text" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Date</ion-label>
+      <ion-select [(ngModel)]="publishers_selected">
+        <ion-option>Date Option Here</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Start Time</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>End Time</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Location</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Description</ion-label>
+      <ion-input type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Hosts</ion-label>
+      <ion-select [(ngModel)]="hosts" multiple="true">
+        <ion-option *ngFor="let exec of execs">{{ exec.name }}</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-list>
+  <button ion-button>Save</button>
 </ion-content>
