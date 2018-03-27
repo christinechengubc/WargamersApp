@@ -1,125 +1,131 @@
-CREATE TABLE public.Member (
+DROP TABLE IF EXISTS Members, Executives, Events, Attends, Hosts, Publishers, Games, PublishedBy, Genres, HasGenre, GameInstances, BorrowRecords, Contains;
+
+CREATE TABLE Members (
     memberNumber integer NOT NULL,
     year integer,
-    name character(20),
-    phonenumber character(20),
-    email character(25),
+    name VARCHAR(20),
+    phoneNumber VARCHAR(20),
+    email VARCHAR(25),
 	PRIMARY KEY (memberNumber)
 );
 
-INSERT INTO Member VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.ca'),
+INSERT INTO Members VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.ca'),
 (002, 3, 'Crystal', '5878892238', 't5i0b.ugrad.cs.ubc.ca'),
 (003, 3, 'Trevin', '5877182980', 'd3s0b@ugrad.cs.ubc.ca'),
 (004, 3,'Christine', NULL, 'r8x9a@ugrad.cs.ubc.ca'),
 (005, 4, 'Goober', '8790981283', 'goober@ugrad.cs.ubc.ca');
 
-CREATE TABLE Executive(
+CREATE TABLE Executives(
 		memberNumber integer NOT NULL,
-		position CHAR(20),
+		position VARCHAR(20),
 		PRIMARY KEY (memberNumber),
-		FOREIGN KEY (memberNumber) REFERENCES public.Member(memberNumber)
+		FOREIGN KEY (memberNumber) REFERENCES Members(memberNumber)
 );
 
-INSERT INTO Executive VALUES (001, 'Treasurer'), (002, 'President'), (003, 'VP'),
+INSERT INTO Executives VALUES (001, 'Treasurer'), (002, 'President'), (003, 'VP'),
 (004, 'Games Librarian'), (005, 'Secretary');
 
-CREATE TABLE Event (
-	name CHAR(30),
-	date CHAR(10),
-	description CHAR(100),
-	startTime CHAR(7),
-	endTime CHAR(7),
-	location CHAR(100),
+CREATE TABLE Events (
+	name VARCHAR(30),
+	date DATE,
+	description VARCHAR(100),
+	startTime TIME(0),
+	endTime TIME(0),
+	location VARCHAR(100),
 	PRIMARY KEY (name,date)
 );
 
-INSERT INTO Event VALUES ('Heart BoardGames', '02/14/2018', 'The best way to spend valentine''s day', '18:00', '23:00', 'Nest 2001'),
-('D&D', '03/10/2018', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00', '20:00', 'Nest 3256'),
-('Monopoly Only', '03/20/2018', 'Monopoly is having a monopoly, only monopoly!', '18:00', '20:00', 'Nest 3256'),
-('Boston Pizza Outing', '02/20/2018', 'Drown your failure on Valentine''s Day with pizza', '17:00', '21:00', '8100 Ackryod Road #50'),
-('Tribute to Cthulu', '04/01/2018', 'Play fun Cthulu related games to pay tribute', '17:00', '20:00', 'Nest 3256');
+INSERT INTO Events VALUES ('Heart BoardGames', '2018-02-14', 'The best way to spend valentine''s day', '18:00:00', '23:00:00', 'Nest 2001'),
+('D&D', '2018-03-02', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00:00', '20:00:00', 'Nest 3256'),
+('D&D', '2018-03-10', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00:00', '20:00:00', 'Nest 3256'),
+('Monopoly Only', '2018-03-20', 'Monopoly is having a monopoly, only monopoly!', '18:00:00', '20:00:00', 'Nest 3256'),
+('Boston Pizza Outing', '2018-02-20', 'Drown your failure on Valentine''s Day with pizza', '17:00:00', '21:00:00', '8100 Ackryod Road #50'),
+('Tribute to Cthulu', '2018-04-01', 'Play fun Cthulu related games to pay tribute', '17:00:00', '20:00:00', 'Nest 3256');
 
 CREATE TABLE Attends(
 		memberNumber INTEGER,
-		eventName CHAR(20),
-		eventDate CHAR(20),
+		eventName VARCHAR(30),
+		eventDate DATE,
 		PRIMARY KEY (memberNumber, eventName, eventDate),
-		FOREIGN KEY (memberNumber) references Member(memberNumber),
-		FOREIGN KEY (eventName, eventDate) references Event(name,date)
+		FOREIGN KEY (memberNumber) references Members(memberNumber),
+		FOREIGN KEY (eventName, eventDate) references Events(name,date)
 );
 
-INSERT INTO Attends VALUES (001, 'Boston Pizza Outing', '02/20/2018'),
-(002, 'Heart BoardGames', '02/14/2018'), (003, 'Tribute to Cthulu', '04/01/2018'),
-(004, 'Boston Pizza Outing', '02/20/2018'), (005, 'Tribute to Cthulu', '04/01/2018');
+INSERT INTO Attends VALUES (001, 'Boston Pizza Outing', '2018-02-20'),
+(002, 'Heart BoardGames', '2018-02-14'), (003, 'Tribute to Cthulu', '2018-04-01'),
+(004, 'Boston Pizza Outing', '2018-02-20'), (005, 'D&D', '2018-03-02'), (004, 'D&D', '2018-03-02'), (005, 'D&D', '2018-03-10'), (004, 'D&D', '2018-03-10');
 
-CREATE TABLE Host(
+CREATE TABLE Hosts(
 		memberNumber INTEGER,
-		eventName CHAR(20),
-		eventDate CHAR(20),
+		eventName VARCHAR(30),
+		eventDate DATE,
 		PRIMARY KEY (memberNumber, eventName, eventDate),
-		FOREIGN KEY (memberNumber) references Executive(memberNumber),
-		FOREIGN KEY (eventName, eventDate) references Event(name,date)
+		FOREIGN KEY (memberNumber) references Executives(memberNumber),
+		FOREIGN KEY (eventName, eventDate) references Events(name,date)
 );
 
-INSERT INTO Host VALUES (001, 'Heart BoardGames', '02/14/2018'),
-(002, 'Tribute to Cthulu', '04/01/2018'), (004, 'Boston Pizza Outing', '02/20/2018'),
-(002, 'Monopoly Only', '03/20/2018'), (003, 'Monopoly Only', '03/20/2018');
+INSERT INTO Hosts VALUES (001, 'Heart BoardGames', '2018-02-14'),
+(002, 'Tribute to Cthulu', '2018-04-01'), (004, 'Boston Pizza Outing', '2018-02-20'),
+(005, 'D&D', '2018-03-02'), (005, 'D&D', '2018-03-10'), (003, 'Monopoly Only', '2018-03-20');
 
-CREATE TABLE Publisher(
-		name CHAR(20),
-		phoneNumber CHAR(20),
-		email CHAR(25),
-		country CHAR(20),
+CREATE TABLE Publishers(
+		name VARCHAR(20),
+		email VARCHAR(25),
+		country VARCHAR(20),
 		PRIMARY KEY (name)
 );
-INSERT INTO Publisher VALUES ('Hasbro', '8002555516', 'permissions@hasbro.com', 'UK'),
-('Parker Bros', '1234567890', 'parkerbros@park.com', 'US'),
-('Alary Games', '4191852309', 'alarygames@alary.com', 'CAN'),
-('Asmodee', '0353905987', 'asmodee@asmodee.com', 'CAN'),
-('BLM Games', '5873091743', 'blmgames@blmgames.com', 'CAN'),
-('Avalon Hill Games', '8888888888', 'avalonhill@tester.com', 'USA');
 
-CREATE TABLE Game(
-		title CHAR(30),
-		rating INTEGER,
+INSERT INTO Publishers VALUES ('Hasbro', 'permissions@hasbro.com', 'UK'),
+('Parker Bros', 'parkerbros@park.com', 'US'),
+('Alary Games', 'alarygames@alary.com', 'CAN'),
+('Asmodee', 'asmodee@asmodee.com', 'CAN'),
+('BLM Games', 'blmgames@blmgames.com', 'CAN');
+
+CREATE TABLE Games(
+		title VARCHAR(30),
+		rating DECIMAL(5,2),
 		minPlayer INTEGER,
 		maxPlayer INTEGER,
+		minPlaytime INTEGER,
+		maxPlaytime INTEGER,
+		firstDatePublished DATE,
+		description VARCHAR(100),
+		difficulty VARCHAR(10),
+		CHECK (rating > 0 AND rating <= 5),
 		PRIMARY KEY (title)
 );
 
-INSERT INTO Game VALUES ('Monopoly', 5,2,6),
-('Legend of the Five Rings', 4,1,4), ('Photosynthesis', 3,2,8),
-('Sagrada', 5,2,4), ('Charterstone', 4,2,6), ('Betrayal at House on the Hill', 4, 3, 6);
+INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, '1988-01-01', 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 'easy'),
+('Legend of the Five Rings', 4.12,1,4,30,60, '1999-01-01', 'much legend, such rings', 'medium'),
+('Photosynthesis', 3.83,2,8,10,30, '2000-01-01', 'I''ve always wanted to be a flower', 'hard'),
+('Sagrada', 4.87,2,4,20,60,'2001-01-01', 'hi', 'very easy'), 
+('Charterstone', 4.28,2,6,5,10,'2002-01-01','hearthstone','very hard');
 
 CREATE TABLE PublishedBy(
-		publisherName CHAR(20),
-		gameTitle CHAR(30),
-		datePublished CHAR(20),
+		publisherName VARCHAR(20),
+		gameTitle VARCHAR(30),
 		PRIMARY KEY (publisherName, gameTitle),
-		FOREIGN KEY (publisherName) REFERENCES Publisher(name),
-		FOREIGN KEY (gameTitle) REFERENCES Game(title)
+		FOREIGN KEY (publisherName) REFERENCES Publishers(name),
+		FOREIGN KEY (gameTitle) REFERENCES Games(title)
 );
 
-INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly', '02/06/1935'),
-('Parker Bros', 'Monopoly', '02/06/1935'), ('Alary Games', 'Charterstone', '03/08/1956'),
-('Asmodee', 'Photosynthesis', '11/20/2002'), ('Parker Bros', 'Sagrada', '08/18/2010'),
-('Hasbro', 'Betrayal at House on the Hill', '10/05/2010'),
-('Avalon Hill Games', 'Betrayal at House on the Hill', '10/05/2010');
+INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly'), ('Parker Bros', 'Monopoly'), ('Alary Games', 'Charterstone'),
+('Asmodee', 'Photosynthesis'), ('Parker Bros', 'Sagrada');
 
-CREATE TABLE Genre(
-		name CHAR(20),
+CREATE TABLE Genres(
+		name VARCHAR(20),
 		PRIMARY KEY (name)
 );
 
-INSERT INTO Genre VALUES ('Roll n'' Move'), ('Deck Building'), ('Traditional'),
-('Strategy'), ('Role Playing'), ('Horror');
+INSERT INTO Genres VALUES ('Roll n'' Move'), ('Deck Building'), ('Traditional'),
+('Strategy'), ('Role Playing');
 
 CREATE TABLE HasGenre(
-		gameTitle CHAR(30),
-		genreName CHAR(20),
+		gameTitle VARCHAR(30),
+		genreName VARCHAR(20),
 		PRIMARY KEY (gameTitle, genreName),
-		FOREIGN KEY (gameTitle) REFERENCES Game(title),
-		FOREIGN KEY (genreName) REFERENCES Genre(name)
+		FOREIGN KEY (gameTitle) REFERENCES Games(title),
+		FOREIGN KEY (genreName) REFERENCES Genres(name)
 );
 
 INSERT INTO HasGenre VALUES ('Monopoly', 'Roll n'' Move'),
@@ -127,70 +133,54 @@ INSERT INTO HasGenre VALUES ('Monopoly', 'Roll n'' Move'),
 ('Sagrada', 'Traditional'), ('Charterstone', 'Strategy'), 
 ('Betrayal at House on the Hill', 'Strategy'), ('Betrayal at House on the Hill', 'Horror');
 
-CREATE TABLE GameInstance(
+CREATE TABLE GameInstances(
 		id INTEGER,
 		borrowed INTEGER,						
-		datePurchased CHAR(20),
-		language CHAR(20),
-		gameTitle CHAR(30),
+		datePurchased DATE,
+		language VARCHAR(20),
+		gameTitle VARCHAR(30),
 		PRIMARY KEY (id, gameTitle),
-		FOREIGN KEY (gameTitle) REFERENCES Game(title)
+		FOREIGN KEY (gameTitle) REFERENCES Games(title)
 				ON DELETE NO ACTION
 				ON UPDATE CASCADE
 );
 
-INSERT INTO GameInstance VALUES (00002, 0, '02/14/2017', 'English','Monopoly'),
-(00001, '1', '02/15/2018', 'English', 'Photosynthesis'),
-(00003, '0', '10/20/2016', 'English', 'Legend of the Five Rings'),
-(00004, '0', '05/08/2010', 'English', 'Sagrada'),
-(00005, '0', '06/10/2011', 'English', 'Sagrada'),
-(00006, '1', '03/03/2017', 'English', 'Betrayal at House on the Hill'),
-(00007, '0', '03/06/2017', 'English', 'Betrayal at House on the Hill');
+INSERT INTO GameInstances VALUES (00002, 0, '2017-02-14', 'English','Monopoly'),
+(00001, '1', '2018-02-15', 'English', 'Photosynthesis'),
+(00003, '0', '2016-10-20', 'English', 'Legend of the Five Rings'),
+(00004, '0', '2010-05-08', 'English', 'Sagrada'),
+(00005, '0', '2011-06-10', 'English', 'Sagrada');
 
-CREATE TABLE Uses(
-		id INTEGER,
-		gameTitle CHAR(30),
-		eventName CHAR(20),
-		eventDate CHAR(20),
-		PRIMARY KEY (id, gameTitle, eventName, eventDate),
-		FOREIGN KEY (id, gameTitle) REFERENCES GameInstance(id, gameTitle),
-		FOREIGN KEY (eventName, eventDate) REFERENCES Event(name,date)
-);
 
-INSERT INTO Uses VALUES (00002, 'Monopoly', 'Heart BoardGames', '02/14/2018'),
-(00004, 'Sagrada', 'Heart BoardGames', '02/14/2018'),
-(00003, 'Legend of the Five Rings', 'Heart BoardGames', '02/14/2018'),
-(00001, 'Photosynthesis', 'Heart BoardGames', '02/14/2018'),
-(00005, 'Sagrada', 'Heart BoardGames', '02/14/2018');
-
-CREATE TABLE BorrowRecord(
+CREATE TABLE BorrowRecords(
 		recordID INTEGER,
-		expectedReturnDate CHAR(20),
-		actualReturnDate CHAR(20),
-		dateBorrowed CHAR(20),
-		timeBorrowed CHAR(7),
+		expectedReturnDate DATE,
+		actualReturnDate DATE,
+		dateBorrowed DATE,
+		timeBorrowed TIME(0),
 		memberNumber INTEGER NOT NULL,
 		execNumber INTEGER NOT NULL,
 		PRIMARY KEY (recordID),
-		FOREIGN KEY (memberNumber) REFERENCES Member(memberNumber), 
-		FOREIGN KEY (execNumber) REFERENCES Executive(memberNumber)
+		FOREIGN KEY (memberNumber) REFERENCES Members(memberNumber), 
+		FOREIGN KEY (execNumber) REFERENCES Executives(memberNumber)
 );
 
-INSERT INTO BorrowRecord VALUES
-(00001, '01/14/2018', '01/13/2018', '01/01/2018', '16:00', 002, 001),
-(00002, '03/01/2018', NULL, '02/15/2018', '12:00', 002, 001),
-(00003, '03/20/2018', NULL, '02/15/2018', '1:00', 003, 004),
-(00004, '02/15/2018', '02/15/2018', '01/10/2018', '2:32', 001, 005),
-(00005, '03/18/2018', NULL, '02/13/2018', '4:30', 003, 002);
+INSERT INTO BorrowRecords VALUES
+(00001, '2018-01-14', '2018-01-13', '2018-01-01', '16:00:00', 002, 001),
+(00002, '2018-03-01', NULL, '2018-02-15', '12:00:00', 002, 001),
+(00003, '2018-03-20', NULL, '2018-02-15', '13:00:00', 003, 004),
+(00004, '2018-02-15', '2018-02-15', '2018-01-10', '14:32:00', 001, 005),
+(00005, '2018-03-18', NULL, '2018-02-13', '16:30:00', 003, 002);
 
 CREATE TABLE Contains(
 		recordID INTEGER, 
 		gameID INTEGER,
-		gameTitle CHAR(30),
+		gameTitle VARCHAR(30),
 		PRIMARY KEY (recordID, gameID, gameTitle),
-		FOREIGN KEY (recordID) REFERENCES BorrowRecord(recordID),
-		FOREIGN KEY (gameID, gameTitle) REFERENCES GameInstance(id,gameTitle)
+		FOREIGN KEY (recordID) REFERENCES BorrowRecords(recordID),
+		FOREIGN KEY (gameID, gameTitle) REFERENCES GameInstances(id,gameTitle)
 );
 
 INSERT INTO Contains VALUES
-(00001, 00002, 'Monopoly'), (00002, 00004, 'Sagrada'), (00003, 00003, 'Legend of the Five Rings');
+(00001, 00002, 'Monopoly'), (00002, 00004, 'Sagrada'), (00003, 00003, 'Legend of the Five Rings'),(00004, 00001, 'Photosynthesis'),
+(00005, 00005, 'Sagrada');
