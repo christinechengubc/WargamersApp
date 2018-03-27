@@ -3,9 +3,9 @@ var db = require('../db');
 
 
 gamecreate.get('/genre', (req, res) => {
-	var sql = 'SELECT genre.name ' +
-  'FROM genre ' +
-  'ORDER BY genre.name';
+	var sql = 'SELECT genres.name ' +
+  'FROM genres ' +
+  'ORDER BY genres.name';
   db.any(sql)
     .then(function (data) {
 
@@ -22,9 +22,9 @@ gamecreate.get('/genre', (req, res) => {
 });
 
 gamecreate.get('/publishers', (req, res) => {
-	var sql = 'SELECT publisher.name ' +
-  'FROM publisher ' +
-  'ORDER BY publisher.name';
+	var sql = 'SELECT publishers.name ' +
+  'FROM publishers ' +
+  'ORDER BY publishers.name';
   db.any(sql)
     .then(function (data) {
 
