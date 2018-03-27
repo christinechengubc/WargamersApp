@@ -1,6 +1,7 @@
 var events = require('express').Router();
 var db = require('../db');
 
+
 //pass date as all numbers as string in form 'DDMMYYYY'
 events.get('/:title/:date', (req, res) => {
   var date = req.params.date;
