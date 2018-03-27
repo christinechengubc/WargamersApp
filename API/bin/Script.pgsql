@@ -74,7 +74,7 @@ CREATE TABLE Publishers(
 		country VARCHAR(20),
 		PRIMARY KEY (name)
 );
-<<<<<<< HEAD
+
 INSERT INTO Publishers VALUES ('Hasbro', 'permissions@hasbro.com', 'UK'),
 ('Parker Bros', 'parkerbros@park.com', 'US'),
 ('Alary Games', 'alarygames@alary.com', 'CAN'),
@@ -84,18 +84,6 @@ INSERT INTO Publishers VALUES ('Hasbro', 'permissions@hasbro.com', 'UK'),
 CREATE TABLE Games(
 		title VARCHAR(30),
 		rating DECIMAL(5,2),
-=======
-INSERT INTO Publisher VALUES ('Hasbro', '8002555516', 'permissions@hasbro.com', 'UK'),
-('Parker Bros', '1234567890', 'parkerbros@park.com', 'US'),
-('Alary Games', '4191852309', 'alarygames@alary.com', 'CAN'),
-('Asmodee', '0353905987', 'asmodee@asmodee.com', 'CAN'),
-('BLM Games', '5873091743', 'blmgames@blmgames.com', 'CAN'),
-('Avalon Hill Games', '8888888888', 'avalonhill@tester.com', 'USA');
-
-CREATE TABLE Game(
-		title CHAR(30),
-		rating INTEGER,
->>>>>>> 13e87a4fad69eca0a943b11a9a23fa10949a5175
 		minPlayer INTEGER,
 		maxPlayer INTEGER,
 		minPlaytime INTEGER,
@@ -107,17 +95,11 @@ CREATE TABLE Game(
 		PRIMARY KEY (title)
 );
 
-<<<<<<< HEAD
 INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, '1988-01-01', 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 'easy'),
 ('Legend of the Five Rings', 4.12,1,4,30,60, '1999-01-01', 'much legend, such rings', 'medium'),
 ('Photosynthesis', 3.83,2,8,10,30, '2000-01-01', 'I''ve always wanted to be a flower', 'hard'),
 ('Sagrada', 4.87,2,4,20,60,'2001-01-01', 'hi', 'very easy'), 
 ('Charterstone', 4.28,2,6,5,10,'2002-01-01','hearthstone','very hard');
-=======
-INSERT INTO Game VALUES ('Monopoly', 5,2,6),
-('Legend of the Five Rings', 4,1,4), ('Photosynthesis', 3,2,8),
-('Sagrada', 5,2,4), ('Charterstone', 4,2,6), ('Betrayal at House on the Hill', 4, 3, 6);
->>>>>>> 13e87a4fad69eca0a943b11a9a23fa10949a5175
 
 CREATE TABLE PublishedBy(
 		publisherName VARCHAR(20),
@@ -127,29 +109,16 @@ CREATE TABLE PublishedBy(
 		FOREIGN KEY (gameTitle) REFERENCES Games(title)
 );
 
-<<<<<<< HEAD
 INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly'), ('Parker Bros', 'Monopoly'), ('Alary Games', 'Charterstone'),
 ('Asmodee', 'Photosynthesis'), ('Parker Bros', 'Sagrada');
-=======
-INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly', '02/06/1935'),
-('Parker Bros', 'Monopoly', '02/06/1935'), ('Alary Games', 'Charterstone', '03/08/1956'),
-('Asmodee', 'Photosynthesis', '11/20/2002'), ('Parker Bros', 'Sagrada', '08/18/2010'),
-('Hasbro', 'Betrayal at House on the Hill', '10/05/2010'),
-('Avalon Hill Games', 'Betrayal at House on the Hill', '10/05/2010');
->>>>>>> 13e87a4fad69eca0a943b11a9a23fa10949a5175
 
 CREATE TABLE Genres(
 		name VARCHAR(20),
 		PRIMARY KEY (name)
 );
 
-<<<<<<< HEAD
 INSERT INTO Genres VALUES ('Roll n'' Move'), ('Deck Building'), ('Traditional'),
 ('Strategy'), ('Role Playing');
-=======
-INSERT INTO Genre VALUES ('Roll n'' Move'), ('Deck Building'), ('Traditional'),
-('Strategy'), ('Role Playing'), ('Horror');
->>>>>>> 13e87a4fad69eca0a943b11a9a23fa10949a5175
 
 CREATE TABLE HasGenre(
 		gameTitle VARCHAR(30),
@@ -176,37 +145,12 @@ CREATE TABLE GameInstances(
 				ON UPDATE CASCADE
 );
 
-<<<<<<< HEAD
 INSERT INTO GameInstances VALUES (00002, 0, '2017-02-14', 'English','Monopoly'),
 (00001, '1', '2018-02-15', 'English', 'Photosynthesis'),
 (00003, '0', '2016-10-20', 'English', 'Legend of the Five Rings'),
 (00004, '0', '2010-05-08', 'English', 'Sagrada'),
 (00005, '0', '2011-06-10', 'English', 'Sagrada');
-=======
-INSERT INTO GameInstance VALUES (00002, 0, '02/14/2017', 'English','Monopoly'),
-(00001, '1', '02/15/2018', 'English', 'Photosynthesis'),
-(00003, '0', '10/20/2016', 'English', 'Legend of the Five Rings'),
-(00004, '0', '05/08/2010', 'English', 'Sagrada'),
-(00005, '0', '06/10/2011', 'English', 'Sagrada'),
-(00006, '1', '03/03/2017', 'English', 'Betrayal at House on the Hill'),
-(00007, '0', '03/06/2017', 'English', 'Betrayal at House on the Hill');
 
-CREATE TABLE Uses(
-		id INTEGER,
-		gameTitle CHAR(30),
-		eventName CHAR(20),
-		eventDate CHAR(20),
-		PRIMARY KEY (id, gameTitle, eventName, eventDate),
-		FOREIGN KEY (id, gameTitle) REFERENCES GameInstance(id, gameTitle),
-		FOREIGN KEY (eventName, eventDate) REFERENCES Event(name,date)
-);
-
-INSERT INTO Uses VALUES (00002, 'Monopoly', 'Heart BoardGames', '02/14/2018'),
-(00004, 'Sagrada', 'Heart BoardGames', '02/14/2018'),
-(00003, 'Legend of the Five Rings', 'Heart BoardGames', '02/14/2018'),
-(00001, 'Photosynthesis', 'Heart BoardGames', '02/14/2018'),
-(00005, 'Sagrada', 'Heart BoardGames', '02/14/2018');
->>>>>>> 13e87a4fad69eca0a943b11a9a23fa10949a5175
 
 CREATE TABLE BorrowRecords(
 		recordID INTEGER,
