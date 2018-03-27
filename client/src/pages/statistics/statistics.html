@@ -1,0 +1,50 @@
+<!--
+  Generated template for the GamesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Wargamers App
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <button ion-button full large round (click)="getGame('highest')">
+        highest rated games
+      </button>
+    </ion-item>
+    <ion-item>
+      <button ion-button color="secondary" full large round (click)="getGame('lowest')">
+        lowest rated games
+      </button>
+    </ion-item>
+    <ion-item>
+      <button ion-button full large round (click)="getEvent('highest')">
+        most popular event
+      </button>
+    </ion-item>
+    <ion-item>
+      <button ion-button color="secondary" full large round (click)="getEvent('lowest')">
+        least popular event
+      </button>
+    </ion-item>
+    <div *ngIf="loadedGames">
+      <ion-card *ngFor="let game of loadedGames">
+        <ion-card-header>{{ game.title }}</ion-card-header>
+        <ion-card-content>Rating: {{ game.rating }}</ion-card-content>
+      </ion-card>
+    </div>
+    <div *ngIf="loadedEvents">
+      <ion-card *ngFor="let event of loadedEvents">
+        <ion-card-header>{{ event.name }}</ion-card-header>
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>
