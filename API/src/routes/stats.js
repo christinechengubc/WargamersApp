@@ -25,29 +25,6 @@ stats.get('/game/:rating', (req, res) => {
     });
 });
 
-/*stats.get('/event/:attendance', (req, res) => {
-  var aggregation = 'MAX';
-  if (req.params.rating === 'lowest') {
-    aggregation = 'MIN';
-  }
-  var sql = 'SELECT name ' +
-            'FROM events';
-            
-  db.any(sql)
-    .then(function (data) {
-      res.status(200)
-        .json({
-          status: 'success',
-          data: data,
-          message: 'Retrieved info'
-        });
-    })
-    .catch(function (err) {
-      console.error("Error when retrieving game info " + err);
-    });
-});*/
-
-
 /**
  * it should do a query where it finds all the events with the same name,
  * takes an average of the members attending each of these events,
