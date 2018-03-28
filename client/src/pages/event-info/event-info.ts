@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
+import { User } from '../../providers/providers';
 
 /**
  * Generated class for the eventsPage page.
@@ -19,7 +20,7 @@ export class EventInfoPage {
 
   event: any = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User) {
     var name = navParams.data.eventName.trim();
     var date = navParams.data.eventDate.trim().replace(/[/]/g, "-")
     this.http.get(API_URL + "/event-info/'" + name + "'/'" + date + "'").map(res => res.json()).subscribe(

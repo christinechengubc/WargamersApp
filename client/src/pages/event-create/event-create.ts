@@ -42,7 +42,7 @@ export class EventCreatePage {
     }
     let startYear = 1900;
     let endYear = 2018;
-    for (let j = startYear; j <= endYear; j++) {
+    for (let j = endYear; j >= startYear; j--) {
       this.years.push(j);
     }
   }
