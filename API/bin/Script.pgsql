@@ -53,6 +53,10 @@ CREATE TABLE Attends(
 );
 
 INSERT INTO Attends VALUES (001, 'Boston Pizza Outing', '2018-02-20'),
+(001, 'Heart BoardGames', '2018-02-14'),
+(001, 'D&D', '2018-03-02'),
+(001, 'Monopoly Only', '2018-03-20'),
+(001, 'Tribute to Cthulu', '2018-04-01'),
 (002, 'Heart BoardGames', '2018-02-14'),
 (003, 'Tribute to Cthulu', '2018-04-01'),
 (004, 'Boston Pizza Outing', '2018-02-20'), (003, 'Boston Pizza Outing', '2018-02-20'),
@@ -180,13 +184,13 @@ INSERT INTO BorrowRecords VALUES
 
 CREATE TABLE Contains(
 		recordID INTEGER,
-		gameID INTEGER,
+		instanceID INTEGER,
 		gameTitle VARCHAR(30),
-		PRIMARY KEY (recordID, gameID, gameTitle),
+		PRIMARY KEY (recordID, instanceID, gameTitle),
 		FOREIGN KEY (recordID) REFERENCES BorrowRecords(recordID),
-		FOREIGN KEY (gameID, gameTitle) REFERENCES GameInstances(id,gameTitle) ON DELETE CASCADE
+		FOREIGN KEY (instanceID, gameTitle) REFERENCES GameInstances(id,gameTitle) ON DELETE CASCADE
 );
 
 INSERT INTO Contains VALUES
-(00001, 00002, 'Monopoly'), (00002, 00004, 'Sagrada'), (00003, 00003, 'Legend of the Five Rings'),(00004, 00001, 'Photosynthesis'),
-(00005, 00005, 'Sagrada');
+(00001, 00001, 'Monopoly'), (00002, 00001, 'Sagrada'), (00003, 00001, 'Legend of the Five Rings'),(00004, 00001, 'Photosynthesis'),
+(00005, 00002, 'Sagrada');
