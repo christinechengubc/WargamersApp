@@ -41,9 +41,9 @@ gamecreate.get('/publishers', (req, res) => {
 });
 
 gamecreate.post('/new', (req, res) => {
-	var sql = new PQ('INSERT INTO Game VALUES($1, $2, $3, $4, $5, $6, $7)');
-	sql.values = [req.body.title, req.body.rating, req.body.minplayers, req.body.maxplayers, req.body.minplaytime, req.body.maxplaytime, req.body.difficulty];
-	var sql2 = new PQ('INSERT INTO PublishedBy VALUES($1, $2, $3)');
+	var sql = new PQ('INSERT INTO Games VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)');
+	sql.values = [req.body.title, req.body.rating, req.body.minplayers, req.body.maxplayers, req.body.minplaytime, req.body.maxplaytime, req.body.yearpublished, req.body.description, req.body.difficulty];
+	var sql2 = new PQ('INSERT INTO PublishedBy VALUES($1, $2)');
 	sql2.values = [];
 	var sql3 = new PQ('INSERT INTO HasGenre VALUES($1, $2)');
 	sql3.values = [];
@@ -51,19 +51,25 @@ gamecreate.post('/new', (req, res) => {
 	var result = {};
 
 	db.task(t => {
-		t.none(sql)
+		return t.none(sql)
 			.then(() => {
+					var promises = [];
 					req.body.publishers.forEach((publisher) => {
-						sql2.values = [publisher.name, req.body.title, publisher.datepublished];
-						t.none(sql2)
+						sql2.values = [publisher, req.body.title];
+						promises.push(t.none(sql2));
 					});
 
 					req.body.genres.forEach((genre) => {
-								sql3.values = [req.body.title, genre.name];
-							})
-							t.none(sql3);
+						sql3.values = [req.body.title, genre];
+						promises.push(t.none(sql3));
 					});
+
+					return Promise.all(promises);
 			})
+			.catch((error) => {
+				console.error(error);
+			})
+	})
 		.then(() => {
 			res.status(200)
 				.json({
