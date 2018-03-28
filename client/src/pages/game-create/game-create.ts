@@ -43,7 +43,7 @@ export class GameCreatePage {
     );
     let startYear = 1900;
     let endYear = 2018;
-    for (let i = startYear; i <= endYear; i++) {
+    for (let i = endYear; i >= startYear; i--) {
       this.years.push(i);
     }
   }
