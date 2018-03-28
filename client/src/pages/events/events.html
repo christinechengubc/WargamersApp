@@ -26,9 +26,9 @@
       </ion-card-header>
 
       <ion-card-content>
-        Date: {{ event.date }}
+        Date: {{ event.date.substring(0,10) }}
         <br>
-        Time: {{ event.starttime }} - {{ event.endtime }}
+        Time: {{ event.starttime.substring(0,5) }} - {{ event.endtime.substring(0,5) }}
         <br>
         Location: {{ event.location }}
         <br>
@@ -40,6 +40,6 @@
   </ion-list>
 
   <ion-fab right bottom>
-    <button ion-fab (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="danger" (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>
