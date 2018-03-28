@@ -7,7 +7,7 @@ stats.get('/game/:rating', (req, res) => {
   if (req.params.rating === 'lowest') {
     aggregation = 'MIN';
   }
-  var sql = 'SELECT title, rating ' +
+  var sql = 'SELECT title, rating, description ' +
             'FROM games WHERE rating = ' +
             '( SELECT ' + aggregation + '(g.rating) FROM games g)';
 
@@ -47,6 +47,8 @@ stats.get('/event/:attendance', (req, res) => {
   var sql = 'SELECT y.name, y.avg' +
             ' FROM (' + sql2 + ') y,  ' + sql3 + ' z' +
             ' WHERE y.avg = z.max';
+
+  console.log(sql);
 
   db.any(sql)
     .then(function (data) {

@@ -19,6 +19,7 @@ export class StatisticsPage {
 
   loadedGames: any = false;
   loadedEvents: any = false;
+  loadedMembers: any = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
 
@@ -28,9 +29,8 @@ export class StatisticsPage {
     this.http.get(API_URL + '/stats/game/' + rating).map(res => res.json()).subscribe(
       data => {
         this.loadedEvents = false;
+        this.loadedMembers = false;
         this.loadedGames = data.data;
-        console.log("now logging");
-        console.log(data.data);
       },
       err => {
         console.log("Oops!");
@@ -43,9 +43,22 @@ export class StatisticsPage {
     this.http.get(API_URL + '/stats/event/' + attendance).map(res => res.json()).subscribe(
       data => {
         this.loadedGames = false;
+        this.loadedMembers = false;
         this.loadedEvents = data.data;
-        console.log("now logging");
-        console.log(data.data);
+      },
+      err => {
+        console.log("Oops!");
+        console.log(err);
+      }
+    );
+  }
+
+  getMembers() {
+    this.http.get(API_URL + '/stats/members').map(res => res.json()).subscribe(
+      data => {
+        this.loadedGames = false;
+        this.loadedEvents = false;
+        this.loadedMembers = data.data;
       },
       err => {
         console.log("Oops!");
