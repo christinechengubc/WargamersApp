@@ -115,7 +115,9 @@ CREATE TABLE PublishedBy(
 );
 
 INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly'), ('Parker Bros', 'Monopoly'), ('Alary Games', 'Charterstone'),
-('Asmodee', 'Photosynthesis'), ('Parker Bros', 'Sagrada');
+('Asmodee', 'Photosynthesis'), ('Parker Bros', 'Sagrada'),
+('Parker Bros', 'Legend of the Five Rings'),
+('Asmodee', 'Legend of the Five Rings');
 
 CREATE TABLE Genres(
 		name VARCHAR(20),
