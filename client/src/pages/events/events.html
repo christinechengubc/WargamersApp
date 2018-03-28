@@ -10,9 +10,7 @@
       Wargamers App
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
-        <ion-icon name="more"></ion-icon>
-      </button>
+      <main-menu></main-menu>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -39,7 +37,7 @@
     </ion-card>
   </ion-list>
 
-  <ion-fab right bottom>
+  <ion-fab *ngIf="user._user?.isAnExec" right bottom>
     <button ion-fab color="danger" (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>
