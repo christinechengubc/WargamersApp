@@ -19,6 +19,7 @@ export class GameCreatePage {
 
   publishers: any = [];
   genres: any = [];
+  years: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.http.get(API_URL + "/game-create/publishers").map(res => res.json()).subscribe(
@@ -40,6 +41,11 @@ export class GameCreatePage {
         console.log(err);
       }
     );
+    let startYear = 1900;
+    let endYear = 2018;
+    for (let i = startYear; i <= endYear; i++) {
+      this.years.push(i);
+    }
   }
 
   ionViewDidLoad() {
