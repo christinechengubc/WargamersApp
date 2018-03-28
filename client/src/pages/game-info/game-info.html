@@ -22,12 +22,13 @@
     <ion-item class="game-title"> {{ game.title }}</ion-item>
     <ion-item>Published by: {{ game.publisher }}</ion-item>
     <ion-item>Rating: {{ game.rating }}</ion-item>
+    <ion-item>Description: {{ game.description }}</ion-item>
     <ion-item>Players: {{ game.minplayer }} - {{ game.maxplayer }}</ion-item>
-    <ion-item>Play Time: -minPlayTime - -maxPlayTime</ion-item>
-    <ion-item>Difficulty: -insert difficulty here-</ion-item>
+    <ion-item>Play Time: {{ game.minplaytime }} - {{ game.maxplaytime }} minutes</ion-item>
+    <ion-item>Difficulty: {{ game.difficulty }}</ion-item>
     <ion-item>Genres: {{ game.genre }}</ion-item>
     <ion-item>Club Owns: {{ game.totalcopies }}</ion-item>
-    <ion-item>Available for Borrowing: {{ game.availablecopies }} Copies</ion-item>
+    <ion-item>Available for Borrowing: {{ game.availablecopies }}</ion-item>
   </ion-list>
 
   <ion-fab right bottom>

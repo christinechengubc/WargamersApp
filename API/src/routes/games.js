@@ -5,7 +5,7 @@ var PQ = require('pg-promise').ParameterizedQuery;
 var dh = require('./dataHandler');
 
 games.get('/', (req, res) => {
-	var sql = 'SELECT title, rating, name as publisher ' +
+	var sql = 'SELECT title, rating, description, name as publisher ' +
   'FROM games, publishedby, publishers ' +
   'WHERE games.title = publishedby.gameTitle AND publishers.name = publishedby.publisherName ' +
   'ORDER BY title';

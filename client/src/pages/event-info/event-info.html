@@ -20,8 +20,8 @@
 <ion-content padding>
   <ion-list>
     <ion-item class="title">{{ event.name }}</ion-item>
-    <ion-item>Date: {{ event.date }}</ion-item>
-    <ion-item>Time: {{ event.starttime }} - {{ event.endtime }}</ion-item>
+    <ion-item>Date: {{ event.date?.substring(0,10) }}</ion-item>
+    <ion-item>Time: {{ event.starttime?.substring(0,5) }} - {{ event.endtime?.substring(0,5) }}</ion-item>
     <ion-item>Description: {{ event.description }}</ion-item>
     <ion-item>Hosts: {{ event.hosts }}</ion-item>
     <ion-item>Members Attending: {{ event.attending }}</ion-item>
