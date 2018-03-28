@@ -28,7 +28,7 @@
         <br>
         Rating: {{ game.rating }}
         <br>
-        Description:
+        Description: {{ game.description }}
       </ion-card-content>
       <ion-card-content class="card-content">
       </ion-card-content>
@@ -36,6 +36,7 @@
   </ion-list>
 
   <ion-fab right bottom>
-    <button ion-fab (click)="addGame()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="searchGame()"><ion-icon name="search"></ion-icon></button>
   </ion-fab>
 </ion-content>
