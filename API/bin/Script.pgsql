@@ -49,7 +49,7 @@ CREATE TABLE Attends(
 		eventDate DATE,
 		PRIMARY KEY (memberNumber, eventName, eventDate),
 		FOREIGN KEY (memberNumber) references Members(memberNumber),
-		FOREIGN KEY (eventName, eventDate) references Events(name,date)
+		FOREIGN KEY (eventName, eventDate) references Events(name,date) ON DELETE CASCADE
 );
 
 INSERT INTO Attends VALUES (001, 'Boston Pizza Outing', '2018-02-20'),
@@ -65,7 +65,7 @@ CREATE TABLE Hosts(
 		eventDate DATE,
 		PRIMARY KEY (memberNumber, eventName, eventDate),
 		FOREIGN KEY (memberNumber) references Executives(memberNumber),
-		FOREIGN KEY (eventName, eventDate) references Events(name,date)
+		FOREIGN KEY (eventName, eventDate) references Events(name,date) ON DELETE CASCADE
 );
 
 INSERT INTO Hosts VALUES (001, 'Heart BoardGames', '2018-02-14'),
@@ -111,8 +111,8 @@ CREATE TABLE PublishedBy(
 		publisherName VARCHAR(20),
 		gameTitle VARCHAR(30),
 		PRIMARY KEY (publisherName, gameTitle),
-		FOREIGN KEY (publisherName) REFERENCES Publishers(name),
-		FOREIGN KEY (gameTitle) REFERENCES Games(title)
+		FOREIGN KEY (publisherName) REFERENCES Publishers(name) ON DELETE CASCADE,
+		FOREIGN KEY (gameTitle) REFERENCES Games(title) ON DELETE CASCADE
 );
 
 INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly'), ('Parker Bros', 'Monopoly'), ('Alary Games', 'Charterstone'),
@@ -132,8 +132,8 @@ CREATE TABLE HasGenre(
 		gameTitle VARCHAR(30),
 		genreName VARCHAR(20),
 		PRIMARY KEY (gameTitle, genreName),
-		FOREIGN KEY (gameTitle) REFERENCES Games(title),
-		FOREIGN KEY (genreName) REFERENCES Genres(name)
+		FOREIGN KEY (gameTitle) REFERENCES Games(title) ON DELETE CASCADE,
+		FOREIGN KEY (genreName) REFERENCES Genres(name) ON DELETE CASCADE
 );
 
 INSERT INTO HasGenre VALUES ('Monopoly', 'Roll n'' Move'),
@@ -149,15 +149,15 @@ CREATE TABLE GameInstances(
 		gameTitle VARCHAR(30),
 		PRIMARY KEY (id, gameTitle),
 		FOREIGN KEY (gameTitle) REFERENCES Games(title)
-				ON DELETE NO ACTION
+				ON DELETE CASCADE
 				ON UPDATE CASCADE
 );
 
-INSERT INTO GameInstances VALUES (00002, 0, '2017-02-14', 'English','Monopoly'),
+INSERT INTO GameInstances VALUES (00001, 0, '2017-02-14', 'English','Monopoly'),
 (00001, '1', '2018-02-15', 'English', 'Photosynthesis'),
-(00003, '0', '2016-10-20', 'English', 'Legend of the Five Rings'),
-(00004, '0', '2010-05-08', 'English', 'Sagrada'),
-(00005, '0', '2011-06-10', 'English', 'Sagrada');
+(00001, '0', '2016-10-20', 'English', 'Legend of the Five Rings'),
+(00001, '0', '2010-05-08', 'English', 'Sagrada'),
+(00002, '0', '2011-06-10', 'English', 'Sagrada');
 
 
 CREATE TABLE BorrowRecords(
@@ -186,7 +186,7 @@ CREATE TABLE Contains(
 		gameTitle VARCHAR(30),
 		PRIMARY KEY (recordID, gameID, gameTitle),
 		FOREIGN KEY (recordID) REFERENCES BorrowRecords(recordID),
-		FOREIGN KEY (gameID, gameTitle) REFERENCES GameInstances(id,gameTitle)
+		FOREIGN KEY (gameID, gameTitle) REFERENCES GameInstances(id,gameTitle) ON DELETE CASCADE
 );
 
 INSERT INTO Contains VALUES

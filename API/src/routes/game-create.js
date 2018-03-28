@@ -42,7 +42,7 @@ gamecreate.get('/publishers', (req, res) => {
 
 gamecreate.post('/new', (req, res) => {
 	var sql = new PQ('INSERT INTO Game VALUES($1, $2, $3, $4, $5, $6, $7)');
-	sql.values = [req.body.title, req.body.rating, req.body.minPlayers, req.body.maxPlayers, req.body.minPlaytime, req.body.maxPlaytime, req.body.difficulty];
+	sql.values = [req.body.title, req.body.rating, req.body.minplayers, req.body.maxplayers, req.body.minplaytime, req.body.maxplaytime, req.body.difficulty];
 	var sql2 = new PQ('INSERT INTO PublishedBy VALUES($1, $2, $3)');
 	sql2.values = [];
 	var sql3 = new PQ('INSERT INTO HasGenre VALUES($1, $2)');
@@ -51,19 +51,19 @@ gamecreate.post('/new', (req, res) => {
 	var result = {};
 
 	db.task(t => {
-		return t.none(sql)
+		t.none(sql)
 			.then(() => {
 					req.body.publishers.forEach((publisher) => {
-						sql2.values = [publisher.name, req.body.title, publisher.datePublished];
-						return t.none(sql2)
-							.then(() => {
-									req.body.genres.forEach((genre) => {
-										sql3.values = [req.body.title, genre.name];
-									})
-							});
+						sql2.values = [publisher.name, req.body.title, publisher.datepublished];
+						t.none(sql2)
 					});
-			});
-	})
+
+					req.body.genres.forEach((genre) => {
+								sql3.values = [req.body.title, genre.name];
+							})
+							t.none(sql3);
+					});
+			})
 		.then(() => {
 			res.status(200)
 				.json({
@@ -71,8 +71,8 @@ gamecreate.post('/new', (req, res) => {
 				});
 		})
 		.catch((error) => {
-			console.error("Error - retrieved some kind of result when inserting a game");
-		})
+			console.error(error);
+		});
 });
 
 module.exports = gamecreate;
