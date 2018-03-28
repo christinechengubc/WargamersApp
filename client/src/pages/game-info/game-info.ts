@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
+import { User } from '../../providers/providers';
 
 /**
  * Generated class for the GamesPage page.
@@ -19,7 +20,7 @@ export class GameInfoPage {
 
   game: any = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User) {
     var title = navParams.data.gameTitle.trim();
     this.http.get(API_URL + "/game-info/'" + title + "'").map(res => res.json()).subscribe(
       data => {
