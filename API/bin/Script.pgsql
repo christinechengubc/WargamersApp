@@ -92,19 +92,20 @@ CREATE TABLE Games(
 		maxPlayer INTEGER,
 		minPlaytime INTEGER,
 		maxPlaytime INTEGER,
-		firstDatePublished DATE,
+		yearpublished INTEGER,
 		description VARCHAR(100),
-		difficulty VARCHAR(10),
+		difficulty VARCHAR(15),
 		CHECK (rating > 0 AND rating <= 5),
 		PRIMARY KEY (title)
 );
 
-INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, '1988-01-01', 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 'easy'),
-('Legend of the Five Rings', 4.12,1,4,30,60, '1999-01-01', 'much legend, such rings', 'medium'),
-('Photosynthesis', 3.83,2,8,10,30, '2000-01-01', 'I''ve always wanted to be a flower', 'hard'),
-('Sagrada', 4.87,2,4,20,60,'2001-01-01', 'hi', 'very easy'),
-('Betrayal at House on the Hill', 3.29, 1,3,10,20,'2002-01-01', 'hello', 'medium'),
-('Charterstone', 4.28,2,6,5,10,'2002-01-01','hearthstone','very hard');
+
+INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, 1988, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 'Beginner'),
+('Legend of the Five Rings', 4.12,1,4,30,60, 1999, 'much legend, such rings', 'Intermediate'),
+('Photosynthesis', 3.83,2,8,10,30, 2000, 'I''ve always wanted to be a flower', 'Advanced'),
+('Sagrada', 4.87,2,4,20,60,2001, 'hi', 'Beginner'), 
+('Betrayal at House on the Hill', 3.29, 1,3,10,20,2002, 'hello', 'Intermediate'),
+('Charterstone', 4.28,2,6,5,10,2002,'hearthstone','Advanced');
 
 CREATE TABLE PublishedBy(
 		publisherName VARCHAR(20),
