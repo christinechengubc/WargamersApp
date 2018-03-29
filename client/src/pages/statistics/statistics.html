@@ -41,7 +41,7 @@
       </button>
     </ion-item>
     <div *ngIf="loadedGames">
-      <ion-card *ngFor="let game of loadedGames">
+      <ion-card *ngFor="let game of loadedGames" (click)="gameInfo(game.title)">
         <ion-card-header>{{ game.title }}</ion-card-header>
         <ion-card-content>
           <ion-list>

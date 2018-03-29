@@ -4,6 +4,7 @@ var dh = require('./dataHandler');
 var PQ = require('pg-promise').ParameterizedQuery;
 
 gameinfo.get('/:title', (req, res) => {
+
   var title = req.params.title;
   var sql = new PQ('SELECT * FROM (SELECT COUNT(*) AS availablecopies FROM GameInstances ' +
     'WHERE gametitle = $1 AND borrowed = 0) free, (SELECT COUNT(*) AS totalCopies ' +
