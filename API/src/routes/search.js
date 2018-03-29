@@ -27,11 +27,13 @@ search.post('/genre', (req, res) => {
 });
 
 search.post('/publisher', (req, res) => {
-  var publisher = req.body.publisher;
+  var where = '';
+  if (req.body.publisher) where += ' AND lower(p.name) LIKE lower(\'%' + req.body.publisher + '%\'';
+  if (req.body.country) where += ' AND lower(p.country) LIKE lower(\'%' + req.body.country + '%\'';
 
 
   var sql = 'SELECT g.title, g.rating, p2.name as publisher FROM games g, publishers p, publishers p2, publishedby pb2, publishedby pb ' +
-    'WHERE g.title = pb.gametitle AND pb.publishername = p.name AND  p.name = \''+publisher+'\'' +
+    'WHERE g.title = pb.gametitle AND pb.publishername = p.name ' + where +
     ' AND g.title = pb2.gametitle AND pb2.publishername = p2.name';
 
 
@@ -64,7 +66,7 @@ search.post('/games', (req, res) => {
 
 
   var sql = 'SELECT title, rating, p.name AS publisher FROM games, publishers p, publishedby pb ' +
-            'WHERE p.name = pb.publisherName AND pb.gameTitle = title ' + where;
+    'WHERE p.name = pb.publisherName AND pb.gameTitle = title ' + where;
 
 
   db.any(sql)
