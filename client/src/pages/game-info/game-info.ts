@@ -22,38 +22,18 @@ export class GameInfoPage {
   game: any = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User) {
-    // var title = navParams.data.gameTitle.trim();
-    this.game = {
-      "title": "Charterstone",
-      "rating": "4.28",
-      "minplayer": 2,
-      "maxplayer": 6,
-      "minplaytime": 5,
-      "maxplaytime": 10,
-      "yearpublished": 2002,
-      "description": "hearthstone",
-      "difficulty": "Advanced",
-      "genre": [
-        "Strategy"
-      ],
-      "publisher": [
-        "Alary Games"
-      ],
-      "totalcopies": "0",
-      "availablecopies": "0"
-    };
-
-    // this.http.get(API_URL + "/game-info/'" + title + "'").map(res => res.json()).subscribe(
-    //   data => {
-    //     this.game = data.data[0];
-    //     console.log("game variable is: ");
-    //     console.log(this.game);
-    //   },
-    //   err => {
-    //     console.log("Oops!");
-    //     console.log(err);
-    //   }
-    // );
+    var title = navParams.data.gameTitle;
+    this.http.get(API_URL + "/game-info/'" + title + "'").map(res => res.json()).subscribe(
+      data => {
+        this.game = data.data[0];
+        console.log("game variable is: ");
+        console.log(this.game);
+      },
+      err => {
+        console.log("Oops!");
+        console.log(err);
+      }
+    );
   }
 
   editGame() {
