@@ -16,8 +16,8 @@ gameinfo.get('/:title', (req, res) => {
 db.any(sql)
   .then(function (data) {
     console.log(data);
-    var editedData = dh.mergeX(data, 'genre', 'publisher');
-    editedData = dh.mergeX(editedData, 'publisher', 'title');
+    var editedData = dh.mergeX(data, 'genrename', 'publishername');
+    editedData = dh.mergeX(editedData, 'publishername', 'title');
     res.status(200)
       .json({
         status: 'success',
