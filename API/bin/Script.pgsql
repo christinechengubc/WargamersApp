@@ -41,7 +41,8 @@ INSERT INTO Events VALUES ('Heart BoardGames', '2018-02-14', 'The best way to sp
 ('D&D', '2018-03-10', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00:00', '20:00:00', 'Nest 3256'),
 ('Monopoly Only', '2018-03-20', 'Monopoly is having a monopoly, only monopoly!', '18:00:00', '20:00:00', 'Nest 3256'),
 ('Boston Pizza Outing', '2018-02-20', 'Drown your failure on Valentine''s Day with pizza', '17:00:00', '21:00:00', '8100 Ackryod Road #50'),
-('Tribute to Cthulu', '2018-04-01', 'Play fun Cthulu related games to pay tribute', '17:00:00', '20:00:00', 'Nest 3256');
+('Tribute to Cthulu', '2018-04-01', 'Play fun Cthulu related games to pay tribute', '17:00:00', '20:00:00', 'Nest 3256'),
+('Dummy', '2017-04-01', 'I am a dummy bear', '12:00:00', '15:00:00', 'nowhere');
 
 CREATE TABLE Attends(
 		memberNumber INTEGER,
@@ -87,7 +88,8 @@ INSERT INTO Publishers VALUES ('Hasbro', 'permissions@hasbro.com', 'UK'),
 ('Parker Bros', 'parkerbros@park.com', 'US'),
 ('Alary Games', 'alarygames@alary.com', 'CAN'),
 ('Asmodee', 'asmodee@asmodee.com', 'CAN'),
-('BLM Games', 'blmgames@blmgames.com', 'CAN');
+('BLM Games', 'blmgames@blmgames.com', 'CAN'),
+('Avalon Hill', 'avalonhill@avh.com', 'CAN');
 
 CREATE TABLE Games(
 		title VARCHAR(30),
@@ -122,7 +124,7 @@ CREATE TABLE PublishedBy(
 INSERT INTO PublishedBy VALUES ('Hasbro', 'Monopoly'), ('Parker Bros', 'Monopoly'), ('Alary Games', 'Charterstone'),
 ('Asmodee', 'Photosynthesis'), ('Parker Bros', 'Sagrada'),
 ('Parker Bros', 'Legend of the Five Rings'),
-('Asmodee', 'Legend of the Five Rings');
+('Asmodee', 'Legend of the Five Rings'), ('Avalon Hill','Betrayal at House on the Hill');
 
 CREATE TABLE Genres(
 		name VARCHAR(20),
