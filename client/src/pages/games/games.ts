@@ -46,7 +46,10 @@ export class GamesPage {
   }
 
   addGame() {
-    this.navCtrl.push('GameCreatePage');
+    this.navCtrl.push('GameCreatePage', {
+      currentActionDescription: "Add a game",
+      currentAction: "addingGame"
+    });
   }
 
   searchGame() {
