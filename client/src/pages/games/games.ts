@@ -62,4 +62,18 @@ export class GamesPage {
     this.games = this.navParams.data.games;
   }
 
+  ionViewWillEnter() {
+    this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
+      data => {
+        this.games = data.data;
+        console.log("now logging");
+        console.log(data.data);
+      },
+      err => {
+        console.log("Oops!");
+        console.log(err);
+      }
+    );
+  }
+
 }
