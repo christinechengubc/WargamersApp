@@ -3,10 +3,10 @@ DROP TABLE IF EXISTS Members, Executives, Events, Attends, Hosts, Publishers, Ga
 CREATE TABLE Members (
     memberNumber integer NOT NULL,
     year integer,
-    name character(20),
-    phonenumber character(20),
-    email character(25),
-    password character(25),
+    name VARCHAR(20),
+    phonenumber VARCHAR(20),
+    email VARCHAR(50),
+    password VARCHAR(50),
 	  PRIMARY KEY (memberNumber)
 );
 
