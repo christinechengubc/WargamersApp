@@ -39,7 +39,6 @@ export class GamesPage {
     }
 
     events.subscribe('refresh', () => {
-      console.log("hello I AM REFRESHING");
       this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
         data => {
           this.games = data.data;
