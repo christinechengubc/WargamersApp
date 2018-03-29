@@ -67,7 +67,7 @@ search.post('/game', (req, res) => {
 
   if (where.length > 1) where = 'WHERE ' + where.substring(5);
 
-  var sql = 'SELECT title, rating, publishername AS publisher FROM games LEFT JOIN publishedby ON title = gametitle ' +
+  var sql = 'SELECT title, rating, publishername AS publisher, description FROM games LEFT JOIN publishedby ON title = gametitle ' +
     where;
 
 console.log(sql);
