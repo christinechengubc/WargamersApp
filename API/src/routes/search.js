@@ -9,7 +9,6 @@ search.post('/genre', (req, res) => {
   var sql = 'SELECT hg.gametitle as title, g.rating, g.description, publishername FROM games g LEFT JOIN publishedBy p ON g.title = p.gameTitle, hasgenre hg ' +
     'WHERE HG.gametitle = title AND lower(hg.genrename) LIKE lower(\'%'+genre+'%\')';
 
-
   db.any(sql)
     .then(function (data) {
       var editedData = dh.mergeX(data,'publishername','title');
@@ -26,10 +25,9 @@ search.post('/genre', (req, res) => {
 });
 
 search.post('/publisher', (req, res) => {
-  var publisher = req.body.publisher;
   var where = '';
   if (req.body.publisher) where += ' AND lower(p.name) LIKE lower(\'%' + req.body.publisher + '%\')';
- // if (req.body.country) where += ' AND lower(p.country) LIKE lower(\'%' + req.body.country + '%\')';
+  if (req.body.country) where += ' AND lower(p.country) LIKE lower(\'%' + req.body.country + '%\')';
 
 
 
