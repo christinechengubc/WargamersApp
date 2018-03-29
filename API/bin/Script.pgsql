@@ -111,7 +111,8 @@ INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, 1988, 'Want to get rid of 
 ('Photosynthesis', 3.83,2,8,10,30, 2000, 'I''ve always wanted to be a flower', 'Advanced'),
 ('Sagrada', 4.87,2,4,20,60,2001, 'hi', 'Beginner'), 
 ('Betrayal at House on the Hill', 3.29, 1,3,10,20,2002, 'hello', 'Intermediate'),
-('Charterstone', 4.28,2,6,5,10,2002,'hearthstone','Advanced');
+('Charterstone', 4.28,2,6,5,10,2002,'hearthstone','Advanced'),
+('legendsofleague', 1.2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 CREATE TABLE PublishedBy(
 		publisherName VARCHAR(20),
