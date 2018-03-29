@@ -97,15 +97,21 @@ games.put('/edit', (req, res) => {
 
 				return Promise.all(deletePromises).then(() => {
 					var promises = [];
-					req.body.publishers.forEach((publisher) => {
-						sql4.values = [publisher, req.body.title];
-						promises.push(t.none(sql4));
-					});
 
-					req.body.genres.forEach((genre) => {
-						sql5.values = [req.body.title, genre];
-						promises.push(t.none(sql5));
-					});
+					if (req.body.publishers) {
+						req.body.publishers.forEach((publisher) => {
+							sql4.values = [publisher, req.body.title];
+							promises.push(t.none(sql4));
+						});
+					}
+
+					if (req.body.genres) {
+						req.body.genres.forEach((genre) => {
+							sql5.values = [req.body.title, genre];
+							promises.push(t.none(sql5));
+						});
+					}
+					
 
 					return Promise.all(promises);
 				})

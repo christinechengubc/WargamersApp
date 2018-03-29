@@ -29,7 +29,7 @@ search.post('/publisher', (req, res) => {
   var publisher = req.body.publisher;
   var where = '';
   if (req.body.publisher) where += ' AND lower(p.name) LIKE lower(\'%' + req.body.publisher + '%\')';
- // if (req.body.country) where += ' AND lower(p.country) LIKE lower(\'%' + req.body.country + '%\')';
+  if (req.body.country) where += ' AND lower(p.country) LIKE lower(\'%' + req.body.country + '%\')';
 
 
 
