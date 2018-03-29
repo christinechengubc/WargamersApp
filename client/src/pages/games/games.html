@@ -36,7 +36,7 @@
   </ion-list>
 
   <ion-fab right bottom>
-    <button *ngIf="user._user.isAnExec" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
+    <button *ngIf="user._user?.isAnExec" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
     <button ion-fab (click)="searchGame()"><ion-icon name="search"></ion-icon></button>
   </ion-fab>
 </ion-content>

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Add a New Game
+      {{ currentActionDescription }}
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only>
@@ -15,7 +15,7 @@
   <ion-list>
     <ion-item>
       <ion-label fixed>Title</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-input readonly="{{isEditingGame}}" [(ngModel)]="title" type="text" value =""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Publisher(s)</ion-label>
@@ -25,29 +25,29 @@
     </ion-item>
     <ion-item>
       <ion-label fixed>Year Published</ion-label>
-      <ion-select [(ngModel)]="year">
+      <ion-select [(ngModel)]="yearPublished">
         <ion-option *ngFor="let year of years">{{ year }}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label fixed>Rating</ion-label>
-      <ion-input type="number" value = ""></ion-input>
+      <ion-input [(ngModel)]="rating"  type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Min Players</ion-label>
-      <ion-input type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="minPlayers" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Max Players</ion-label>
-      <ion-input type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="maxPlayers" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Min Playtime</ion-label>
-      <ion-input type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="minPlaytime" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Max Playtime</ion-label>
-      <ion-input type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="maxPlaytime" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Difficulty</ion-label>
@@ -59,13 +59,13 @@
     </ion-item>
     <ion-item>
       <ion-label fixed>Genres</ion-label>
-      <ion-select [(ngModel)]="genre_selected" multiple="true">
+      <ion-select [(ngModel)]="genres_selected" multiple="true">
         <ion-option *ngFor="let genre of genres">{{ genre.name }}</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="isAddingGame">
       <ion-label fixed>Date Purchased</ion-label>
-      <ion-select [(ngModel)]="month">
+      <ion-select [(ngModel)]="monthPurchased">
         <ion-option value="01">January</ion-option>
         <ion-option value="02">February</ion-option>
         <ion-option value="03">March</ion-option>
@@ -79,14 +79,19 @@
         <ion-option value="11">November</ion-option>
         <ion-option value="12" checked="true">December</ion-option>
       </ion-select>
-      <ion-select [(ngModel)]="year">
+      <ion-select [(ngModel)]="yearPurchased">
         <ion-option *ngFor="let year of years">{{ year }}</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="isAddingGame">
       <ion-label fixed>Language</ion-label>
-      <ion-input type="text" value = ""></ion-input>
+      <ion-input  [(ngModel)]="language" type="text" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Description</ion-label>
+      <ion-input [(ngModel)]="description" type="text" value=""></ion-input>
     </ion-item>
   </ion-list>
-  <button ion-button>Save</button>
+  <button *ngIf="isAddingGame" (click)="add()" ion-button>Save</button>
+  <button *ngIf="isEditingGame" (click)="edit()" ion-button>Save</button>
 </ion-content>
