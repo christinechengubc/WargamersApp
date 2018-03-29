@@ -18,26 +18,36 @@ import { Api } from '../../providers/providers';
 })
 export class GameCreatePage {
 
+  currentActionDescription: string;
   publishers: any = [];
   genres: any = [];
   years: any = [];
-  title: string = "test game"; // note that you don't actually have to declare this variable for ngModel to work, but I prefer to declare it for clarity that it exists in model
-  rating: any = 3;
-  minPlayers: any = 2;
-  maxPlayers: any = 4;
-  minPlaytime: any = 20;
-  maxPlaytime: any = 40;
-  difficulty: any = 'Beginner';
-  yearPublished: any = 1998;
-  description: any = 'lol';
-  publishers_selected: any = ['Hasbro', 'Parker Bros'];
-  genres_selected: any = ['Traditional', 'Strategy'];
-  monthPurchased = '02'; // for ion-options, needs to be a string b/c value corresponds to a string
-  yearPurchased = 2000;
-  language: any = "English";
+  isAddingGame: any = false;
+  isEditingGame: any = false;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController) {
+    this.currentActionDescription = navParams.data.currentActionDescription;
+    if (navParams.data.game != null) this.fillInGivenGameInfo(navParams.data.game);
+    if (navParams.data.currentAction == "addingGame") this.isAddingGame = true;
+    if (navParams.data.currentAction == "editingGame") this.isEditingGame = true;
+    console.log(this.isEditingGame);
+
+    // this.title = "test game"; // note that you don't actually have to declare this variable for ngModel to work, but I prefer to declare it for clarity that it exists in model
+    // this.rating = 3;
+    // this.minPlayers = 2;
+    // this.maxPlayers = 4;
+    // this.minPlaytime = 20;
+    // this.maxPlaytime = 40;
+    // this.difficulty = 'Beginner';
+    // this.yearPublished = 1998;
+    // this.description = 'lol';
+    // this.publishers_selected = ['Hasbro', 'Parker Bros'];
+    // this.genres_selected = ['Traditional', 'Strategy'];
+    // this.monthPurchased = '02'; // for ion-options, needs to be a string b/c value corresponds to a string
+    // this.yearPurchased = 2000;
+    // this.language = "English";
+
     this.http.get(API_URL + "/game-create/publishers").map(res => res.json()).subscribe(
       data => {
         this.publishers = data.data;
@@ -65,7 +75,22 @@ export class GameCreatePage {
     }
   }
 
-  save() {
+  fillInGivenGameInfo(game: any) {
+    this.title = game.title;
+    this.rating = game.rating;
+    this.minPlayers = game.minplayer;
+    this.maxPlayers = game.maxplayer;
+    this.minPlaytime = game.minplaytime;
+    this.maxPlaytime = game.maxplaytime;
+    this.difficulty = game.difficulty;
+    this.yearPublished = game.yearpublished;
+    this.description = game.description;
+    this.publishers_selected = game.publisher;
+    this.genres_selected = game.genre;
+  }
+
+  // Add a game
+  add() {
     let body: any = {
       title: this.title,
       rating: this.rating,
@@ -96,7 +121,46 @@ export class GameCreatePage {
       err => {
         console.log(err);
         let toast = this.toastCtrl.create({
-          message: 'Failed to post game to database.',
+          message: 'Failed to post game to database. Error: ' + err.error.detail,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      }
+    )
+  }
+
+  // Edit a game
+  edit() {
+    let body: any = {
+      title: this.title,
+      rating: this.rating,
+      minPlayers: this.minPlayers,
+      maxPlayers: this.maxPlayers,
+      minPlaytime: this.minPlaytime,
+      maxPlaytime: this.maxPlaytime,
+      yearPublished: this.yearPublished,
+      description: this.description,
+      difficulty: this.difficulty,
+      publishers: this.publishers_selected,
+      genres: this.genres_selected,
+    }
+    console.log(body);
+
+    this.api.put('games/edit', body).subscribe(
+      resp => {
+        console.log(resp);
+        let toast = this.toastCtrl.create({
+          message: 'Succesfully edited game!',
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      },
+      err => {
+        console.log(err);
+        let toast = this.toastCtrl.create({
+          message: 'Failed to edit game. Error: ' + err.error.detail,
           duration: 3000,
           position: 'top'
         });
