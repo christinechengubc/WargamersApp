@@ -19,8 +19,8 @@ export class SearchPage {
       // search by game
       body = {
         title: this.title,
-        minPlayers: this.minPlayers,
-        maxPlayers: this.maxPlayers,
+        minPlayer: this.minPlayers,
+        maxPlayer: this.maxPlayers,
         minPlaytime: this.minPlaytime,
         maxPlaytime: this.maxPlaytime,
         difficulty: this.difficulty
