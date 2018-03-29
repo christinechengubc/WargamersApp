@@ -5,10 +5,10 @@ var PQ = require('pg-promise').ParameterizedQuery;
 var dh = require('./dataHandler');
 
 games.get('/', (req, res) => {
-	var sql = 'SELECT title, rating, description, name as publisher ' +
-  'FROM games, publishedby, publishers ' +
-  'WHERE games.title = publishedby.gameTitle AND publishers.name = publishedby.publisherName ' +
-  'ORDER BY title';
+	var sql = 'SELECT title, rating, description, publishername as publisher ' +
+    'FROM games LEFT JOIN publishedby ' +
+    'ON games.title = publishedby.gametitle ' +
+    'ORDER BY title';
   db.any(sql)
     .then(function (data) {
       //returns JSON with list of distinct titles and array of publishers in the publisher field
