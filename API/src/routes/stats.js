@@ -63,5 +63,26 @@ stats.get('/event/:attendance', (req, res) => {
       console.error("Error when retrieving game info " + err);
     });
 });
+/**
+ * Return the memberNumber and Name of members who have attended all events that were hosted this year.
+ */
+stats.get('/members', (req, res) => {
+  var sql = 'SELECT I.name FROM members I WHERE I.memberNumber = (SELECT M.membernumber FROM members M EXCEPT' +
+    '(SELECT DISTINCT memberNumber FROM ((SELECT M.memberNumber, E.name, E.date FROM members M, events E WHERE E.date '+
+    'between \'2017-09-01\' AND \'2018-05-01\') EXCEPT (SELECT * FROM Attends WHERE Attends.eventdate between' +
+    ' \'2017-09-01\' AND \'2018-05-01\')) AS foo));'
+  db.any(sql)
+    .then (function (data){
+      res.status(200)
+        .json({
+          status: 'success',
+          data:data,
+          message: 'Retrieved Info'
+        })
+    })
+    .catch(function (err) {
+      console.error("Error getting MVP: " + err);
+    })
+});
 
 module.exports = stats;
