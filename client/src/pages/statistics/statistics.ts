@@ -67,6 +67,12 @@ export class StatisticsPage {
     );
   }
 
+  gameInfo(gameTitle) {
+    this.navCtrl.push('GameInfoPage', {
+      gameTitle: gameTitle
+    });
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad StatisticsPage');
   }
