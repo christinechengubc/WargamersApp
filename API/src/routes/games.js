@@ -132,6 +132,7 @@ games.delete('/del/:title', (req, res) => {
   var title = req.params.title;
   console.log(title);
   var sql = new PQ('DELETE FROM games WHERE title = $1');
+	// cascade will delete everything else
   sql.values = [title];
   db.none(sql).then(
     res.status(200)
@@ -139,8 +140,13 @@ games.delete('/del/:title', (req, res) => {
         status: 'success',
         message: 'Deleted game successfully'
       })
-  ).catch(function(err){
-    console.error("Error deleting: " + err);
+  ).catch(function(error){
+    console.error("Error deleting: " + error);
+		res.status(500)
+			.json({
+				status: 'failure',
+				detail: error.detail
+			});
   })
 });
 

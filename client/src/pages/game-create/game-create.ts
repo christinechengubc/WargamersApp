@@ -128,6 +128,7 @@ export class GameCreatePage {
         toast.present();
       }
     )
+    this.navCtrl.pop();
   }
 
   // Edit a game
@@ -167,6 +168,8 @@ export class GameCreatePage {
         toast.present();
       }
     )
+    this.navCtrl.pop();
+
   }
 
   ionViewDidLoad() {
