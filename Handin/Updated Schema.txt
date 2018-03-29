@@ -3,10 +3,12 @@ ENTITIES
 Members
 - PK: memberNumber
 - O: year, name, phoneNumber, email
+- ISA (partial coverage)
 
 Executives
 - PK: memberNumber
 - FK: memberNumber REF Members(memberNumber)
+- O: Position
 
 Events
 - PK: name, date
@@ -15,10 +17,12 @@ Events
 Publishers
 - PK: name
 - O: email, country
+*** removed address and phone number ***
 
 Games
 - PK: title
-- O: rating, minPlayer, maxPlayer, minPlayTime, maxPlayTime, firstDatePublished, description, difficulty
+- O: rating, minPlayer, maxPlayer, minPlayTime, maxPlayTime, yearPublished, description, difficulty
+*** added minPlayTime, maxPlayTime, yearPublished, difficulty ***
 
 Genres
 - PK: name
@@ -38,23 +42,35 @@ RELATIONSHIPS
 HasGenre
 - PK: gameTitle, genreName
 - FK: gameTitle REF Games(title), genreName REF Genres(name)
+- Games have at least 0***n genres
+*** changed from games needing at least 1 genre to 0 ***
 
 Attends
 - PK: memberNumber, eventName, eventDate
 - FK: memberNumber REF Members(memberNumber),
 - FK: eventName, eventDate REF Events(name, date)
+- Members can attend 0...* events
+- Events can have 1...* members (the exec who hosts the event must be there)
 
 Hosts
 - PK: memberNumber, eventName, eventDate
 - FK: memberNumber REF Executives(memberNumber)
 - FK: eventName, eventDate REF Events(name,date)
+- Execs can host 0...* events 
+- Events must have at least 1 exec
 
 PublishedBy
 - PK: publisherName, gameTitle
 - FK: publisherName REF Publishers(name)
 - FK: gameTitle REF Games(Title)
+- Games are published by 0...* publishers
+- Publishers can publish 0...* games
+*** removed yearPublished attribute ***
+*** changed from games need at least 1 publisher to 0 ***
 
 Contains
 - PK: recordID, gameID, gameTitle
 - FK: recordID REF BorrowRecords(recordID)
 - FK: gameID, gameTitle REF GameInstances(id, gameTitle)
+- A borrow record contains one or more borrow records
+- A game can be in 0 or more borrow records
