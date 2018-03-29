@@ -90,7 +90,8 @@ gamecreate.post('/new', (req, res) => {
 			console.error(error);
 			res.status(500)
 				.json({
-					status: 'failure'
+					status: 'failure',
+					detail: error.detail
 				});
 		});
 });
