@@ -21,7 +21,7 @@ export class GameInfoPage {
   game: any = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User) {
-    var title = navParams.data.gameTitle.trim();
+    var title = navParams.data.gameTitle;
     this.http.get(API_URL + "/game-info/'" + title + "'").map(res => res.json()).subscribe(
       data => {
         this.game = data.data[0];
