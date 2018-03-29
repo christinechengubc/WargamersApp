@@ -24,6 +24,20 @@ export class GameCreatePage {
   years: any = [];
   isAddingGame: any = false;
   isEditingGame: any = false;
+  title: any;
+  rating: any;
+  minPlayers: any;
+  maxPlayers: any;
+  minPlaytime: any;
+  maxPlaytime: any;
+  yearPublished: any;
+  description: any;
+  difficulty: any;
+  publishers_selected: any;
+  genres_selected: any;
+  language: any;
+  yearPurchased: any;
+  monthPurchased: any;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController) {
