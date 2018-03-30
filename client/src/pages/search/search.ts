@@ -19,33 +19,36 @@ export class SearchPage {
   pubName: any;
   pubCountry: any;
   genreName: any;
+  projectpublisher: any = false;
+  projectrating: any = false;
+  projectdescription: any = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api, public toastCtrl: ToastController) { }
 
   search() {
-    let body: any = {};
+    let body: any = {
+      projectpublisher: this.projectpublisher,
+      projectrating: this.projectrating,
+      projectdescription: this.projectdescription
+    };
+    console.log(body);
     if (this.searchBy === 'game') {
       // search by game
-      body = {
-        title: this.title,
-        minPlayer: this.minPlayers,
-        maxPlayer: this.maxPlayers,
-        minPlaytime: this.minPlaytime,
-        maxPlaytime: this.maxPlaytime,
-        difficulty: this.difficulty
-      }
+      body.title = this.title;
+      body.minPlayer = this.minPlayers;
+      body.maxPlayer = this.maxPlayers;
+      body.minPlaytime = this.minPlaytime;
+      body.maxPlaytime = this.maxPlaytime;
+      body.difficulty = this.difficulty;
     } else if (this.searchBy === 'publisher') {
       // search by publisher
-      body = {
-        publisher: this.pubName,
-        country: this.pubCountry
-      }
+      body.publisher = this.pubName;
+      body.country = this.pubCountry;
     } else if (this.searchBy === 'genre') {
       // search by genre
-      body = {
-        genre: this.genreName
-      }
+      body.genre = this.genreName;
     }
+
 
     this.api.post('search/' + this.searchBy, body).subscribe(
       resp => {
