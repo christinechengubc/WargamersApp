@@ -74,6 +74,20 @@
       </ion-item>
     </ion-list>
   </div>
+  <div>
+    <ion-item>
+      <ion-label>Include publishers in the result.</ion-label>
+      <ion-checkbox [(ngModel)]="projectpublisher"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Include ratings in the result.</ion-label>
+      <ion-checkbox [(ngModel)]="projectrating"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Include description in the result.</ion-label>
+      <ion-checkbox [(ngModel)]="projectdescription"></ion-checkbox>
+    </ion-item>
+  </div>
   <div padding>
     <button ion-button (click)="search()">Search</button>
   </div>

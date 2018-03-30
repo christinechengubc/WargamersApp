@@ -18,6 +18,11 @@ gamecreate.get('/genre', (req, res) => {
     })
     .catch(function (err) {
 			console.error("Error when retrieving genres " + err);
+			res.status(500)
+				.json({
+					status: 'failure',
+					detail: error.stack
+				});
 		});
 });
 
@@ -37,6 +42,11 @@ gamecreate.get('/publishers', (req, res) => {
     })
     .catch(function (err) {
 			console.error("Error when retrieving publishers " + err);
+			res.status(500)
+				.json({
+					status: 'failure',
+					detail: error.stack
+				});
 		});
 });
 
@@ -66,15 +76,22 @@ gamecreate.post('/new', (req, res) => {
 						sql5.values = [nextID, 0, req.body.datePurchased, req.body.language, req.body.title];
 						promises.push(t.none(sql5));
 
-						req.body.publishers.forEach((publisher) => {
-							sql2.values = [publisher, req.body.title];
-							promises.push(t.none(sql2));
-						});
+						if (req.body.publishers) {
+							req.body.publishers.forEach((publisher) => {
+								sql2.values = [publisher, req.body.title];
+								promises.push(t.none(sql2));
+							});
+						}
 
-						req.body.genres.forEach((genre) => {
-							sql3.values = [req.body.title, genre];
-							promises.push(t.none(sql3));
-						});
+
+						if (req.body.genres) {
+							req.body.genres.forEach((genre) => {
+								sql3.values = [req.body.title, genre];
+								promises.push(t.none(sql3));
+							});
+						}
+
+
 
 						return Promise.all(promises);
 					});
@@ -91,7 +108,7 @@ gamecreate.post('/new', (req, res) => {
 			res.status(500)
 				.json({
 					status: 'failure',
-					detail: error.detail
+					detail: error.stack
 				});
 		});
 });
