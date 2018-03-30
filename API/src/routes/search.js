@@ -9,7 +9,6 @@ search.post('/genre', (req, res) => {
   var sql = 'SELECT hg.gametitle as title, g.rating, g.description, publishername FROM games g LEFT JOIN publishedBy p ON g.title = p.gameTitle, hasgenre hg ' +
     'WHERE HG.gametitle = title AND lower(hg.genrename) LIKE lower(\'%'+genre+'%\')';
 
-
   db.any(sql)
     .then(function (data) {
       var editedData = dh.mergeX(data,'publishername','title');
@@ -26,7 +25,6 @@ search.post('/genre', (req, res) => {
 });
 
 search.post('/publisher', (req, res) => {
-  var publisher = req.body.publisher;
   var where = '';
   if (req.body.publisher) where += ' AND lower(p.name) LIKE lower(\'%' + req.body.publisher + '%\')';
   if (req.body.country) where += ' AND lower(p.country) LIKE lower(\'%' + req.body.country + '%\')';
@@ -55,9 +53,17 @@ search.post('/publisher', (req, res) => {
 
 /**
  * title, minPlayer, maxPlayer minPlayTime, maxPlayTime, difficulty
+ * passed: publisher, rating, description
+ * req.body.projectpublisher, projectrating, projectdescription = TRUE /FALSE
  */
 search.post('/game', (req, res) => {
   var where = '';
+  var publisher = '';
+  var rating = '';
+  var description = '';
+  if (req.body.projectpublisher) {publisher = 'publishername AS publisher, ';}
+  if (req.body.projectrating) {rating = 'rating, ';}
+  if (req.body.projectdescription) {description = 'description, ';}
   if (req.body.title) where += ' AND lower(title) LIKE lower(\'%' + req.body.title + '%\')';
   if (req.body.minPlayer) where += ' AND minPlayer =' + req.body.minPlayer;
   if (req.body.maxPlayer) where += ' AND maxPlayer =' + req.body.maxPlayer;
@@ -67,7 +73,7 @@ search.post('/game', (req, res) => {
 
   if (where.length > 1) where = 'WHERE ' + where.substring(5);
 
-  var sql = 'SELECT title, rating, publishername AS publisher, description FROM games LEFT JOIN publishedby ON title = gametitle ' +
+  var sql = 'SELECT ' + publisher + rating + description + 'title FROM games LEFT JOIN publishedby ON title = gametitle ' +
     where;
 
 console.log(sql);
