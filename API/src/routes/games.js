@@ -23,6 +23,11 @@ games.get('/', (req, res) => {
     })
     .catch(function (err) {
 			console.error("Error when retrieving games " + err);
+			res.status(500)
+				.json({
+					status: 'failure',
+					detail: error.stack
+				});
 		});
 });
 
@@ -41,6 +46,11 @@ db.any(sql)
   })
   .catch(function (err) {
     console.error("Error when retrieving games " + err);
+		res.status(500)
+			.json({
+				status: 'failure',
+				detail: error.stack
+			});
   });
 });
 
@@ -62,6 +72,11 @@ db.any(sql)
   .catch(function (err) {
     console.log(sql);
     console.error("Error when retrieving games " + err);
+		res.status(500)
+			.json({
+				status: 'failure',
+				detail: error.stack
+			});
   });
 });
 
@@ -111,7 +126,7 @@ games.put('/edit', (req, res) => {
 							promises.push(t.none(sql5));
 						});
 					}
-					
+
 
 					return Promise.all(promises);
 				})
@@ -129,7 +144,7 @@ games.put('/edit', (req, res) => {
 			res.status(500)
 				.json({
 					status: 'failure',
-					detail: error.detail
+					detail: error.stack
 				});
 		})
 });
@@ -151,7 +166,7 @@ games.delete('/del/:title', (req, res) => {
 		res.status(500)
 			.json({
 				status: 'failure',
-				detail: error.detail
+				detail: error.stack
 			});
   })
 });

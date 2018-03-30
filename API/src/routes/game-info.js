@@ -27,6 +27,11 @@ db.any(sql)
   })
   .catch(function (err) {
     console.error("Error when retrieving game info " + err);
+    res.status(500)
+			.json({
+				status: 'failure',
+				detail: error.stack
+			});
   });
 });
 

@@ -18,6 +18,11 @@ gamecreate.get('/genre', (req, res) => {
     })
     .catch(function (err) {
 			console.error("Error when retrieving genres " + err);
+			res.status(500)
+				.json({
+					status: 'failure',
+					detail: error.stack
+				});
 		});
 });
 
@@ -37,6 +42,11 @@ gamecreate.get('/publishers', (req, res) => {
     })
     .catch(function (err) {
 			console.error("Error when retrieving publishers " + err);
+			res.status(500)
+				.json({
+					status: 'failure',
+					detail: error.stack
+				});
 		});
 });
 
@@ -98,7 +108,7 @@ gamecreate.post('/new', (req, res) => {
 			res.status(500)
 				.json({
 					status: 'failure',
-					detail: error.detail
+					detail: error.stack
 				});
 		});
 });
