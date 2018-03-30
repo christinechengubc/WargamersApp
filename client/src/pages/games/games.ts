@@ -35,7 +35,7 @@ export class GamesPage {
         }
       );
     } else if (navParams.data.games == true) {
-      this.games = navParams.data.games;
+      this.games = navParams.data.games.data;
     }
 
     events.subscribe('refresh', () => {
@@ -73,7 +73,8 @@ export class GamesPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GamesPage');
-    this.games = this.navParams.data.games;
+    if (this.navParams.data.games) this.games = this.navParams.data.games.data;
+
   }
 
 }
