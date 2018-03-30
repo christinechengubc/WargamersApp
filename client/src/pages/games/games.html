@@ -24,11 +24,9 @@
       </ion-card-header>
 
       <ion-card-content>
-        Publishers: {{ game.publisher }}
-        <br>
-        Rating: {{ game.rating }}
-        <br>
-        Description: {{ game.description }}
+        <p *ngIf="game.publisher">Publishers: {{ game.publisher }}</p>
+        <p *ngIf="game.rating">Rating: {{ game.rating }}</p>
+        <p *ngIf="game.description">Description: {{ game.description }}</p>
       </ion-card-content>
       <ion-card-content class="card-content">
       </ion-card-content>
@@ -36,7 +34,7 @@
   </ion-list>
 
   <ion-fab right bottom>
-    <button *ngIf="user._user?.isAnExec" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
+    <button *ngIf="user._user.isAnExec" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
     <button ion-fab (click)="searchGame()"><ion-icon name="search"></ion-icon></button>
   </ion-fab>
 </ion-content>
