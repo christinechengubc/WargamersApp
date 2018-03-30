@@ -24,11 +24,9 @@
       </ion-card-header>
 
       <ion-card-content>
-        Publishers: {{ game.publisher }}
-        <br>
-        Rating: {{ game.rating }}
-        <br>
-        Description: {{ game.description }}
+        <p *ngIf="game.publisher">Publishers: {{ game.publisher }}</p>
+        <p *ngIf="game.rating">Rating: {{ game.rating }}</p>
+        <p *ngIf="game.description">Description: {{ game.description }}</p>
       </ion-card-content>
       <ion-card-content class="card-content">
       </ion-card-content>
