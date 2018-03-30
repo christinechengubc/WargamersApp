@@ -52,14 +52,13 @@ export class SearchPage {
 
     this.api.post('search/' + this.searchBy, body).subscribe(
       resp => {
-        console.log(resp);
         let toast = this.toastCtrl.create({
           message: 'Succesfully posted game to database!',
           duration: 3000,
           position: 'top'
         });
         this.navCtrl.push('GamesPage', {
-          games: resp.data
+          games: resp
         });
       },
       err => {
