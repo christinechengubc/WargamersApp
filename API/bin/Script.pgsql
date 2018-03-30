@@ -14,7 +14,8 @@ INSERT INTO Members VALUES (001, 3, 'Bryce', '7786816410', 'n9j0b@ugrad.cs.ubc.c
 (002, 3, 'Crystal', '5878892238', 't5i0b.ugrad.cs.ubc.ca', 'testPassword'),
 (003, 3, 'Trevin', '5877182980', 'd3s0b@ugrad.cs.ubc.ca', 'testPassword'),
 (004, 3,'Christine', NULL, 'r8x9a@ugrad.cs.ubc.ca', 'testPassword'),
-(005, 4, 'Goober', '8790981283', 'goober@ugrad.cs.ubc.ca', 'testPassword');
+(005, 4, 'Goober', '8790981283', 'goober@ugrad.cs.ubc.ca', 'testPassword'),
+(006, 5, 'Member', '40493158', 'member@gmail.com', 'testPassword');
 
 CREATE TABLE Executives(
 		memberNumber integer NOT NULL,
@@ -109,7 +110,7 @@ CREATE TABLE Games(
 INSERT INTO Games VALUES ('Monopoly', 5.0,2,6,30,180, 1988, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 'Beginner'),
 ('Legend of the Five Rings', 4.12,1,4,30,60, 1999, 'much legend, such rings', 'Intermediate'),
 ('Photosynthesis', 3.83,2,8,10,30, 2000, 'I''ve always wanted to be a flower', 'Advanced'),
-('Sagrada', 4.87,2,4,20,60,2001, 'hi', 'Beginner'), 
+('Sagrada', 4.87,2,4,20,60,2001, 'hi', 'Beginner'),
 ('Betrayal at House on the Hill', 3.29, 1,3,10,20,2002, 'hello', 'Intermediate'),
 ('Charterstone', 4.28,2,6,5,10,2002,'hearthstone','Advanced'),
 ('legendsofleague', 1.2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
