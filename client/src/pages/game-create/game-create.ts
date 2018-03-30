@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
@@ -24,9 +24,23 @@ export class GameCreatePage {
   years: any = [];
   isAddingGame: any = false;
   isEditingGame: any = false;
+  title: any;
+  rating: any;
+  minPlayers: any;
+  maxPlayers: any;
+  minPlaytime: any;
+  maxPlaytime: any;
+  yearPublished: any;
+  description: any;
+  difficulty: any;
+  publishers_selected: any;
+  genres_selected: any;
+  language: any;
+  yearPurchased: any;
+  monthPurchased: any;x
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events) {
     this.currentActionDescription = navParams.data.currentActionDescription;
     if (navParams.data.game != null) this.fillInGivenGameInfo(navParams.data.game);
     if (navParams.data.currentAction == "addingGame") this.isAddingGame = true;
@@ -117,6 +131,8 @@ export class GameCreatePage {
           position: 'top'
         });
         toast.present();
+        this.navCtrl.pop();
+        this.events.publish('refresh');
       },
       err => {
         console.log(err);
@@ -128,7 +144,7 @@ export class GameCreatePage {
         toast.present();
       }
     )
-    this.navCtrl.pop();
+
   }
 
   // Edit a game
@@ -157,6 +173,8 @@ export class GameCreatePage {
           position: 'top'
         });
         toast.present();
+        this.navCtrl.pop();
+        this.events.publish('refresh');
       },
       err => {
         console.log(err);
@@ -168,7 +186,6 @@ export class GameCreatePage {
         toast.present();
       }
     )
-    this.navCtrl.pop();
 
   }
 
