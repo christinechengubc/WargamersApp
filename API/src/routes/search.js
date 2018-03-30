@@ -10,7 +10,7 @@ search.post('/genre', (req, res) => {
   var publisher = '';
   var rating = '';
   var description = '';
-  if (req.body.projectpublisher) {publisher = 'publishername, ';}
+  if (req.body.projectpublisher) {publisher = 'publishername AS publisher , ';}
   if (req.body.projectrating) {rating = 'g.rating, ';}
   if (req.body.projectdescription) {description = 'g.description, ';}
   var sql = 'SELECT ' + publisher + rating + description + 'hg.gametitle as title FROM games g LEFT JOIN publishedBy p ON g.title = p.gameTitle, hasgenre hg ' +
@@ -18,7 +18,9 @@ search.post('/genre', (req, res) => {
 
   db.any(sql)
     .then(function (data) {
-      var editedData = dh.mergeX(data,'publishername','title');
+      if (publisher !== NULL){
+        var editedData = dh.mergeX(data,'publisher','title');
+      }
       res.status(200)
         .json({
           status: 'success',
@@ -44,14 +46,16 @@ search.post('/publisher', (req, res) => {
 
 
 
-  var sql = 'SELECT ' + publisher + rating + description + 'g.title' +
+  var sql = 'SELECT ' + publisher + rating + description + 'g.title ' +
     'FROM games g LEFT JOIN publishedby pb2 ON g.title = pb2.gametitle, publishers p, publishedby pb ' +
     'WHERE g.title = pb.gametitle AND pb.publishername = p.name ' + where;
 
 
   db.any(sql)
     .then(function (data) {
-      var editedData = dh.mergeX(data,'publisher','title');
+      if (publisher !== NULL){
+        var editedData = dh.mergeX(data,'publisher','title');
+      }
       res.status(200)
         .json({
           status: 'success',
@@ -93,7 +97,9 @@ console.log(sql);
 
   db.any(sql)
     .then(function (data) {
-      var editedData = dh.mergeX(data,'publisher','title');
+      if (publisher !== NULL){
+        var editedData = dh.mergeX(data,'publisher','title');
+      }
       res.status(200)
         .json({
           status: 'success',
