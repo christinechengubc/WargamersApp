@@ -20,8 +20,7 @@ export class GamesPage {
   games: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public events: Events) {
-    console.log("the nav params is ");
-    console.log(navParams.data.games);
+
     if (typeof navParams.data.games === 'undefined') {
       this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
         data => {
@@ -42,12 +41,10 @@ export class GamesPage {
       this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
         data => {
           this.games = data.data;
-          console.log("now logging");
-          console.log(data.data);
+
         },
         err => {
-          console.log("Oops!");
-          console.log(err);
+
         }
       );
     });
@@ -72,7 +69,6 @@ export class GamesPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad GamesPage');
     if (this.navParams.data.games) this.games = this.navParams.data.games.data;
 
   }
