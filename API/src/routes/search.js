@@ -6,7 +6,14 @@ var dh = require('./dataHandler');
 
 search.post('/genre', (req, res) => {
   var genre = req.body.genre;
-  var sql = 'SELECT hg.gametitle as title, g.rating, g.description, publishername FROM games g LEFT JOIN publishedBy p ON g.title = p.gameTitle, hasgenre hg ' +
+  var where = '';
+  var publisher = '';
+  var rating = '';
+  var description = '';
+  if (req.body.projectpublisher) {publisher = 'publishername, ';}
+  if (req.body.projectrating) {rating = 'g.rating, ';}
+  if (req.body.projectdescription) {description = 'g.description, ';}
+  var sql = 'SELECT ' + publisher + rating + description + 'hg.gametitle as title FROM games g LEFT JOIN publishedBy p ON g.title = p.gameTitle, hasgenre hg ' +
     'WHERE HG.gametitle = title AND lower(hg.genrename) LIKE lower(\'%'+genre+'%\')';
 
   db.any(sql)
@@ -26,12 +33,18 @@ search.post('/genre', (req, res) => {
 
 search.post('/publisher', (req, res) => {
   var where = '';
+  var publisher = '';
+  var rating = '';
+  var description = '';
+  if (req.body.projectpublisher) {publisher = 'pb2.publishername AS publisher, ';}
+  if (req.body.projectrating) {rating = 'g.rating, ';}
+  if (req.body.projectdescription) {description = 'g.description, ';}
   if (req.body.publisher) where += ' AND lower(p.name) LIKE lower(\'%' + req.body.publisher + '%\')';
   if (req.body.country) where += ' AND lower(p.country) LIKE lower(\'%' + req.body.country + '%\')';
 
 
 
-  var sql = 'SELECT g.title, g.rating, g.description, pb2.publishername as publisher ' +
+  var sql = 'SELECT ' + publisher + rating + description + 'g.title' +
     'FROM games g LEFT JOIN publishedby pb2 ON g.title = pb2.gametitle, publishers p, publishedby pb ' +
     'WHERE g.title = pb.gametitle AND pb.publishername = p.name ' + where;
 
