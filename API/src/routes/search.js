@@ -53,9 +53,17 @@ search.post('/publisher', (req, res) => {
 
 /**
  * title, minPlayer, maxPlayer minPlayTime, maxPlayTime, difficulty
+ * passed: publisher, rating, description
+ * req.body.projectpublisher, projectrating, projectdescription = TRUE /FALSE
  */
 search.post('/game', (req, res) => {
   var where = '';
+  var publisher = '';
+  var rating = '';
+  var description = '';
+  if (req.body.projectpublisher) {publisher = 'publishername AS publisher, ';}
+  if (req.body.projectrating) {rating = 'rating, ';}
+  if (req.body.projectdescription) {description = 'description, ';}
   if (req.body.title) where += ' AND lower(title) LIKE lower(\'%' + req.body.title + '%\')';
   if (req.body.minPlayer) where += ' AND minPlayer =' + req.body.minPlayer;
   if (req.body.maxPlayer) where += ' AND maxPlayer =' + req.body.maxPlayer;
@@ -65,7 +73,7 @@ search.post('/game', (req, res) => {
 
   if (where.length > 1) where = 'WHERE ' + where.substring(5);
 
-  var sql = 'SELECT title, rating, publishername AS publisher, description FROM games LEFT JOIN publishedby ON title = gametitle ' +
+  var sql = 'SELECT ' + publisher + rating + description + 'title FROM games LEFT JOIN publishedby ON title = gametitle ' +
     where;
 
 console.log(sql);
