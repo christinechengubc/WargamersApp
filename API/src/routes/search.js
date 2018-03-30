@@ -13,13 +13,14 @@ search.post('/genre', (req, res) => {
   if (req.body.projectpublisher) {publisher = 'publishername AS publisher, ';}
   if (req.body.projectrating) {rating = 'g.rating, ';}
   if (req.body.projectdescription) {description = 'g.description, ';}
-  var sql = 'SELECT ' + publisher + rating + description + 'hg.gametitle as title FROM games g LEFT JOIN publishedBy p ON g.title = p.gameTitle, hasgenre hg ' +
+  var sql = 'SELECT DISTINCT ' + publisher + rating + description + 'hg.gametitle as title FROM games g LEFT JOIN publishedBy p ON g.title = p.gameTitle, hasgenre hg ' +
     'WHERE HG.gametitle = title AND lower(hg.genrename) LIKE lower(\'%'+genre+'%\')';
 
   db.any(sql)
     .then(function (data) {
-      if (publisher !== NULL){
-        var editedData = dh.mergeX(data,'publisher','title');
+      var editedData = data;
+      if (publisher !== ''){
+        editedData = dh.mergeX(data,'publisher','title');
       }
       res.status(200)
         .json({
@@ -46,15 +47,16 @@ search.post('/publisher', (req, res) => {
 
 
 
-  var sql = 'SELECT ' + publisher + rating + description + 'g.title' +
-    ' FROM games g LEFT JOIN publishedby pb2 ON g.title = pb2.gametitle, publishers p, publishedby pb ' +
+  var sql = 'SELECT DISTINCT ' + publisher + rating + description + 'g.title ' +
+    'FROM games g LEFT JOIN publishedby pb2 ON g.title = pb2.gametitle, publishers p, publishedby pb ' +
     'WHERE g.title = pb.gametitle AND pb.publishername = p.name ' + where;
 
 
   db.any(sql)
     .then(function (data) {
-      if (publisher !== NULL){
-        var editedData = dh.mergeX(data,'publisher','title');
+      var editedData = data;
+      if (publisher !== ''){
+        editedData = dh.mergeX(data,'publisher','title');
       }
       res.status(200)
         .json({
@@ -90,15 +92,16 @@ search.post('/game', (req, res) => {
 
   if (where.length > 1) where = 'WHERE ' + where.substring(5);
 
-  var sql = 'SELECT ' + publisher + rating + description + 'title FROM games LEFT JOIN publishedby ON title = gametitle ' +
+  var sql = 'SELECT DISTINCT ' + publisher + rating + description + '  title FROM games LEFT JOIN publishedby ON title = gametitle ' +
     where;
 
 console.log(sql);
 
   db.any(sql)
     .then(function (data) {
-      if (publisher !== NULL){
-        var editedData = dh.mergeX(data,'publisher','title');
+      var editedData = data;
+      if (publisher !== ''){
+        editedData = dh.mergeX(data,'publisher','title');
       }
       res.status(200)
         .json({
