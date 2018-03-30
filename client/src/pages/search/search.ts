@@ -65,7 +65,7 @@ export class SearchPage {
       err => {
         console.log(err);
         let toast = this.toastCtrl.create({
-          message: 'Error while searching for game in database.',
+          message: 'Error while searching for game in database.' + err.error.detail,
           duration: 3000,
           position: 'top'
         });
