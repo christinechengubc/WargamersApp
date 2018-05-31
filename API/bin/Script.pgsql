@@ -1,19 +1,18 @@
 DROP TABLE IF EXISTS Members, Executives, Events, Attends, Hosts, Publishers, Games, PublishedBy, Genres, HasGenre, GameInstances, BorrowRecords, Contains;
 
 CREATE TABLE Executives(
-		member_number integer NOT NULL,
-		name VARCHAR(50),
-		position VARCHAR(20),
+		name VARCHAR(50) NOT NULL,
+		position VARCHAR(20) UNIQUE,
 		phone VARCHAR(20),
 		email VARCHAR(50),
-		PRIMARY KEY (member_number)
+		PRIMARY KEY (name)
 );
 
-INSERT INTO Executives VALUES (001, 'Fareez Sanif', 'Treasurer', NULL, NULL), (002, 'Peter', 'President', '123-456-7890', 'example@email.com');
+INSERT INTO Executives VALUES ('Fareez Sanif', 'Treasurer', NULL, NULL), ('Peter', 'President', '123-456-7890', 'example@email.com');
 
 CREATE TABLE Events (
-	title VARCHAR(30),
-	date DATE,
+	title VARCHAR(30) NOT NULL,
+	date DATE NOT NULL,
 	description VARCHAR(100),
 	start_time TIME(0),
 	end_time TIME(0),
@@ -21,16 +20,17 @@ CREATE TABLE Events (
 	always_show BOOL,
 	lead_exec VARCHAR(50),
 	fb_event_page VARCHAR(100),
-	PRIMARY KEY (title,date)
+	PRIMARY KEY (title, date),
+	FOREIGN KEY (lead_exec) REFERENCES Executives(name)
 );
 
-INSERT INTO Events VALUES ('Heart BoardGames', '2018-02-14', 'The best way to spend valentine''s day', '18:00:00', '23:00:00', 'Nest 2001', false, 'Peter'),
-('D&D', '2018-08-02', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00:00', '20:00:00', 'Nest 3256', false, 'Fareez'),
-('Boardgames Night', '1999-01-01', 'Boardgames night held every Wednesday', '17:00:00', '22:00:00', 'Nest 3206', true, 'William');
+INSERT INTO Events VALUES ('Heart BoardGames', '2018-02-14', 'The best way to spend valentine''s day', '18:00:00', '23:00:00', 'Nest 2001', false, 'Peter', NULL),
+('D&D', '2018-08-02', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00:00', '20:00:00', 'Nest 3256', false, 'Fareez Sanif'),
+('Boardgames Night', '1999-01-01', 'Boardgames night held every Wednesday', '17:00:00', '22:00:00', 'Nest 3206', true, 'Peter', NULL);
 
 
 CREATE TABLE Games(
-		title VARCHAR(50),
+		title VARCHAR(50) NOT NULL,
 		publisher VARCHAR(100),
 		category VARCHAR(50),
 		rating DECIMAL(5,2),
@@ -49,9 +49,17 @@ CREATE TABLE Games(
 		expansion_of VARCHAR(50),
 		bgg_id INTEGER,
 		show_main_page BOOL,
-		CHECK (rating > 0 AND rating <= 5),
 		PRIMARY KEY (title)
 );
 
 
 INSERT INTO Games VALUES ('Monopoly', 'Hasbros','Friendship Breaking',2.0,1,4, 60, 999, 1999, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 1, 'http://imageformonopolyomg', 10000, 5,5, 'Shitty', NULL, 12345, true);
+
+
+CREATE TABLE Admin(
+		username VARCHAR(20) NOT NULL,
+		password VARCHAR(100) NOT NULL,
+		PRIMARY KEY (username)
+);
+
+INSERT INTO Admin VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
