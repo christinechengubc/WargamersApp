@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Members, Executives, Events, Attends, Hosts, Publishers, Games, PublishedBy, Genres, HasGenre, GameInstances, BorrowRecords, Contains;
+DROP TABLE IF EXISTS Members, Executives, Events, Attends, Hosts, Publishers, Games, PublishedBy, Genres, HasGenre, GameInstances, BorrowRecords, Contains, App_Admin;
 
 CREATE TABLE Executives(
 		name VARCHAR(50) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE Events (
 );
 
 INSERT INTO Events VALUES ('Heart BoardGames', '2018-02-14', 'The best way to spend valentine''s day', '18:00:00', '23:00:00', 'Nest 2001', false, 'Peter', NULL),
-('D&D', '2018-08-02', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00:00', '20:00:00', 'Nest 3256', false, 'Fareez Sanif'),
+('Intro to RPG', '2018-08-02', 'Have some fun playing good ol'' Dungeons and Dragons', '17:00:00', '20:00:00', 'Nest 3256', false, 'Fareez Sanif', NULL),
 ('Boardgames Night', '1999-01-01', 'Boardgames night held every Wednesday', '17:00:00', '22:00:00', 'Nest 3206', true, 'Peter', NULL);
 
 
@@ -56,10 +56,10 @@ CREATE TABLE Games(
 INSERT INTO Games VALUES ('Monopoly', 'Hasbros','Friendship Breaking',2.0,1,4, 60, 999, 1999, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 1, 'http://imageformonopolyomg', 10000, 5,5, 'Shitty', NULL, 12345, true);
 
 
-CREATE TABLE Admin(
+CREATE TABLE App_Admin(
 		username VARCHAR(20) NOT NULL,
 		password VARCHAR(100) NOT NULL,
 		PRIMARY KEY (username)
 );
 
-INSERT INTO Admin VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
+INSERT INTO App_Admin VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
