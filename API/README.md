@@ -52,16 +52,18 @@ Look at *games.js* for an example on how to create your own routes.
 
 1. **Set your local environment variable** 
 
-The connection string for `pg-promise` is specified in the following line in *db.js*:
+The connection string for `pg-promise` is specified in the following two lines in *db.js*:
 
-`const cn = process.env.DATABASE_URL`
+`const cn = connection_string`
 
-When deployed to Heroku, `process.env.DATABASE_URL` will refer to the instance created by the Heroku Postgres addon. However, if you want to test the app locally with your own instance of PostgreSQL, you will have to define this environment variable yourself.
+The API will first try to initialize the `connection_string` as `require('./connection_info')`. This is for sake of ease. It is highly recommended that you create a `connection_info.js` file inside of the `src` folder to match the pathing of `db.js` where the contents are like so:
 
-For Linux: Modify your ~/.bashrc file (which runs every time a shell is created) by adding this line: `export 'postgres://user:password@server:port/database'`, replacing the PostgreSQL connection string with your own details.
+`var connection_info = "postgres://user:password@server:port/database"';
+module.exports = connection_info;`
 
-For Windows: Open up cmd and run the following command: `setx 'postgres://user:password@server:port/database'`, replacing the PostgreSQL connection string with your own details. You can also use `set`, however this command is temporary and limited to the current shell - `setx` sets a persistent environment variable.
+This `connection_info.js` file is included in the `.gitignore` and should never be committed as it contains local connection information that will only work for you.
 
+When deployed to Heroku, the `connection_string` will then take on the constant `process.env.DATABASE_URL` which is an environment variable that will be automatically set by Heroku. You can alternatively set this on your own local machine if you like.
 
 2. **Create your own routes.**
 
