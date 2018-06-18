@@ -9,6 +9,7 @@ const initOptions = {};
 const pgp = require('pg-promise')(initOptions);
 
 const cn = connection_info;
+
 const db = pgp(cn);
 
 module.exports = db;
