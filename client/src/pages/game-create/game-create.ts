@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
+import { SanitizerProvider } from '../../providers/providers';
+
 
 /**
  * Generated class for the GamesPage page.
@@ -37,10 +39,10 @@ export class GameCreatePage {
   genres_selected: any;
   language: any;
   yearPurchased: any;
-  monthPurchased: any;
+  monthPurchased: any;x
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider) {
     this.currentActionDescription = navParams.data.currentActionDescription;
     if (navParams.data.game != null) this.fillInGivenGameInfo(navParams.data.game);
     if (navParams.data.currentAction == "addingGame") this.isAddingGame = true;
@@ -122,27 +124,74 @@ export class GameCreatePage {
     }
     console.log(body);
 
-    this.api.post('game-create/new', body).subscribe(
-      resp => {
-        console.log(resp);
-        let toast = this.toastCtrl.create({
-          message: 'Succesfully posted game to database!',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-      },
-      err => {
-        console.log(err);
-        let toast = this.toastCtrl.create({
-          message: 'Failed to post game to database. Error: ' + err.error.detail,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-      }
-    )
-    this.navCtrl.pop();
+    var integers = [this.rating, this.minPlayers, this.maxPlayers, this.minPlaytime, this.maxPlaytime];
+    var values = [this.title, this.rating, this.minPlayers, this.maxPlayers, this.minPlaytime, this.maxPlaytime];
+    if (!this.sanitizer.checkIfInput(values)) {
+      let error = this.toastCtrl.create({
+        message: 'Include an input!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (!this.sanitizer.checkIfIntegersOnlyIncludeNumerical(integers)) {
+      let error = this.toastCtrl.create({
+        message: 'Integers must only include numerical!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (!this.sanitizer.checkIfIntegersArePositive(integers)) {
+      let error = this.toastCtrl.create({
+        message: 'You cannot provide negative numbers!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (this.rating < 0 || this.rating > 5) {
+      let error = this.toastCtrl.create({
+        message: 'Rating must be between 0 and 5!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (this.minPlayers > this.maxPlayers) {
+      let error = this.toastCtrl.create({
+        message: 'minPlayers has to be less than maxPlayers!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (this.minPlaytime > this.maxPlaytime) {
+      let error = this.toastCtrl.create({
+        message: 'minPlaytime has to be less than maxPlaytime!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else {
+      this.api.post('game-create/new', body).subscribe(
+        resp => {
+          console.log(resp);
+          let toast = this.toastCtrl.create({
+            message: 'Succesfully posted game to database!',
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+          this.navCtrl.pop();
+          this.events.publish('refresh');
+        },
+        err => {
+          console.log(err);
+          let toast = this.toastCtrl.create({
+            message: 'Failed to post game to database. Error: ' + err.error.detail,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }
+      )
+    }
   }
 
   // Edit a game
@@ -161,7 +210,54 @@ export class GameCreatePage {
       genres: this.genres_selected,
     }
     console.log(body);
+    console.log(this.rating);
 
+    var integers = [this.rating, this.minPlayers, this.maxPlayers, this.minPlaytime, this.maxPlaytime];
+    var values = [this.title, this.rating, this.minPlayers, this.maxPlayers, this.minPlaytime, this.maxPlaytime];
+
+    if (!this.sanitizer.checkIfInput(values)) {
+      let error = this.toastCtrl.create({
+        message: 'Include an input!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (!this.sanitizer.checkIfIntegersOnlyIncludeNumerical(integers)) {
+      let error = this.toastCtrl.create({
+        message: 'Integers must only include numerical!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (!this.sanitizer.checkIfIntegersArePositive(integers)) {
+      let error = this.toastCtrl.create({
+        message: 'You cannot provide negative numbers!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (this.rating < 0 || this.rating > 5) {
+      let error = this.toastCtrl.create({
+        message: 'Rating must be between 0 and 5!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (this.minPlayers > this.maxPlayers) {
+      let error = this.toastCtrl.create({
+        message: 'minPlayers has to be less than maxPlayers!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else if (this.minPlaytime > this.maxPlaytime) {
+      let error = this.toastCtrl.create({
+        message: 'minPlaytime has to be less than maxPlaytime!',
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+    } else {
     this.api.put('games/edit', body).subscribe(
       resp => {
         console.log(resp);
@@ -171,6 +267,8 @@ export class GameCreatePage {
           position: 'top'
         });
         toast.present();
+        this.navCtrl.pop();
+        this.events.publish('refresh');
       },
       err => {
         console.log(err);
@@ -182,7 +280,7 @@ export class GameCreatePage {
         toast.present();
       }
     )
-    this.navCtrl.pop();
+  }
 
   }
 
