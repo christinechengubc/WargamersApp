@@ -1,8 +1,5 @@
 var search = require('express').Router();
 var db = require('../db');
-var dh = require('./dataHandler');
-
-
 
 search.post('/genre', (req, res) => {
   var genre = req.body.genre;

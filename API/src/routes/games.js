@@ -1,174 +1,231 @@
 var games = require('express').Router();
 var db = require('../db');
-
 var PQ = require('pg-promise').ParameterizedQuery;
-var dh = require('./dataHandler');
 
 games.get('/', (req, res) => {
-	var sql = 'SELECT title, rating, description, publishername as publisher ' +
-    'FROM games LEFT JOIN publishedby ' +
-    'ON games.title = publishedby.gametitle ' +
-    'ORDER BY title';
-  db.any(sql)
-    .then(function (data) {
-      //returns JSON with list of distinct titles and array of publishers in the publisher field
-      var editedData = dh.mergeX(data,'publisher','title');
+	var sql = 'SELECT * FROM games';
 
+  db.any(sql)
+    .then((data) => {
       res.status(200)
         .json({
-          status: 'success',
-          data: editedData,
-          message: 'Retrieved ALL games'
+          status: 'ok',
+					code: 200,
+					message: 'Retrieved all games',
+          result: {
+						games: data
+					},
         });
     })
-    .catch(function (err) {
-			console.error("Error when retrieving games " + err);
-			res.status(500)
+    .catch((err) => {
+			console.error('Error ' + err.code + ' in endpoint: GET /games\n' + err.message);
+			console.error(err.stack);
+			res.status(err.code)
 				.json({
-					status: 'failure',
-					detail: error.stack
+					status: 'error',
+					code: err.code,
+					message: err.message
 				});
 		});
 });
 
-games.get('/has-genre/:genre', (req, res) => {
-  var genre = req.params.genre;
-  var sql = 'SELECT gametitle FROM games, hasgenre WHERE gametitle = title AND genrename =' + genre;
-db.any(sql)
-  .then(function (data) {
+games.get('/:id', (req, res) => {
+  var sql = new PQ('SELECT * FROM games WHERE id = $1');
+	sql.values = [req.params.id];
 
-    res.status(200)
-      .json({
-        status: 'success',
-        data: data,
-        message: 'Retrieved games with genre ' + genre
-      });
-  })
-  .catch(function (err) {
-    console.error("Error when retrieving games " + err);
-		res.status(500)
-			.json({
-				status: 'failure',
-				detail: error.stack
-			});
-  });
+	db.one(sql)
+	  .then((data) => {
+	    res.status(200)
+	      .json({
+					status: 'ok',
+					code: 200,
+					message: 'Retrieved a game where id is: ' + req.params.id,
+          result: {
+						games: data
+					},
+	      });
+	  })
+	  .catch((err) => {
+			console.error('Error ' + err.code + ' in endpoint: GET /games/:id\n' + err.message);
+			console.error(err.stack);
+			res.status(err.code)
+				.json({
+					status: 'error',
+					code: err.code,
+					message: err.message
+				});
+	  });
 });
 
-games.get('/title/:partTitle', (req, res) => {
-  var partTitle = req.params.partTitle;
-  partTitle = partTitle.replace(/\'/g, "");
+games.get('/:category', (req, res) => {
+  var sql = new PQ('SELECT * FROM games WHERE category = $1');
+	sql.values = [req.params.category];
 
-var sql = 'SELECT title FROM games WHERE title LIKE \'%' + partTitle + '%\'';
-db.any(sql)
-  .then(function (data) {
-
-    res.status(200)
-      .json({
-        status: 'success',
-        data: data,
-        message: 'Retrieved games with partial title ' + partTitle
-      });
-  })
-  .catch(function (err) {
-    console.log(sql);
-    console.error("Error when retrieving games " + err);
-		res.status(500)
-			.json({
-				status: 'failure',
-				detail: error.stack
-			});
-  });
+	db.any(sql)
+	  .then((data) => {
+	    res.status(200)
+	      .json({
+					status: 'ok',
+					code: 200,
+					message: 'Retrieved a list of games where category is: ' + req.params.category,
+          result: {
+						games: data
+					},
+	      });
+	  })
+	  .catch((err) => {
+			console.error('Error ' + err.code + ' in endpoint: GET /games/:category\n' + err.message);
+			console.error(err.stack);
+			res.status(err.code)
+				.json({
+					status: 'error',
+					code: err.code,
+					message: err.message
+				});
+	  });
 });
 
-games.put('/edit', (req, res) => {
-  var title = req.body.title;
-  var rating = req.body.rating;
-  var minPlayers = req.body.minPlayers;
-  var maxPlayers = req.body.maxPlayers;
-  var minPlaytime = req.body.minPlaytime;
-  var maxPlaytime = req.body.maxPlaytime;
-  var yearPublished = req.body.yearPublished;
-  var description = req.body.description;
-  var difficulty = req.body.difficulty;
-  var sql = new PQ('UPDATE games ' +
-    'SET title = $1, rating = $2, minPlayer = $3, maxPlayer = $4, minPlaytime = $5, maxPlaytime = $6, yearPublished = $7, description = $8, difficulty = $9 ' +
-    'WHERE title = $1');
-	var sql2 = new PQ('DELETE FROM PublishedBy WHERE gametitle = $1');
-	var sql3 = new PQ('DELETE FROM HasGenre WHERE gametitle = $1');
-	sql2.values = [req.body.title];
-	sql3.values = [req.body.title];
-	var sql4 = new PQ('INSERT INTO PublishedBy VALUES($1, $2)');
-	var sql5 = new PQ('INSERT INTO HasGenre VALUES($1, $2)');
-	// note that the column is called minPlayer and maxPlayer but we're passing parameters minPlayer and maxPlayers, fix this later
-  sql.values = [title, rating, minPlayers, maxPlayers, minPlaytime, maxPlaytime, yearPublished, description,
-    difficulty];
+games.get('/:partial_title', (req, res) => {
+  var partial_title = req.params.partial_title.replace(/\'/g, "");
+	var sql = new PQ('SELECT title FROM games WHERE title LIKE \'%$1%\'');
+	sql.values = [partial_title];
 
-	db.task(t => {
-		return t.none(sql)
-			.then(() => {
-				var deletePromises = [];
-				deletePromises.push(t.none(sql2));
-				deletePromises.push(t.none(sql3));
-
-				return Promise.all(deletePromises).then(() => {
-					var promises = [];
-
-					if (req.body.publishers) {
-						req.body.publishers.forEach((publisher) => {
-							sql4.values = [publisher, req.body.title];
-							promises.push(t.none(sql4));
-						});
+	db.any(sql)
+	  .then((data) => {
+			res.status(200)
+				.json({
+					status: 'ok',
+					code: 200,
+					message: 'Retrieved a list of games where title has the following in any position: ' + partial_title,
+					result: {
+						games: data
 					}
+				});
+	  })
+	  .catch((err) => {
+			console.error('Error ' + err.code + ' in endpoint: GET /games/:partial_title\n' + err.message);
+			console.error(err.stack);
+			res.status(err.code)
+				.json({
+					status: 'error',
+					code: err.code,
+					message: err.message
+				});
+	  });
+});
 
-					if (req.body.genres) {
-						req.body.genres.forEach((genre) => {
-							sql5.values = [req.body.title, genre];
-							promises.push(t.none(sql5));
-						});
-					}
+games.post('/', (req, res) => {
+	if (req.body.max_players < req.body.min_players) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Max players is less than min players."});
+	}
+	if (req.body.max_playtime < req.body.min_playtime) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Max playtime is less than min playtime."});
+	}
+	if (req.body.year_published > req.body.current_year) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Year published is greater than current year."});
+	}
+	if (req.body.rating < 0 || req.body.rating > 10) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Rating is not between 0 and 10."});
+	}
+	if (req.body.users_rated < 0) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Users rated is below 0."});
+	}
+	if (req.body.available_copies < 0 || req.body.available_copies > req.body.total_copies) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Available copies is below 0 or above total copies."});
+	}
+	if (req.body.bgg_id === null) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: bgg_id does not exist."});
+	}
+	if (req.body.show_main_page != 0 || req.body.show_main_page != 1) {
+		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: show_main_page is not 0 or 1."});
+	}
 
+	var sql = new PQ('INSERT INTO games ' +
+	  'VALUES title = $1, publisher = $2, category = $3, min_players = $4, max_players = $5, min_playtime = $6, max_playtime = $7, year_published = $8, description = $9, ' +
+		'image = $10, rating = $11, users_rated = $12, complexity = $13, available_copies = $14, total_copies = $15, condition = $16, expansion_of = $17, bgg_id = $18, ' +
+		'show_main_page = $19 ');
+  sql.values = [req.body.title, req.body.publisher, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
+		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
+								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page];
 
-					return Promise.all(promises);
-				})
-		})
-	})
+   db.any(sql)
+    .then((data) => {
+      res.status(200)
+        .json({
+          status: 'ok',
+					code: 200,
+					message: 'Created a new game',
+          result: {},
+        });
+    })
+    .catch((err) => {
+			console.error('Error ' + err.code + ' in endpoint: POST /games\n' + err.message);
+			console.error(err.stack);
+			res.status(err.code)
+				.json({
+					status: 'error',
+					code: err.code,
+					message: err.message
+				});
+		});
+});
+
+games.put('/:id', (req, res) => {
+	var sql = new PQ('UPDATE games ' +
+	  'SET title = $2, publisher = $3, category = $4, min_players = $5, max_players = $6, min_playtime = $7, max_playtime = $8, year_published = $9, description = $10, ' +
+		'image = $11, rating = $12, users_rated = $13, complexity = $14, available_copies = $15, total_copies = $16, condition = $17, expansion_of = $18, bgg_id = $19, ' +
+		'show_main_page = $20 ' +
+	  'WHERE id = $1');
+  sql.values = [req.params.id, req.body.title, req.body.publisher, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
+		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
+								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page];
+
+	db.none(sql)
 		.then(() => {
 			res.status(200)
 				.json({
-					status: 'success',
-					message: 'Updated game successfully '
+					status: 'ok',
+					code: 200,
+					message: 'Updated game with id: ' + req.params.id,
+					result: {}
 				});
 		})
-		.catch((error) => {
-			console.error(error);
-			res.status(500)
+		.catch((err) => {
+			console.error('Error ' + err.code + ' in endpoint: PUT /games\n' + err.message);
+			console.error(err.stack);
+			res.status(err.code)
 				.json({
-					status: 'failure',
-					detail: error.stack
+					status: 'error',
+					code: err.code,
+					message: err.message
 				});
-		})
+		});
 });
 
-games.delete('/del/:title', (req, res) => {
-  var title = req.params.title;
-  console.log(title);
-  var sql = new PQ('DELETE FROM games WHERE title = $1');
-	// cascade will delete everything else
-  sql.values = [title];
-  db.none(sql).then(
-    res.status(200)
-      .json({
-        status: 'success',
-        message: 'Deleted game successfully'
-      })
-  ).catch(function(error){
-    console.error("Error deleting: " + error);
-		res.status(500)
-			.json({
-				status: 'failure',
-				detail: error.stack
-			});
-  })
+games.delete('/:id', (req, res) => {
+  var sql = new PQ('DELETE FROM games WHERE id = $1');
+  sql.values = [req.params.id];
+
+  db.none(sql)
+		.then(() => {
+	    res.status(200)
+				.json({
+					status: 'ok',
+					code: 200,
+					message: 'Deleted game with id: ' + req.params.id,
+					result: {}
+				});
+		})
+		.catch((err) => {
+			console.error('Error ' + err.code + ' in endpoint: DEL /games\n' + err.message);
+			console.error(err.stack);
+			res.status(err.code)
+				.json({
+					status: 'error',
+					code: err.code,
+					message: err.message
+				});
+	  });
 });
 
 module.exports = games;
