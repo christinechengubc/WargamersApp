@@ -1,10 +1,15 @@
-const initOptions = {
-
-};
+var connection_info;
+try {
+  connection_info = require('./connection_info');
+} catch (err) {
+  connection_info = process.env.DATABASE_URL;
+}
+const initOptions = {};
 
 const pgp = require('pg-promise')(initOptions);
 
-const cn = 'postgres://christine:@localhost:5432/christine';;
+const cn = connection_info;
+
 const db = pgp(cn);
 
 module.exports = db;

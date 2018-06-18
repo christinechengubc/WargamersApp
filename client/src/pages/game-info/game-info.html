@@ -29,7 +29,7 @@
     <ion-item>Available for Borrowing: {{ game.availablecopies }}</ion-item>
   </ion-list>
 
-  <ion-fab right bottom> <!-- ngIf="user._user.isAnExec" -->
+  <ion-fab right bottom *ngIf="user._user.isAnExec">
     <button (click)="editGame()" ion-fab><ion-icon name="create"></ion-icon></button>
     <button (click)="deleteGame()" ion-fab><ion-icon name="close"></ion-icon></button>
   </ion-fab>
