@@ -51,15 +51,13 @@ That's precisely what `package_lock.json` is for. Like `package.json`, it is a f
 
 **How do I avoid causing a merge conflict with package_lock.json?**
 
-Ideally, all members working on the project should have the same `package_lock.json`, unless there is some module that needs to be installed in order for something to work, thus modifying the `package_lock.json` on purpose.
+Ideally, all members working on the project should have the same `package_lock.json`, unless there is some module that needs to be installed in order for something to work, in which case, it must be modified.
 
-The easiest way to do this is to run `git checkout --theirs API/package_lock.json` (or client, depending on which one you're running into a merge conflict with). Then you should run `npm ci` to install the exact versions of the node modules that `package_lock.json` specifies.
+The best way to ensure that everyone is working with the same `package_lock.json` is to frequently run `git pull`, and if you run into a merge conflict with `package_lock.json`, run `git checkout --theirs API/package_lock.json` (or `client/package_lock.json`, depending on which one.) After obtaining the new remote `package_lock.json`, run `npm ci` to make sure that the node modules you are using are the ones described by `package_lock.json`, and not your own local versions.
 
-Note that you should do this before you make ANY changes - otherwise your changes might break. If you feel that your changes will break upon doing this and you'd much rather just update the `package_lock.json` and let other people use yours, you can do this:
+If you do find that you need to install a new version of a module, you can do this to include new versions of modules that you've installed in your own package_lock.json:
 
 "As of `npm@5.7.0`, conflicts can be fixed by manually fixing any `package.json` conflicts, and then running `npm install [--package-lock-only]` again. npm automatically resolves conflicts and writes a merged package_lock.json for which you can then commit."
-
-If you're unsure, feel free to consult me.
 
 **Is there any real benefit to doing this?**
 
