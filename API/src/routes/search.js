@@ -15,9 +15,8 @@ search.post('/genre', (req, res) => {
 
   db.any(sql)
     .then(function (data) {
-      var editedData = data;
-      if (publisher !== ''){
-        editedData = dh.mergeX(data,'publisher','title');
+      if (publisher !== null){
+        var editedData = dh.mergeX(data,'publisher','title');
       }
       res.status(200)
         .json({
@@ -51,9 +50,8 @@ search.post('/publisher', (req, res) => {
 
   db.any(sql)
     .then(function (data) {
-      var editedData = data;
-      if (publisher !== ''){
-        editedData = dh.mergeX(data,'publisher','title');
+      if (publisher !== null){
+        var editedData = dh.mergeX(data,'publisher','title');
       }
       res.status(200)
         .json({
@@ -96,9 +94,8 @@ console.log(sql);
 
   db.any(sql)
     .then(function (data) {
-      var editedData = data;
-      if (publisher !== ''){
-        editedData = dh.mergeX(data,'publisher','title');
+      if (publisher !== null){
+        var editedData = dh.mergeX(data,'publisher','title');
       }
       res.status(200)
         .json({
