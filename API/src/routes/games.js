@@ -5,7 +5,7 @@ var PQ = require('pg-promise').ParameterizedQuery;
 games.get('/', (req, res) => {
 	var sql = 'SELECT * FROM games';
 
-  db.any(sql)
+  db.many(sql)
     .then((data) => {
       res.status(200)
         .json({
@@ -18,12 +18,12 @@ games.get('/', (req, res) => {
         });
     })
     .catch((err) => {
-			console.error('Error ' + err.code + ' in endpoint: GET /games\n' + err.message);
-			console.error(err.stack);
-			res.status(err.code)
+			console.error('\n[ERROR]: GET /games\n');
+			console.error(err);
+			res.status(500)
 				.json({
 					status: 'error',
-					code: err.code,
+					code: 500,
 					message: err.message
 				});
 		});
@@ -39,116 +39,120 @@ games.get('/:id', (req, res) => {
 	      .json({
 					status: 'ok',
 					code: 200,
-					message: 'Retrieved a game where id is: ' + req.params.id,
+					message: 'Retrieved a game with id: ' + req.params.id,
           result: {
-						games: data
+						game: data
 					},
 	      });
 	  })
 	  .catch((err) => {
-			console.error('Error ' + err.code + ' in endpoint: GET /games/:id\n' + err.message);
-			console.error(err.stack);
-			res.status(err.code)
+			console.error('\n[ERROR]: GET /games/:id\n');
+			console.error(err);
+			res.status(500)
 				.json({
 					status: 'error',
-					code: err.code,
+					code: 500,
 					message: err.message
 				});
 	  });
 });
 
-games.get('/:category', (req, res) => {
+games.get('/?category=:category', (req, res) => {
   var sql = new PQ('SELECT * FROM games WHERE category = $1');
 	sql.values = [req.params.category];
 
-	db.any(sql)
+	db.many(sql)
 	  .then((data) => {
 	    res.status(200)
 	      .json({
 					status: 'ok',
 					code: 200,
-					message: 'Retrieved a list of games where category is: ' + req.params.category,
+					message: 'Retrieved games with category: ' + req.params.category,
           result: {
 						games: data
 					},
 	      });
 	  })
 	  .catch((err) => {
-			console.error('Error ' + err.code + ' in endpoint: GET /games/:category\n' + err.message);
-			console.error(err.stack);
-			res.status(err.code)
+			console.error('\n[ERROR]: GET /games/:category\n');
+			console.error(err);
+			res.status(500)
 				.json({
 					status: 'error',
-					code: err.code,
+					code: 500,
 					message: err.message
 				});
 	  });
 });
 
-games.get('/:partial_title', (req, res) => {
+games.get('/?partial_title=:partial_title', (req, res) => {
   var partial_title = req.params.partial_title.replace(/\'/g, "");
 	var sql = new PQ('SELECT title FROM games WHERE title LIKE \'%$1%\'');
 	sql.values = [partial_title];
 
-	db.any(sql)
+	db.many(sql)
 	  .then((data) => {
 			res.status(200)
 				.json({
 					status: 'ok',
 					code: 200,
-					message: 'Retrieved a list of games where title has the following in any position: ' + partial_title,
+					message: 'Retrieved games with partial_title: ' + partial_title,
 					result: {
 						games: data
 					}
 				});
 	  })
 	  .catch((err) => {
-			console.error('Error ' + err.code + ' in endpoint: GET /games/:partial_title\n' + err.message);
-			console.error(err.stack);
-			res.status(err.code)
+			console.error('\n[ERROR]: GET /games/:partial_title\n');
+			console.error(err);
+			res.status(500)
 				.json({
 					status: 'error',
-					code: err.code,
+					code: 500,
 					message: err.message
 				});
 	  });
 });
 
 games.post('/', (req, res) => {
-	if (req.body.max_players < req.body.min_players) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Max players is less than min players."});
+	if (Number(req.body.max_players) < Number(req.body.min_players)) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: max_players < min_players."});
 	}
-	if (req.body.max_playtime < req.body.min_playtime) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Max playtime is less than min playtime."});
+	if (Number(req.body.max_playtime) < Number(req.body.min_playtime)) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: max_playtime < min_playtime."});
 	}
-	if (req.body.year_published > req.body.current_year) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Year published is greater than current year."});
+	if (Number(req.body.year_published) > Number(req.body.current_year)) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: year_published > current_year."});
 	}
-	if (req.body.rating < 0 || req.body.rating > 10) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Rating is not between 0 and 10."});
+	if (req.body.rating < 0) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: rating < 0."});
+	}
+	if (req.body.rating > 10) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: rating > 0."});
 	}
 	if (req.body.users_rated < 0) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Users rated is below 0."});
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: users_rated < 0."});
 	}
-	if (req.body.available_copies < 0 || req.body.available_copies > req.body.total_copies) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: Available copies is below 0 or above total copies."});
+	if (req.body.available_copies < 0) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: available_copies < 0."});
 	}
-	if (req.body.bgg_id === null) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: bgg_id does not exist."});
+	if (Number(req.body.available_copies) > Number(req.body.total_copies)) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: available_copies >  total_copies."});
 	}
-	if (req.body.show_main_page != 0 || req.body.show_main_page != 1) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: show_main_page is not 0 or 1."});
+	if (req.body.bgg_id === undefined) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: bgg_id is undefined."});
 	}
-
-	var sql = new PQ('INSERT INTO games ' +
-	  'VALUES title = $1, publisher = $2, category = $3, min_players = $4, max_players = $5, min_playtime = $6, max_playtime = $7, year_published = $8, description = $9, ' +
-		'image = $10, rating = $11, users_rated = $12, complexity = $13, available_copies = $14, total_copies = $15, condition = $16, expansion_of = $17, bgg_id = $18, ' +
-		'show_main_page = $19 ');
+	if (req.body.show_main_page != "true" && req.body.show_main_page != "false") {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: show_main_page is not true or false."});
+	}
+	var sql = new PQ('INSERT INTO games (title, publisher, category, min_players, max_players, min_playtime, max_playtime, year_published, description, ' +
+		'image, rating, users_rated, complexity, available_copies, total_copies, condition, expansion_of, bgg_id, show_main_page) ' +
+	  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)');
   sql.values = [req.body.title, req.body.publisher, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
 		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
 								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page];
 
-   db.any(sql)
+   db.none(sql)
     .then((data) => {
       res.status(200)
         .json({
@@ -159,12 +163,12 @@ games.post('/', (req, res) => {
         });
     })
     .catch((err) => {
-			console.error('Error ' + err.code + ' in endpoint: POST /games\n' + err.message);
-			console.error(err.stack);
-			res.status(err.code)
+			console.error('\n[ERROR]: POST /games\n');
+			console.error(err);
+			res.status(500)
 				.json({
 					status: 'error',
-					code: err.code,
+					code: 500,
 					message: err.message
 				});
 		});
@@ -191,12 +195,12 @@ games.put('/:id', (req, res) => {
 				});
 		})
 		.catch((err) => {
-			console.error('Error ' + err.code + ' in endpoint: PUT /games\n' + err.message);
-			console.error(err.stack);
-			res.status(err.code)
+			console.error('\n[ERROR]: PUT /games\n');
+			console.error(err);
+			res.status(500)
 				.json({
 					status: 'error',
-					code: err.code,
+					code: 500,
 					message: err.message
 				});
 		});
@@ -217,12 +221,12 @@ games.delete('/:id', (req, res) => {
 				});
 		})
 		.catch((err) => {
-			console.error('Error ' + err.code + ' in endpoint: DEL /games\n' + err.message);
-			console.error(err.stack);
-			res.status(err.code)
+			console.error('\n[ERROR]: DEL /games/:id\n');
+			console.error(err);
+			res.status(500)
 				.json({
 					status: 'error',
-					code: err.code,
+					code: 500,
 					message: err.message
 				});
 	  });

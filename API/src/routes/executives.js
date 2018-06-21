@@ -1,24 +1,24 @@
-var admins = require('express').Router();
+var executives = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 
-admins.get('/', (req, res) => {
-	var sql = 'SELECT * FROM app_admins';
+executives.get('/', (req, res) => {
+	var sql = 'SELECT * FROM executives';
 
-  db.any(sql)
+  db.many(sql)
     .then((data) => {
       res.status(200)
         .json({
           status: 'ok',
 					code: 200,
-					message: 'Retrieved all admins',
+					message: 'Retrieved all executives',
           result: {
-						admins: data
+						executives: data
 					},
         });
     })
     .catch((err) => {
-			console.error('\n[ERROR]: GET /admins\n');
+			console.error('\n[ERROR]: GET /executives\n');
 			console.error(err);
 			res.status(500)
 				.json({
@@ -29,22 +29,22 @@ admins.get('/', (req, res) => {
 		});
 });
 
-admins.post('/', (req, res) => {
-  var sql = new PQ('INSERT INTO app_admins (username, password) VALUES ($1, $2)');
-  sql.values = [req.body.username, req.body.password];
+executives.post('/', (req, res) => {
+  var sql = new PQ('INSERT INTO executives (name, position, phone, email) VALUES ($1, $2, $3, $4)');
+  sql.values = [req.body.name, req.body.position, req.body.phone, req.body.email];
 
-   db.any(sql)
+   db.none(sql)
     .then((data) => {
       res.status(200)
         .json({
           status: 'ok',
 					code: 200,
-					message: 'Created a new admin',
+					message: 'Created a new exec',
           result: {},
         });
     })
     .catch((err) => {
-			console.error('\n[ERROR]: POST /admins\n');
+			console.error('\n[ERROR]: POST /executives\n');
 			console.error(err);
 			res.status(500)
 				.json({
@@ -55,9 +55,8 @@ admins.post('/', (req, res) => {
 		});
 });
 
-
-admins.delete('/:id', (req, res) => {
-  var sql = new PQ('DELETE FROM app_admins WHERE id = $1');
+executives.delete('/:id', (req, res) => {
+  var sql = new PQ('DELETE FROM executives WHERE id = $1');
   sql.values = [req.params.id];
 
   db.none(sql)
@@ -66,12 +65,12 @@ admins.delete('/:id', (req, res) => {
 				.json({
 					status: 'ok',
 					code: 200,
-					message: 'Deleted admin with id: ' + req.params.id,
+					message: 'Deleted exec with id: ' + req.params.id,
 					result: {}
 				});
 		})
 		.catch((err) => {
-			console.error('\n[ERROR]: GET /admins/:id\n');
+			console.error('\n[ERROR]: DEL /executives\n');
 			console.error(err);
 			res.status(500)
 				.json({
@@ -83,4 +82,4 @@ admins.delete('/:id', (req, res) => {
 });
 
 
-module.exports = admins;
+module.exports = executives;
