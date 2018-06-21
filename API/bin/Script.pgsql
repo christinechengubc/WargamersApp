@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Members, Executives, Events, Attends, Hosts, Publishers, Games, PublishedBy, Genres, HasGenre, GameInstances, BorrowRecords, Contains, App_Admin;
+DROP TABLE IF EXISTS Executives, Events, Games, App_Admins;
 
 CREATE TABLE Executives(
 	id SERIAL PRIMARY KEY,
@@ -31,12 +31,12 @@ INSERT INTO Events (title, date, description, start_time, end_time, location, al
 
 CREATE TABLE Games(
 	id SERIAL PRIMARY KEY,
-	title VARCHAR(50) NOT NULL,
+	title VARCHAR(50) UNIQUE NOT NULL,
 	publisher VARCHAR(100),
 	category VARCHAR(50),
 	rating DECIMAL(5,2),
-	min_player INTEGER,
-	max_player INTEGER,
+	min_players INTEGER,
+	max_players INTEGER,
 	min_playtime INTEGER,
 	max_playtime INTEGER,
 	year_published INTEGER,
@@ -53,13 +53,13 @@ CREATE TABLE Games(
 );
 
 
-INSERT INTO Games (title, publisher, category, rating, min_player, max_player, min_playtime, max_playtime, year_published, description, complexity, image, users_rated, available_copies, total_copies, condition, expansion_of, bgg_id, show_main_page) VALUES ('Monopoly', 'Hasbros','Friendship Breaking',2.0,1,4, 60, 999, 1999, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 1, 'http://imageformonopolyomg', 10000, 5,5, 'Shitty', NULL, 12345, true);
+INSERT INTO Games (title, publisher, category, rating, min_players, max_players, min_playtime, max_playtime, year_published, description, complexity, image, users_rated, available_copies, total_copies, condition, expansion_of, bgg_id, show_main_page) VALUES ('Monopoly', 'Hasbros','Friendship Breaking',2.0,1,4, 60, 999, 1999, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 1, 'http://imageformonopolyomg', 10000, 5,5, 'Shitty', NULL, 12345, true);
 
 
-CREATE TABLE App_Admin(
+CREATE TABLE App_Admins(
 	id SERIAL PRIMARY KEY,
-	username VARCHAR(20) NOT NULL,
+	username VARCHAR(20) UNIQUE NOT NULL,
 	password VARCHAR(100) NOT NULL
 );
 
-INSERT INTO App_Admin (username, password) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
+INSERT INTO App_Admins (username, password) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
