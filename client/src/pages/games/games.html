@@ -18,7 +18,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-card *ngFor="let game of games" (click)="gameInfo(game.title)" class="card">
+    <ion-card *ngFor="let game of games" (click)="gameInfo(game)" class="card">
       <ion-card-header class="card-header">
         {{ game.title }}
       </ion-card-header>
@@ -34,7 +34,7 @@
   </ion-list>
 
   <ion-fab right bottom>
-    <button *ngIf="user._user.isAnExec" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
-    <button ion-fab (click)="searchGame()"><ion-icon name="search"></ion-icon></button>
+    <button *ngIf="user._user != null" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="searchGame()"><ion-icon name="search"></ion-icon>Search</button>
   </ion-fab>
 </ion-content>

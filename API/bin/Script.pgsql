@@ -13,8 +13,8 @@ INSERT INTO Executives (name, position, phone, email) VALUES ('Fareez Sanif', 'T
 CREATE TABLE Events (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR(30) UNIQUE NOT NULL,
-	date DATE NOT NULL,
-	description VARCHAR(100),
+	date DATE,
+	description VARCHAR(100) NOT NULL,
 	start_time TIME(0),
 	end_time TIME(0),
 	location VARCHAR(100),
