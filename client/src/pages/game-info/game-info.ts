@@ -64,18 +64,6 @@ export class GameInfoPage {
   }
 
   ionViewWillEnter() {
-    var title = this.navParams.data.gameTitle;
-    this.http.get(API_URL + "/game-info/" + title).map(res => res.json()).subscribe(
-      data => {
-        this.game = data.data[0];
-        console.log("game variable is: ");
-        console.log(this.game);
-        console.log(data);
-      },
-      err => {
-        console.log("Oops!");
-        console.log(err);
-      }
-    );
+    this.game = this.navParams.data.game;
   }
 }

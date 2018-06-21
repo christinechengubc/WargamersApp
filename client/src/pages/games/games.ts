@@ -24,9 +24,9 @@ export class GamesPage {
     if (typeof navParams.data.games === 'undefined') {
       this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
         data => {
-          this.games = data.data;
+          this.games = data.result.games;
           console.log("now logging");
-          console.log(data.data);
+          console.log(data.result.games);
         },
         err => {
           console.log("Oops!");
@@ -50,10 +50,10 @@ export class GamesPage {
     });
   }
 
-  gameInfo(gameTitle) {
-    console.log("In games.ts the title is " + gameTitle);
+  gameInfo(game) {
+    console.log("In games.ts the title is " + game);
     this.navCtrl.push('GameInfoPage', {
-      gameTitle: gameTitle
+      game: game
     });
   }
 
