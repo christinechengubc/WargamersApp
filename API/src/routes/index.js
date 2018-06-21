@@ -1,14 +1,14 @@
 var routes = require('express').Router();
 var games = require('./games');
 var events = require('./events');
-var execs = require('./execs');
+var executives = require('./executives');
 var admins = require('./admins');
 
 var search = require('./search');
 
 routes.use('/games', games);
 routes.use('/events', events);
-routes.use('/execs', execs);
+routes.use('/executives', executives);
 routes.use('/admins', admins)
 routes.use('/search', search);
 
