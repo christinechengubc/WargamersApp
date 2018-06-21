@@ -2,32 +2,6 @@ var admins = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 
-admins.get('/', (req, res) => {
-	var sql = 'SELECT * FROM app_admins';
-
-  db.any(sql)
-    .then((data) => {
-      res.status(200)
-        .json({
-          status: 'ok',
-					code: 200,
-					message: 'Retrieved all admins',
-          result: {
-						admins: data
-					},
-        });
-    })
-    .catch((err) => {
-			console.error('\n[ERROR]: GET /admins\n');
-			console.error(err);
-			res.status(500)
-				.json({
-					status: 'error',
-					code: 500,
-					message: err.message
-				});
-		});
-});
 
 admins.post('/', (req, res) => {
   var sql = new PQ('INSERT INTO app_admins (username, password) VALUES ($1, $2)');
