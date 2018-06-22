@@ -62,8 +62,5 @@ CREATE TABLE App_Admins(
 	password VARCHAR(100) NOT NULL
 );
 
-<<<<<<< HEAD
-INSERT INTO App_Admin (username, password) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
-=======
 INSERT INTO App_Admins (username, password) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
->>>>>>> Updated script
+
