@@ -3,7 +3,7 @@ var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 
 events.get('/', (req, res) => {
-  var sql = 'SELECT * FROM events';
+  var sql = 'SELECT * FROM events ORDER BY date';
 
   db.many(sql)
     .then((data) => {

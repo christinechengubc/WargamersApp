@@ -18,11 +18,12 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-card *ngFor="let event of events" (click)="eventInfo(event.id)" class="card">
+    <ion-card *ngFor="let event of events" (click)="eventInfo(event)" class="card">
+      <img [src]="event.image" />
       <ion-card-header class="card-header">
         {{ event.title }}
       </ion-card-header>
-
+      
       <ion-card-content>
         <ng-container *ngIf="event.date != null; else date_tba">Date: {{ event.date.substring(0,10) }}</ng-container>
         <br>
@@ -37,7 +38,8 @@
     </ion-card>
   </ion-list>
 
-  <ion-fab *ngIf="user._user != null" right bottom>
+  <!-- <ion-fab *ngIf="user._user != null" right bottom> -->
+  <ion-fab right bottom>
     <button ion-fab color="danger" (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>
