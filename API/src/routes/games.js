@@ -3,7 +3,7 @@ var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 
 games.get('/', (req, res) => {
-	var sql = 'SELECT * FROM games';
+	var sql = 'SELECT * FROM games LIMIT 10';
 
   db.many(sql)
     .then((data) => {

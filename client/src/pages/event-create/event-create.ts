@@ -24,9 +24,9 @@ export class EventCreatePage {
   minutes: any = [0,15,30,45];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
-    this.http.get(API_URL + "/event-create/execs").map(res => res.json()).subscribe(
+    this.http.get(API_URL + "/executives").map(res => res.json()).subscribe(
       data => {
-        this.execs = data.data;
+        this.execs = data.result.executives;
         console.log(this.execs);
       },
       err => {
