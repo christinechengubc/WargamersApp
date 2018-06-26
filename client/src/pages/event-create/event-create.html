@@ -57,17 +57,25 @@
       </ion-select>    </ion-item>
     <ion-item>
       <ion-label fixed>Location</ion-label>
-      <ion-input type="number" value = ""></ion-input>
+      <ion-input type="text" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Description</ion-label>
-      <ion-input type="number" value = ""></ion-input>
+      <ion-input type="text" value = ""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Hosts</ion-label>
-      <ion-select [(ngModel)]="hosts" multiple="true">
+      <ion-label fixed>Lead Executive / Host</ion-label>
+      <ion-select [(ngModel)]="hosts">
         <ion-option *ngFor="let exec of execs">{{ exec.name }}</ion-option>
       </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Link to Facebook Page</ion-label>
+      <ion-input type="text" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Always show this event on the event tab</ion-label>
+      <ion-checkbox [(ngModel)]="always_show"></ion-checkbox>
     </ion-item>
   </ion-list>
   <button ion-button>Save</button>
