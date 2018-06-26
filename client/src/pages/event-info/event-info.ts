@@ -21,17 +21,7 @@ export class EventInfoPage {
   event: any = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User) {
-    var name = navParams.data.eventName.trim();
-    var date = navParams.data.eventDate.trim().replace(/[/]/g, "-")
-    this.http.get(API_URL + "/event-info/'" + name + "'/'" + date + "'").map(res => res.json()).subscribe(
-      data => {
-        this.event = data.data[0];
-      },
-      err => {
-        console.log("Oops!");
-        console.log(err);
-      }
-    );
+    this.event = navParams.data.event;
   }
 
   editEvent() {

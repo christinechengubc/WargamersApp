@@ -35,10 +35,9 @@ export class EventsPage {
     );
   }
 
-  eventInfo(name, date) {
+  eventInfo(event) {
     this.navCtrl.push('EventInfoPage', {
-      eventName: name,
-      eventDate: date
+      event: event
     });
   }
 
