@@ -19,12 +19,13 @@
 <ion-content padding>
   <ion-list>
     <ion-card *ngFor="let game of games" (click)="gameInfo(game)" class="card">
+      <img [src]="game.image" />
       <ion-card-header class="card-header">
         {{ game.title }}
       </ion-card-header>
 
       <ion-card-content>
-        <p *ngIf="game.publisher">Publishers: {{ game.publisher }}</p>
+        <p *ngIf="game.publisher">Publisher: {{ game.publisher }}</p>
         <p *ngIf="game.rating">Rating: {{ game.rating }}</p>
         <p *ngIf="game.description">Description: {{ game.description }}</p>
       </ion-card-content>
