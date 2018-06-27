@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, Events } from 'io
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { User } from '../../providers/providers';
-import { GameCreatePage } from '../game-create/game-create';
+import { GameEditPage } from '../game-edit/game-edit';
 import { Api } from '../../providers/providers';
 
 /**
@@ -26,10 +26,8 @@ export class GameInfoPage {
   }
 
   editGame() {
-    this.navCtrl.push('GameCreatePage', {
-      currentActionDescription: "Edit a game",
+    this.navCtrl.push('GameEditPage', {
       game: this.game,
-      currentAction: "editingGame"
     });
   }
 
