@@ -3,7 +3,7 @@ var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 
 games.get('/', (req, res) => {
-	var sql = 'SELECT * FROM games LIMIT 10';
+	var sql = 'SELECT * FROM games WHERE show_main_page = TRUE LIMIT 10';
 
   db.many(sql)
     .then((data) => {
@@ -136,6 +136,9 @@ games.post('/', (req, res) => {
 	if (req.body.available_copies < 0) {
 	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: available_copies < 0."});
 	}
+	if (req.body.total_copies < 0) {
+	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: total_copies < 0."});
+	}
 	if (Number(req.body.available_copies) > Number(req.body.total_copies)) {
 	 return res.status(404).json({status: 'error', code: 404, message: "Bad Request: available_copies >  total_copies."});
 	}
@@ -178,11 +181,12 @@ games.put('/:id', (req, res) => {
 	var sql = new PQ('UPDATE games ' +
 	  'SET title = $2, publisher = $3, category = $4, min_players = $5, max_players = $6, min_playtime = $7, max_playtime = $8, year_published = $9, description = $10, ' +
 		'image = $11, rating = $12, users_rated = $13, complexity = $14, available_copies = $15, total_copies = $16, condition = $17, expansion_of = $18, bgg_id = $19, ' +
-		'show_main_page = $20 ' +
+		'show_main_page = $20, thumbnail = $21 ' +
 	  'WHERE id = $1');
   sql.values = [req.params.id, req.body.title, req.body.publisher, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
 		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
-								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page];
+								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page,
+							  req.body.thumbnail];
 
 	db.none(sql)
 		.then(() => {

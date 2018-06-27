@@ -24,14 +24,15 @@
     <ion-item text-wrap>Rating: {{ game.rating }} ({{ game.users_rated }} Users Rated on BGG)</ion-item>
     <ion-item text-wrap>Players: {{ game.min_players }} - {{ game.max_players }}</ion-item>
     <ion-item text-wrap>Play Time: {{ game.min_playtime }} - {{ game.max_playtime }}</ion-item>
-    <ion-item text-wrap>Complexity: {{ game.complexity }}</ion-item>
+    <ion-item text-wrap>Complexity: {{ game.complexity }} / 5</ion-item>
     <ion-item text-wrap>Description: {{ game.description }}</ion-item>
     <ion-item text-wrap>Available for Borrowing: {{ game.available_copies }} / {{ game.total_copies }}</ion-item>
     <ion-item text-wrap>Condition: {{ game.condition }}</ion-item>
     <ion-item text-wrap *ngIf="game.expansion_of !== null">Expansion of {{ game.expansion_of }}</ion-item>
   </ion-list>
 
-  <ion-fab right bottom *ngIf="user._user != null">
+  <ion-fab right bottom>
+  <!-- <ion-fab right bottom *ngIf="user._user != null"> -->
     <button (click)="editGame()" ion-fab><ion-icon name="create"></ion-icon></button>
     <button (click)="deleteGame()" ion-fab><ion-icon name="close"></ion-icon></button>
   </ion-fab>
