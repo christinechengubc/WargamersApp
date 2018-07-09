@@ -23,15 +23,17 @@
       <ion-card-header class="card-header">
         {{ event.title }}
       </ion-card-header>
-      
+
       <ion-card-content>
-        <ng-container *ngIf="event.date != null; else date_tba">Date: {{ event.date.substring(0,10) }}</ng-container>
+        <ng-container *ngIf="!event.always_show">
+            <ng-container *ngIf="event.date != null; else date_tba"><b>Date:</b> {{ event.date.substring(0,10) }}</ng-container>
+            <br>
+        </ng-container>
+        <ng-container *ngIf="event.start_time != null && event.end_time != null; else time_tba"><b>Time:</b> {{ event.start_time.substring(0,5) }} - {{ event.end_time.substring(0,5) }}</ng-container>
         <br>
-        <ng-container *ngIf="event.start_time != null && event.end_time != null; else time_tba">Time: {{ event.start_time.substring(0,5) }} - {{ event.end_time.substring(0,5) }}</ng-container>
+        <ng-container *ngIf="event.location != null; else location_tba"><b>Location:</b> {{ event.location }}</ng-container>
         <br>
-        <ng-container *ngIf="event.location != null; else location_tba">Location: {{ event.location }}</ng-container>
-        <br>
-        Description: {{ event.description }}
+        <b>Description:</b> {{ event.description }}
       </ion-card-content>
       <ion-card-content class="card-content">
       </ion-card-content>
@@ -44,6 +46,6 @@
   </ion-fab>
 </ion-content>
 
-<ng-template #date_tba>Date: TBA</ng-template>
-<ng-template #time_tba>Time: TBA</ng-template>
-<ng-template #location_tba>Location: TBA</ng-template>
+<ng-template #date_tba><b>Date:</b> TBA</ng-template>
+<ng-template #time_tba><b>Time:</b> TBA</ng-template>
+<ng-template #location_tba><b>Location:</b> TBA</ng-template>

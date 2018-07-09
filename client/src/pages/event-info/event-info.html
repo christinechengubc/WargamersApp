@@ -20,13 +20,13 @@
     <img [src]="event.image" />
     <ion-item class="title">{{ event.title }}</ion-item>
     <ng-container *ngIf="!event.always_show">
-      <ion-item *ngIf="event.date != null; else date_tba">Date: {{ event.date.substring(0,10) }}</ion-item>
+      <ion-item text-wrap *ngIf="event.date != null; else date_tba"><b>Date:</b> {{ event.date.substring(0,10) }}</ion-item>
     </ng-container>
-    <ion-item text-wrap *ngIf="event.start_time != null && event.end_time != null; else time_tba">Time: {{ event.start_time?.substring(0,5) }} - {{ event.end_time?.substring(0,5) }}</ion-item>
-    <ion-item text-wrap *ngIf="event.location != null; else location_tba">Location: {{ event.location }}</ion-item>
-    <ion-item text-wrap>Description: {{ event.description }}</ion-item>
-    <ion-item text-wrap>Lead Executive / Host: {{ event.lead_exec }}</ion-item>
-    <ion-item text-wrap>Facebook Event Page: {{ event.fb_event_page }}</ion-item>
+    <ion-item text-wrap *ngIf="event.start_time != null && event.end_time != null; else time_tba"><b>Time:</b> {{ event.start_time?.substring(0,5) }} - {{ event.end_time?.substring(0,5) }}</ion-item>
+    <ion-item text-wrap *ngIf="event.location != null; else location_tba"><b>Location:</b> {{ event.location }}</ion-item>
+    <ion-item text-wrap><b>Description:</b> {{ event.description }}</ion-item>
+    <ion-item text-wrap><b>Lead Executive / Host:</b> {{ event.lead_exec }}</ion-item>
+    <ion-item text-wrap><b>Facebook Event Page:</b> {{ event.fb_event_page }}</ion-item>
   </ion-list>
 
   <ion-fab *ngIf="user._user != null" right bottom>
@@ -34,6 +34,6 @@
   </ion-fab>
 </ion-content>
 
-<ng-template #date_tba>Date: TBA</ng-template>
-<ng-template #time_tba>Time: TBA</ng-template>
-<ng-template #location_tba>Location: TBA</ng-template>
+<ng-template #date_tba><b>Date:</b> TBA</ng-template>
+<ng-template #time_tba><b>Time:</b> TBA</ng-template>
+<ng-template #location_tba><b>Location:</b> TBA</ng-template>
