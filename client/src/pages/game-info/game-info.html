@@ -19,16 +19,16 @@
   <ion-list *ngIf="game">
     <img [src]="game.image" />
     <ion-item text-wrap class="game-title"> {{ game.title }} ({{ game.year_published }})</ion-item>
-    <ion-item text-wrap>Published by: {{ game.publisher }}</ion-item>
-    <ion-item text-wrap>Categories: {{ game.category }}</ion-item>
-    <ion-item text-wrap>Rating: {{ game.rating }} ({{ game.users_rated }} Users Rated on BGG)</ion-item>
-    <ion-item text-wrap>Players: {{ game.min_players }} - {{ game.max_players }}</ion-item>
-    <ion-item text-wrap>Play Time: {{ game.min_playtime }} - {{ game.max_playtime }}</ion-item>
-    <ion-item text-wrap>Complexity: {{ game.complexity }} / 5</ion-item>
-    <ion-item text-wrap>Description: {{ game.description }}</ion-item>
-    <ion-item text-wrap>Available for Borrowing: {{ game.available_copies }} / {{ game.total_copies }}</ion-item>
-    <ion-item text-wrap>Condition: {{ game.condition }}</ion-item>
-    <ion-item text-wrap *ngIf="game.expansion_of !== null">Expansion of {{ game.expansion_of }}</ion-item>
+    <ion-item text-wrap><b>Published by:</b> {{ game.publisher }}</ion-item>
+    <ion-item text-wrap><b>Categories:</b> {{ game.category }}</ion-item>
+    <ion-item text-wrap><b>Rating:</b> {{ game.rating }} ({{ game.users_rated }} Users Rated on BGG)</ion-item>
+    <ion-item text-wrap><b>Players:</b> {{ game.min_players }} - {{ game.max_players }}</ion-item>
+    <ion-item text-wrap><b>Play Time:</b> {{ game.min_playtime }} - {{ game.max_playtime }}</ion-item>
+    <ion-item text-wrap><b>Complexity:</b> {{ game.complexity }} / 5</ion-item>
+    <ion-item text-wrap><b>Description:</b> {{ game.description }}</ion-item>
+    <ion-item text-wrap><b>Available for Borrowing:</b> {{ game.available_copies }} / {{ game.total_copies }}</ion-item>
+    <ion-item text-wrap><b>Condition:</b> {{ game.condition }}</ion-item>
+    <ion-item text-wrap *ngIf="game.expansion_of !== null"><b>Expansion of</b> {{ game.expansion_of }}</ion-item>
   </ion-list>
 
   <ion-fab right bottom>
