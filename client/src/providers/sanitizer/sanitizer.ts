@@ -27,6 +27,16 @@ export class SanitizerProvider {
     return areIntegersPositive;
   }
 
+  checkIfPositive(numbers: any) {
+    var isPositive: boolean = true;
+    numbers.forEach((number) => {
+      if (number < 0) {
+        isPositive = false;
+      }
+    });
+    return isPositive;
+  }
+
   checkIfIntegersOnlyIncludeNumerical(integers: any) {
     var onlyNumerical: boolean = true;
     integers.forEach((integer) => {
