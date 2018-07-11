@@ -17,7 +17,7 @@
 
 <ion-content padding>
   <ion-list>
-    <img [src]="event.image" />
+    <img *ngIf="event.image != null" [src]="event.image" />
     <ion-item class="title">{{ event.title }}</ion-item>
     <ng-container *ngIf="!event.always_show">
       <ion-item text-wrap *ngIf="event.date != null; else date_tba"><b>Date:</b> {{ event.date.substring(0,10) }}</ion-item>
@@ -29,11 +29,13 @@
     <ion-item text-wrap><b>Facebook Event Page:</b> {{ event.fb_event_page }}</ion-item>
   </ion-list>
 
-  <ion-fab *ngIf="user._user != null" right bottom>
-    <button ion-fab><ion-icon name="create" (click)="editEvent()"></ion-icon></button>
+  <!-- <ion-fab *ngIf="user._user != null" right bottom> -->
+  <ion-fab right bottom>
+    <button (click)="editEvent()" ion-fab><ion-icon name="create"></ion-icon></button>
+    <button (click)="deleteEvent()" ion-fab><ion-icon name="close"></ion-icon></button>
   </ion-fab>
 </ion-content>
 
-<ng-template #date_tba><b>Date:</b> TBA</ng-template>
-<ng-template #time_tba><b>Time:</b> TBA</ng-template>
-<ng-template #location_tba><b>Location:</b> TBA</ng-template>
+<ng-template #date_tba><ion-item text-wrap><b>Date:</b> TBA</ion-item></ng-template>
+<ng-template #time_tba><ion-item text-wrap><b>Time:</b> TBA</ion-item></ng-template>
+<ng-template #location_tba><ion-item text-wrap><b>Location:</b> TBA</ion-item></ng-template>

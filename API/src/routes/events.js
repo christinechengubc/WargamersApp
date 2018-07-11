@@ -59,13 +59,13 @@ events.get('/:id', (req, res) => {
 
 events.post('/', (req, res) => {
 	if (Number(req.body.start_time) >= Number(req.body.end_time)) {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: start_time >= end_time."});
+		return res.status(400).json({status: 'error', code: 400, message: "Bad Request: start_time >= end_time."});
 	}
   // if (req.body.date < current_date) {
-  //   return res.status(404).json({status: 'error', code: 404, message: "Bad Request: date is before current_date."});
+  //   return res.status(400).json({status: 'error', code: 400, message: "Bad Request: date is before current_date."});
   // }
-  if (req.body.always_show != "true" && req.body.always_show != "false") {
-		return res.status(404).json({status: 'error', code: 404, message: "Bad Request: always_show is not true or false."});
+  if (req.body.always_show != true && req.body.always_show != false) {
+		return res.status(400).json({status: 'error', code: 400, message: "Bad Request: always_show is not true or false."});
 	}
 
   var sql = new PQ('INSERT INTO events (title, start_time, end_time, date, location, description, always_show, lead_exec, fb_event_page) ' +

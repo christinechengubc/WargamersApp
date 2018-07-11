@@ -32,7 +32,7 @@ export class GameInfoPage {
   }
 
   deleteGame() {
-    this.api.delete('games/del/' + this.navParams.data.gameTitle).subscribe(
+    this.api.delete('games/' + this.game.id).subscribe(
       resp => {
         console.log(resp);
         let toast = this.toastCtrl.create({

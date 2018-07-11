@@ -107,10 +107,10 @@ export class GameEditPage {
     }
 
     var integers = [this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.year_published, this.available_copies, this.total_copies];
-    var values = [this.title, this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.available_copies, this.total_copies];
+    var numbers = [this.title, this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.available_copies, this.total_copies];
     var positives = [this.rating, this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.year_published, this.complexity, this.available_copies, this.total_copies];
 
-    if (!this.sanitizer.checkIfInput(values)) {
+    if (!this.sanitizer.checkIfInput(numbers)) {
       let error = this.toastCtrl.create({
         message: 'Include an input!',
         duration: 3000,
@@ -167,29 +167,29 @@ export class GameEditPage {
       });
       error.present();
     } else {
-    this.api.put('games/' + this.id, body).subscribe(
-      resp => {
-        console.log(resp);
-        let toast = this.toastCtrl.create({
-          message: 'Succesfully edited game!',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        this.navCtrl.pop();
-        this.events.publish('refresh');
-      },
-      err => {
-        console.log(err);
-        let toast = this.toastCtrl.create({
-          message: 'Failed to edit game. Error: ' + err.error.detail,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-      }
-    )
-  }
+      this.api.put('games/' + this.id, body).subscribe(
+        resp => {
+          console.log(resp);
+          let toast = this.toastCtrl.create({
+            message: 'Succesfully edited game!',
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+          this.navCtrl.pop();
+          this.events.publish('refresh');
+        },
+        err => {
+          console.log(err);
+          let toast = this.toastCtrl.create({
+            message: 'Failed to edit game. Error: ' + err.error.detail,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }
+      )
+    }
 
   }
 
@@ -213,7 +213,7 @@ export class GameEditPage {
   //   console.log(body);
   //
   //   var integers = [this.rating, this.min_players, this.max_players, this.min_playtime, this.max_playtime];
-  //   var values = [this.title, this.rating, this.min_players, this.max_players, this.min_playtime, this.max_playtime];
+    //   var values = [this.title, this.rating, this.min_players, this.max_players, this.min_playtime, this.max_playtime];
   //   if (!this.sanitizer.checkIfInput(values)) {
   //     let error = this.toastCtrl.create({
   //       message: 'Include an input!',
