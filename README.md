@@ -1,5 +1,5 @@
 # WargamersApp
-An online GUI for the Wargamers club to manage their games, events and more.
+An online GUI for the Wargamers club to manage and view their games, events and club information.
 
 Using the Script:
 1. Open cmd prompt
