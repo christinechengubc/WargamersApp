@@ -24,9 +24,9 @@ export class EventsPage {
     console.log(API_URL);
     this.http.get(API_URL + '/events').map(res => res.json()).subscribe(
       data => {
-        this.events = data.data;
+        this.events = data.result.events;
         console.log("now logging");
-        console.log(data.data);
+        console.log(data.result.events);
       },
       err => {
         console.log("Oops!");
@@ -35,15 +35,16 @@ export class EventsPage {
     );
   }
 
-  eventInfo(name, date) {
+  eventInfo(event) {
     this.navCtrl.push('EventInfoPage', {
-      eventName: name,
-      eventDate: date
+      event: event,
     });
   }
 
   addEvent() {
-    this.navCtrl.push('EventCreatePage');
+    this.navCtrl.push('EventCreatePage', {
+      action: "Create",
+    });
   }
 
   ionViewDidLoad() {

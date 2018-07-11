@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, Events } from 'io
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { User } from '../../providers/providers';
-import { GameCreatePage } from '../game-create/game-create';
+import { GameEditPage } from '../game-edit/game-edit';
 import { Api } from '../../providers/providers';
 
 /**
@@ -26,15 +26,13 @@ export class GameInfoPage {
   }
 
   editGame() {
-    this.navCtrl.push('GameCreatePage', {
-      currentActionDescription: "Edit a game",
+    this.navCtrl.push('GameEditPage', {
       game: this.game,
-      currentAction: "editingGame"
     });
   }
 
   deleteGame() {
-    this.api.delete('games/del/' + this.navParams.data.gameTitle).subscribe(
+    this.api.delete('games/' + this.game.id).subscribe(
       resp => {
         console.log(resp);
         let toast = this.toastCtrl.create({
@@ -64,18 +62,6 @@ export class GameInfoPage {
   }
 
   ionViewWillEnter() {
-    var title = this.navParams.data.gameTitle;
-    this.http.get(API_URL + "/game-info/" + title).map(res => res.json()).subscribe(
-      data => {
-        this.game = data.data[0];
-        console.log("game variable is: ");
-        console.log(this.game);
-        console.log(data);
-      },
-      err => {
-        console.log("Oops!");
-        console.log(err);
-      }
-    );
+    this.game = this.navParams.data.game;
   }
 }

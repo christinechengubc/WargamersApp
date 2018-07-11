@@ -18,15 +18,16 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-card *ngFor="let game of games" (click)="gameInfo(game.title)" class="card">
+    <ion-card *ngFor="let game of games" (click)="gameInfo(game)" class="card">
+      <img [src]="game.image" />
       <ion-card-header class="card-header">
         {{ game.title }}
       </ion-card-header>
 
       <ion-card-content>
-        <p *ngIf="game.publisher">Publishers: {{ game.publisher }}</p>
-        <p *ngIf="game.rating">Rating: {{ game.rating }}</p>
-        <p *ngIf="game.description">Description: {{ game.description }}</p>
+        <p *ngIf="game.publisher"><b>Publisher:</b> {{ game.publisher }}</p>
+        <p *ngIf="game.rating"><b>Rating:</b> {{ game.rating }}</p>
+        <p *ngIf="game.description"><b>Description:</b> {{ game.description }}</p>
       </ion-card-content>
       <ion-card-content class="card-content">
       </ion-card-content>
@@ -34,7 +35,7 @@
   </ion-list>
 
   <ion-fab right bottom>
-    <button *ngIf="user._user.isAnExec" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
+    <button *ngIf="user._user != null" ion-fab (click)="addGame()" color="danger"><ion-icon name="add"></ion-icon></button>
     <button ion-fab (click)="searchGame()"><ion-icon name="search"></ion-icon></button>
   </ion-fab>
 </ion-content>
