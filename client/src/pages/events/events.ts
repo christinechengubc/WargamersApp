@@ -37,12 +37,14 @@ export class EventsPage {
 
   eventInfo(event) {
     this.navCtrl.push('EventInfoPage', {
-      event: event
+      event: event,
     });
   }
 
   addEvent() {
-    this.navCtrl.push('EventCreatePage');
+    this.navCtrl.push('EventCreatePage', {
+      action: "Create",
+    });
   }
 
   ionViewDidLoad() {
