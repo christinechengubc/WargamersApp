@@ -19,7 +19,7 @@
 <ion-content padding>
   <ion-list>
     <ion-card *ngFor="let event of events" (click)="eventInfo(event)" class="card">
-      <img [src]="event.image" />
+      <img *ngIf="event.image != null" [src]="event.image" />
       <ion-card-header class="card-header">
         {{ event.title }}
       </ion-card-header>
