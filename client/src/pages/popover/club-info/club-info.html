@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Club Information
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-title>
+    UBC Wargamers Society
+  </ion-title>
+
+  <div>
+    <p>
+      Here at wargamers we play boardgames, table-top RPGs and Magic the Gathering.
+    </p>
+
+    <p>
+      Come join us for Board Games Night every Wednesdays, one-shot RPG days held once or twice every year, Magic the Gathering Drafts every couple months, Annual General Meeting (free pizza!) and more!
+    </p>
+  </div>
+
+  <ion-list>
+    <ion-item><b>Club Email: </b> wargamersubc@gmail.com</ion-item>
+    <ion-item><b>Club Website: </b> ubcwargamers.com</ion-item>
+    <ion-item><b>Club Facebook Pages: </b>
+      <ion-list>
+        <ion-item><b>General: </b>xxxxx</ion-item>
+        <ion-item><b>RPG: </b>xxxxx</ion-item>
+        <ion-item><b>Magic the Gathering: </b>xxxxx</ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+      Club Execs:
+    </ion-item>
+    <ion-item *ngFor="let exec of execs">
+      <b>{{ exec.position }}:</b> {{ exec.name }}
+    </ion-item>
+  </ion-list>
+
+  <div>
+    Find us at the AMS Nest, Room 3206, in UBC!
+  </div>
+
+</ion-content>
