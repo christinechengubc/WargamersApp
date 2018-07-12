@@ -8,7 +8,11 @@ CREATE TABLE Executives(
 	email VARCHAR(50)
 );
 
-INSERT INTO Executives (name, position, phone, email) VALUES ('Fareez Sanif', 'Treasurer', NULL, NULL), ('Peter', 'President', '123-456-7890', 'example@email.com');
+INSERT INTO Executives (name, position, phone, email) VALUES ('Peter', 'President', '123-456-7890', 'example@email.com'),
+('Moayad', 'Vice President', NULL, NULL),
+('Fareez Sanif', 'Treasurer', NULL, NULL),
+('Richard', 'Secretary', NULL, NULL),
+('Wil', 'Games Librarian', NULL, NULL);
 
 CREATE TABLE Events (
 	id SERIAL PRIMARY KEY,
