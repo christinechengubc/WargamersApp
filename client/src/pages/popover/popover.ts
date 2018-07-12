@@ -9,11 +9,15 @@ import { User } from '../../providers/providers';
 export class PopoverPage {
   constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public user: User) {}
 
-  close() {
-    this.viewCtrl.dismiss();
+  clubInfo() {
+    this.navCtrl.push('ClubInfoPage');
   }
 
-  statistics() {
-    this.navCtrl.push('StatisticsPage');
+  about() {
+    this.navCtrl.push('AboutPage');
+  }
+
+  adminLogin() {
+    this.viewCtrl.dismiss();
   }
 }
