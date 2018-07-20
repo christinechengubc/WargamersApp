@@ -29,90 +29,90 @@ games.get('/', (req, res) => {
 		});
 });
 
-games.get('/:id', (req, res) => {
-  var sql = new PQ('SELECT * FROM games WHERE id = $1');
-	sql.values = [req.params.id];
-
-	db.one(sql)
-	  .then((data) => {
-	    res.status(200)
-	      .json({
-					status: 'ok',
-					code: 200,
-					message: 'Retrieved a game with id: ' + req.params.id,
-          result: {
-						game: data
-					},
-	      });
-	  })
-	  .catch((err) => {
-			console.error('\n[ERROR]: GET /games/:id\n');
-			console.error(err);
-			res.status(500)
-				.json({
-					status: 'error',
-					code: 500,
-					message: err.message
-				});
-	  });
-});
-
-games.get('/?category=:category', (req, res) => {
-  var sql = new PQ('SELECT * FROM games WHERE category = $1');
-	sql.values = [req.params.category];
-
-	db.many(sql)
-	  .then((data) => {
-	    res.status(200)
-	      .json({
-					status: 'ok',
-					code: 200,
-					message: 'Retrieved games with category: ' + req.params.category,
-          result: {
-						games: data
-					},
-	      });
-	  })
-	  .catch((err) => {
-			console.error('\n[ERROR]: GET /games/:category\n');
-			console.error(err);
-			res.status(500)
-				.json({
-					status: 'error',
-					code: 500,
-					message: err.message
-				});
-	  });
-});
-
-games.get('/?partial_title=:partial_title', (req, res) => {
-  var partial_title = req.params.partial_title.replace(/\'/g, "");
-	var sql = new PQ('SELECT title FROM games WHERE title LIKE \'%$1%\'');
-	sql.values = [partial_title];
-
-	db.many(sql)
-	  .then((data) => {
-			res.status(200)
-				.json({
-					status: 'ok',
-					code: 200,
-					message: 'Retrieved games with partial_title: ' + partial_title,
-					result: {
-						games: data
-					}
-				});
-	  })
-	  .catch((err) => {
-			console.error('\n[ERROR]: GET /games/:partial_title\n');
-			console.error(err);
-			res.status(500)
-				.json({
-					status: 'error',
-					code: 500,
-					message: err.message
-				});
-	  });
-});
+// games.get('/:id', (req, res) => {
+//   var sql = new PQ('SELECT * FROM games WHERE id = $1');
+// 	sql.values = [req.params.id];
+//
+// 	db.one(sql)
+// 	  .then((data) => {
+// 	    res.status(200)
+// 	      .json({
+// 					status: 'ok',
+// 					code: 200,
+// 					message: 'Retrieved a game with id: ' + req.params.id,
+//           result: {
+// 						game: data
+// 					},
+// 	      });
+// 	  })
+// 	  .catch((err) => {
+// 			console.error('\n[ERROR]: GET /games/:id\n');
+// 			console.error(err);
+// 			res.status(500)
+// 				.json({
+// 					status: 'error',
+// 					code: 500,
+// 					message: err.message
+// 				});
+// 	  });
+// });
+//
+// games.get('/?category=:category', (req, res) => {
+//   var sql = new PQ('SELECT * FROM games WHERE category = $1');
+// 	sql.values = [req.params.category];
+//
+// 	db.many(sql)
+// 	  .then((data) => {
+// 	    res.status(200)
+// 	      .json({
+// 					status: 'ok',
+// 					code: 200,
+// 					message: 'Retrieved games with category: ' + req.params.category,
+//           result: {
+// 						games: data
+// 					},
+// 	      });
+// 	  })
+// 	  .catch((err) => {
+// 			console.error('\n[ERROR]: GET /games/:category\n');
+// 			console.error(err);
+// 			res.status(500)
+// 				.json({
+// 					status: 'error',
+// 					code: 500,
+// 					message: err.message
+// 				});
+// 	  });
+// });
+//
+// games.get('/?partial_title=:partial_title', (req, res) => {
+//   var partial_title = req.params.partial_title.replace(/\'/g, "");
+// 	var sql = new PQ('SELECT title FROM games WHERE title LIKE \'%$1%\'');
+// 	sql.values = [partial_title];
+//
+// 	db.many(sql)
+// 	  .then((data) => {
+// 			res.status(200)
+// 				.json({
+// 					status: 'ok',
+// 					code: 200,
+// 					message: 'Retrieved games with partial_title: ' + partial_title,
+// 					result: {
+// 						games: data
+// 					}
+// 				});
+// 	  })
+// 	  .catch((err) => {
+// 			console.error('\n[ERROR]: GET /games/:partial_title\n');
+// 			console.error(err);
+// 			res.status(500)
+// 				.json({
+// 					status: 'error',
+// 					code: 500,
+// 					message: err.message
+// 				});
+// 	  });
+// });
 
 games.post('/', (req, res) => {
 	if (Number(req.body.max_players) < Number(req.body.min_players)) {
