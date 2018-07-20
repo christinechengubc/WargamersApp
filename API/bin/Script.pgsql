@@ -65,7 +65,7 @@ INSERT INTO Games (title, publisher, category, rating, min_players, max_players,
 CREATE TABLE App_Admins(
 	id SERIAL PRIMARY KEY,
 	username VARCHAR(20) UNIQUE NOT NULL,
-	password VARCHAR(100) NOT NULL
+	hash VARCHAR(60) NOT NULL
 );
 
 INSERT INTO App_Admins (username, password) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
