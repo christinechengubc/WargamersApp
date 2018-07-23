@@ -1,6 +1,16 @@
 page-games {
+    .card {
+        background-color: #1E2123; 
+    }
     .card-header {
         font-weight: bold;
         font-size: 175%;
+        color: #F7CD46; 
+    }
+    .card-content {
+            p {
+        color: #F7CD46; 
+        }
     }
 }
+
