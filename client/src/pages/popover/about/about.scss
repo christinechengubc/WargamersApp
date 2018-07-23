@@ -1,2 +1,22 @@
 page-about {
+  display: flex; 
+  flex-wrap: wrap; 
+  .title {
+    padding-top: 10px; 
+  }
+
+  .app-dev {
+    text-align: center; 
+
+  }
+
+  .contribution {
+    text-align: center; 
+  }
+  
+  .info {
+    font-weight: bold;
+    font-size: 26px;
+    text-wrap: wrap; 
+  }
 }

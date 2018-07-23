@@ -24,9 +24,9 @@
     </ng-container>
     <ion-item text-wrap *ngIf="event.start_time != null && event.end_time != null; else time_tba"><b>Time:</b> {{ event.start_time?.substring(0,5) }} - {{ event.end_time?.substring(0,5) }}</ion-item>
     <ion-item text-wrap *ngIf="event.location != null; else location_tba"><b>Location:</b> {{ event.location }}</ion-item>
-    <ion-item text-wrap><b>Description:</b> {{ event.description }}</ion-item>
-    <ion-item text-wrap><b>Lead Executive / Host:</b> {{ event.lead_exec }}</ion-item>
-    <ion-item text-wrap><b>Facebook Event Page:</b> {{ event.fb_event_page }}</ion-item>
+    <ion-item class="description" text-wrap><b>Description:</b> {{ event.description }}</ion-item>
+    <ion-item class="lead-exec" text-wrap><b>Lead Executive / Host:</b> {{ event.lead_exec }}</ion-item>
+    <ion-item class="fb-event-page" text-wrap><b>Facebook Event Page:</b> {{ event.fb_event_page }}</ion-item>
   </ion-list>
 
   <!-- <ion-fab *ngIf="user._user != null" right bottom> -->
