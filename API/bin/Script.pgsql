@@ -64,8 +64,11 @@ INSERT INTO Games (title, publisher, category, rating, min_players, max_players,
 
 CREATE TABLE App_Admins(
 	id SERIAL PRIMARY KEY,
-	username VARCHAR(20) UNIQUE NOT NULL,
-	hash VARCHAR(60) NOT NULL
+	email VARCHAR(20) UNIQUE NOT NULL,
+	hash VARCHAR(100) NOT NULL
 );
 
-INSERT INTO App_Admins (username, password) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?');
+INSERT INTO App_Admins (email, hash) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?'), ('test2', '$2b$10$77gEDFSVoXWz.7/IA6BT9.HUD2rWsUBkhuh0w6siKReqJalC9.71y')
+
+
+/* test2 password is 'testPassword!' */

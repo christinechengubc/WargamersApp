@@ -2,14 +2,19 @@ var login = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+var secret = require('./secret');
+var app = require('express')();
+
+
+
+const expiryTime = "1d"; //the time for expiry for a token (1 week)
+
 
 login.post('/', (req, res) => {
-  /*  var sql = new PQ('SELECT memberNumber, year, name, phoneNumber, email FROM members WHERE email = $1 AND password = $2');
-  sql.values = [req.body.email, req.body.password];
-  var sql2 = new PQ('SELECT * FROM executives WHERE memberNumber = $1');*/
- // console.log(req.body.username);
 
-  var sql = new PQ('SELECT password FROM App_Admins WHERE username = $1');
+
+  var sql = new PQ('SELECT hash FROM App_Admins WHERE email = $1');
   sql.values = [req.body.email];
 
   console.log(req.body.email);
@@ -27,17 +32,29 @@ db.oneOrNone(sql)
        });
    }
 
+
+
     //the hashed password received
-    var hashPassword = data.password;
+    var hashPassword = data.hash;
     console.log(hashPassword);
    bcrypt.compare(req.body.password, hashPassword, function (err, success) {
       console.log(success);
+
       if (success) {
+        const payload = {
+          user: req.body.email,
+          admin: true
+        };
+        //set secret to retrieve from secret.json
+
+        var token = jwt.sign(payload, secret.secret, {expiresIn: expiryTime});
+
         return res.status(200)
           .json({
             status: 'success',
             code: 200,
-            message: 'logged in!'
+            message: 'logged in!',
+            token: token
           });
       }
       //incorrect password
