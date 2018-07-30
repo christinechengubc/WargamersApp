@@ -29,12 +29,12 @@ search.post('/basic', (req, res) => {
 
 /**
  * title, minPlayer, maxPlayer minPlayTime, maxPlayTime, difficulty
- * passed: publisher, rating, description
- * req.body.projectpublisher, projectrating, projectdescription = TRUE /FALSE
+ * passed: rating, description
+ * projectrating, projectdescription = TRUE /FALSE
  */
 search.post('/advanced', (req, res) => {
-  var title, publisher, category, description, min_players, min_playtime, rating, max_players, max_platyime, complexity, available, condition, year_published;
-  title = publisher = category = description = condition = '%%';
+  var title, category, description, min_players, min_playtime, rating, max_players, max_platyime, complexity, available, condition, year_published;
+  title = category = description = condition = '%%';
   min_players = min_playtime = rating = 0;
   max_players = max_playtime = complexity = 10000;
   available = '';
@@ -44,7 +44,6 @@ search.post('/advanced', (req, res) => {
   if (req.body.max_players) {max_players = req.body.max_players;}
   if (req.body.min_playtime) {min_playtime = req.body.min_playtime;}
   if (req.body.max_playtime) {max_playtime = req.body.max_playtime;}
-  if (req.body.publisher) {publisher = '%' + req.body.publisher + '%';}
   if (req.body.category) {category = '%' + req.body.category + '%';}
   if (req.body.rating) {rating = req.body.rating;}
   if (req.body.description) {description = '%' + req.body.description + '%';}
@@ -55,14 +54,14 @@ search.post('/advanced', (req, res) => {
 
   if (req.body.year_published == undefined || req.body.year_published == "") {
     var sql = new PQ("SELECT * FROM Games WHERE lower(title) LIKE lower($1) AND max_players >= $2 AND max_players <= $3" +
-                      " AND max_playtime >= $4 AND max_playtime <= $5 AND lower(publisher) LIKE lower($6) AND lower(category) LIKE lower($7)" +
-                      " AND rating >= $8 AND lower(description) LIKE lower($9) AND complexity <= $10 AND condition LIKE $11" + available + " LIMIT 20");
-    sql.values = [title, min_players, max_players, min_playtime, max_playtime, publisher, category, rating, description, complexity, condition];
+                      " AND max_playtime >= $4 AND max_playtime <= $5 AND lower(category) LIKE lower($6)" +
+                      " AND rating >= $7 AND lower(description) LIKE lower($8) AND complexity <= $9 AND condition LIKE $10" + available + " LIMIT 20");
+    sql.values = [title, min_players, max_players, min_playtime, max_playtime, category, rating, description, complexity, condition];
   } else {
     var sql = new PQ("SELECT * FROM Games WHERE lower(title) LIKE lower($1) AND max_players >= $2 AND max_players <= $3" +
-                      " AND max_playtime >= $4 AND max_playtime <= $5 AND lower(publisher) LIKE lower($6) AND lower(category) LIKE lower($7)" +
-                      " AND rating >= $8 AND lower(description) LIKE lower($9) AND complexity <= $10 AND condition LIKE $11 AND year_published = $12" + available);
-    sql.values = [title, min_players, max_players, min_playtime, max_playtime, publisher, category, rating, description, complexity, condition, year_published];
+                      " AND max_playtime >= $4 AND max_playtime <= $5 AND lower(category) LIKE lower($6)" +
+                      " AND rating >= $7 AND lower(description) LIKE lower($8) AND complexity <= $9 AND condition LIKE $10 AND year_published = $11" + available);
+    sql.values = [title, min_players, max_players, min_playtime, max_playtime, category, rating, description, complexity, condition, year_published];
   }
 
   console.log(sql);
