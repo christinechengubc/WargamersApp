@@ -37,15 +37,14 @@ INSERT INTO Events (title, date, description, start_time, end_time, location, al
 CREATE TABLE Games(
 	id SERIAL PRIMARY KEY,
 	title VARCHAR(50) UNIQUE NOT NULL,
-	publisher VARCHAR(100),
-	category VARCHAR(50),
+	type VARCHAR(50),
 	rating DECIMAL(5,2),
 	min_players INTEGER,
 	max_players INTEGER,
 	min_playtime INTEGER,
 	max_playtime INTEGER,
 	year_published INTEGER,
-	description VARCHAR(100),
+	description VARCHAR(1000),
 	complexity NUMERIC,
 	users_rated INTEGER,
 	available_copies INTEGER,
@@ -59,7 +58,7 @@ CREATE TABLE Games(
 );
 
 
-INSERT INTO Games (title, publisher, category, rating, min_players, max_players, min_playtime, max_playtime, year_published, description, complexity, users_rated, available_copies, total_copies, condition, expansion_of, bgg_id, show_main_page, thumbnail, image) VALUES ('Monopoly', 'Hasbros','Friendship Breaking',2.0,1,4, 60, 999, 1999, 'Want to get rid of your friends? Play Monopoly! The game that breaks friendships!', 1, 10000, 5,5, 'Shitty', NULL, 12345, true, 'https://cf.geekdo-images.com/thumb/img/XDq3S7BWb25Q2Ekw2WyAg_f_C00=/fit-in/200x150/pic3640835.jpg', 'https://cf.geekdo-images.com/original/img/u0oP0ZEeRX9_68feLPafIGU0pcw=/0x0/pic3640835.jpg');
+INSERT INTO Games (title, type, rating, min_players, max_players, min_playtime, max_playtime, year_published, description, complexity, users_rated, available_copies, total_copies, condition, expansion_of, bgg_id, show_main_page, thumbnail, image) VALUES ('Monopoly', 'Friendship Breaking',2.0,1,4, 60, 999, 1999, 'Want to get rid of your friend''s life? Play Monopoly! The game that breaks friendships!', 1, 10000, 5,5, 'Shitty', NULL, 12345, true, 'https://cf.geekdo-images.com/thumb/img/XDq3S7BWb25Q2Ekw2WyAg_f_C00=/fit-in/200x150/pic3640835.jpg', 'https://cf.geekdo-images.com/original/img/u0oP0ZEeRX9_68feLPafIGU0pcw=/0x0/pic3640835.jpg');
 
 
 CREATE TABLE App_Admins(
