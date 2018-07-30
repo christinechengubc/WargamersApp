@@ -19,7 +19,6 @@
   <ion-list *ngIf="game">
     <img [src]="game.image" />
     <ion-item text-wrap class="game-title"> {{ game.title }} ({{ game.year_published }})</ion-item>
-    <ion-item text-wrap><b>Published by:</b> {{ game.publisher }}</ion-item>
     <ion-item text-wrap><b>Categories:</b> {{ game.category }}</ion-item>
     <ion-item text-wrap><b>Rating:</b> {{ game.rating }} ({{ game.users_rated }} Users Rated on BGG)</ion-item>
     <ion-item text-wrap><b>Players:</b> {{ game.min_players }} - {{ game.max_players }}</ion-item>
