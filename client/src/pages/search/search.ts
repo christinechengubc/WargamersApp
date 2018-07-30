@@ -16,7 +16,6 @@ export class SearchPage {
   min_playtime: any;
   max_playtime: any;
   available: any;
-  publisher: any;
   category: any;
   rating: any;
   year_published: any;
@@ -49,7 +48,6 @@ export class SearchPage {
       body.max_players = this.max_players;
       body.min_playtime = this.min_playtime;
       body.max_playtime = this.max_playtime;
-      body.publisher = this.publisher;
       body.category = this.category;
       body.rating = this.rating;
       body.year_published = this.year_published;
