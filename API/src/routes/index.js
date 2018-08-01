@@ -52,9 +52,8 @@ routes.use((req,res,next) => {
 });
 
 
-//IMPORTANT: any routes that need authentication should be put under here, ie. all admin functions
+// any routes that need authentication should be put under here, ie. all admin functions
 // might have to split up games route into /games and /games-edit so that only admins can edit games
-
 
 
 
