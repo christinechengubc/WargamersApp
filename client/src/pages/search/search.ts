@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Api } from '../../providers/providers';
 
+
 @IonicPage()
 @Component({
   selector: 'page-search',
@@ -50,27 +51,28 @@ export class SearchPage {
     }
 
 
-    this.api.post('search/' + this.searchBy, body).subscribe(
-      resp => {
-        let toast = this.toastCtrl.create({
-          message: 'Succesfully posted game to database!',
-          duration: 3000,
-          position: 'top'
-        });
-        this.navCtrl.push('GamesPage', {
-          games: resp
-        });
-      },
-      err => {
-        console.log(err);
-        let toast = this.toastCtrl.create({
-          message: 'Error while searching for game in database.' + err.error.detail,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-      }
-    )
+
+      this.api.post('search/' + this.searchBy, body).subscribe(
+        resp => {
+          let toast = this.toastCtrl.create({
+            message: 'Succesfully posted game to database!',
+            duration: 3000,
+            position: 'top'
+          });
+          this.navCtrl.push('GamesPage', {
+            games: resp
+          });
+        },
+        err => {
+          console.log(err);
+          let toast = this.toastCtrl.create({
+            message: 'Error while searching for game in database.' + err.error.detail,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }
+      )
   }
 
 }
