@@ -29,90 +29,90 @@ games.get('/', (req, res) => {
 		});
 });
 
-games.get('/:id', (req, res) => {
-  var sql = new PQ('SELECT * FROM games WHERE id = $1');
-	sql.values = [req.params.id];
-
-	db.one(sql)
-	  .then((data) => {
-	    res.status(200)
-	      .json({
-					status: 'ok',
-					code: 200,
-					message: 'Retrieved a game with id: ' + req.params.id,
-          result: {
-						game: data
-					},
-	      });
-	  })
-	  .catch((err) => {
-			console.error('\n[ERROR]: GET /games/:id\n');
-			console.error(err);
-			res.status(500)
-				.json({
-					status: 'error',
-					code: 500,
-					message: err.message
-				});
-	  });
-});
-
-games.get('/?category=:category', (req, res) => {
-  var sql = new PQ('SELECT * FROM games WHERE category = $1');
-	sql.values = [req.params.category];
-
-	db.many(sql)
-	  .then((data) => {
-	    res.status(200)
-	      .json({
-					status: 'ok',
-					code: 200,
-					message: 'Retrieved games with category: ' + req.params.category,
-          result: {
-						games: data
-					},
-	      });
-	  })
-	  .catch((err) => {
-			console.error('\n[ERROR]: GET /games/:category\n');
-			console.error(err);
-			res.status(500)
-				.json({
-					status: 'error',
-					code: 500,
-					message: err.message
-				});
-	  });
-});
-
-games.get('/?partial_title=:partial_title', (req, res) => {
-  var partial_title = req.params.partial_title.replace(/\'/g, "");
-	var sql = new PQ('SELECT title FROM games WHERE title LIKE \'%$1%\'');
-	sql.values = [partial_title];
-
-	db.many(sql)
-	  .then((data) => {
-			res.status(200)
-				.json({
-					status: 'ok',
-					code: 200,
-					message: 'Retrieved games with partial_title: ' + partial_title,
-					result: {
-						games: data
-					}
-				});
-	  })
-	  .catch((err) => {
-			console.error('\n[ERROR]: GET /games/:partial_title\n');
-			console.error(err);
-			res.status(500)
-				.json({
-					status: 'error',
-					code: 500,
-					message: err.message
-				});
-	  });
-});
+// games.get('/:id', (req, res) => {
+//   var sql = new PQ('SELECT * FROM games WHERE id = $1');
+// 	sql.values = [req.params.id];
+//
+// 	db.one(sql)
+// 	  .then((data) => {
+// 	    res.status(200)
+// 	      .json({
+// 					status: 'ok',
+// 					code: 200,
+// 					message: 'Retrieved a game with id: ' + req.params.id,
+//           result: {
+// 						game: data
+// 					},
+// 	      });
+// 	  })
+// 	  .catch((err) => {
+// 			console.error('\n[ERROR]: GET /games/:id\n');
+// 			console.error(err);
+// 			res.status(500)
+// 				.json({
+// 					status: 'error',
+// 					code: 500,
+// 					message: err.message
+// 				});
+// 	  });
+// });
+//
+// games.get('/?category=:category', (req, res) => {
+//   var sql = new PQ('SELECT * FROM games WHERE category = $1');
+// 	sql.values = [req.params.category];
+//
+// 	db.many(sql)
+// 	  .then((data) => {
+// 	    res.status(200)
+// 	      .json({
+// 					status: 'ok',
+// 					code: 200,
+// 					message: 'Retrieved games with category: ' + req.params.category,
+//           result: {
+// 						games: data
+// 					},
+// 	      });
+// 	  })
+// 	  .catch((err) => {
+// 			console.error('\n[ERROR]: GET /games/:category\n');
+// 			console.error(err);
+// 			res.status(500)
+// 				.json({
+// 					status: 'error',
+// 					code: 500,
+// 					message: err.message
+// 				});
+// 	  });
+// });
+//
+// games.get('/?partial_title=:partial_title', (req, res) => {
+//   var partial_title = req.params.partial_title.replace(/\'/g, "");
+// 	var sql = new PQ('SELECT title FROM games WHERE title LIKE \'%$1%\'');
+// 	sql.values = [partial_title];
+//
+// 	db.many(sql)
+// 	  .then((data) => {
+// 			res.status(200)
+// 				.json({
+// 					status: 'ok',
+// 					code: 200,
+// 					message: 'Retrieved games with partial_title: ' + partial_title,
+// 					result: {
+// 						games: data
+// 					}
+// 				});
+// 	  })
+// 	  .catch((err) => {
+// 			console.error('\n[ERROR]: GET /games/:partial_title\n');
+// 			console.error(err);
+// 			res.status(500)
+// 				.json({
+// 					status: 'error',
+// 					code: 500,
+// 					message: err.message
+// 				});
+// 	  });
+// });
 
 games.post('/', (req, res) => {
 	if (Number(req.body.max_players) < Number(req.body.min_players)) {
@@ -148,10 +148,10 @@ games.post('/', (req, res) => {
 	if (req.body.show_main_page != "true" && req.body.show_main_page != "false") {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: show_main_page is not true or false."});
 	}
-	var sql = new PQ('INSERT INTO games (title, publisher, category, min_players, max_players, min_playtime, max_playtime, year_published, description, ' +
+	var sql = new PQ('INSERT INTO games (title, category, min_players, max_players, min_playtime, max_playtime, year_published, description, ' +
 		'image, rating, users_rated, complexity, available_copies, total_copies, condition, expansion_of, bgg_id, show_main_page) ' +
 	  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)');
-  sql.values = [req.body.title, req.body.publisher, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
+  sql.values = [req.body.title, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
 		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
 								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page];
 
@@ -179,11 +179,10 @@ games.post('/', (req, res) => {
 
 games.put('/:id', (req, res) => {
 	var sql = new PQ('UPDATE games ' +
-	  'SET title = $2, publisher = $3, category = $4, min_players = $5, max_players = $6, min_playtime = $7, max_playtime = $8, year_published = $9, description = $10, ' +
-		'image = $11, rating = $12, users_rated = $13, complexity = $14, available_copies = $15, total_copies = $16, condition = $17, expansion_of = $18, bgg_id = $19, ' +
-		'show_main_page = $20, thumbnail = $21 ' +
-	  'WHERE id = $1');
-  sql.values = [req.params.id, req.body.title, req.body.publisher, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
+	  'SET title = $2, category = $3, min_players = $4, max_players = $5, min_playtime = $6, max_playtime = $7, year_published = $8, description = $9, ' +
+		'image = $10, rating = $11, users_rated = $12, complexity = $13, available_copies = $14, total_copies = $15, condition = $16, expansion_of = $17, bgg_id = $18, '+
+		'show_main_page = $19, thumbnail = $20' + 'WHERE id = $1');
+  sql.values = [req.params.id, req.body.title, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
 		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
 								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page,
 							  req.body.thumbnail];

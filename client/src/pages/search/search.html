@@ -13,82 +13,87 @@
   <ion-toolbar>
     <div padding>
       <ion-segment [(ngModel)]="searchBy">
-        <ion-segment-button value="game">
-          Search By Game Info
+        <ion-segment-button value="basic">
+          Basic Search
         </ion-segment-button>
-        <ion-segment-button value="publisher">
-          Search By Publisher
-        </ion-segment-button>
-        <ion-segment-button value="genre">
-          Search By Genre
+        <ion-segment-button value="advanced">
+          Advanced Search
         </ion-segment-button>
       </ion-segment>
     </div>
   </ion-toolbar>
 
   <div [ngSwitch]="searchBy">
-    <ion-list *ngSwitchCase="'game'">
+    <ion-list *ngSwitchCase="'basic'">
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input [(ngModel)]="title" type="text" value = ""></ion-input>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label text-wrap>Available for Borrowing</ion-label>
+        <ion-checkbox [(ngModel)]="available"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'advanced'">
       <ion-item>
         <ion-label floating>Title</ion-label>
         <ion-input [(ngModel)]="title" type="text" value = ""></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label floating>Category</ion-label>
+        <ion-input [(ngModel)]="category" type="text" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Minimum Rating</ion-label>
+        <ion-input [(ngModel)]="rating" type="number" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label floating>Minimum Players</ion-label>
-        <ion-input [(ngModel)]="minPlayers" type="number" value = ""></ion-input>
+        <ion-input [(ngModel)]="min_players" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Maximum Players</ion-label>
-        <ion-input [(ngModel)]="maxPlayers" type="number" value = ""></ion-input>
+        <ion-input [(ngModel)]="max_players" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Minimum Play Time</ion-label>
-        <ion-input [(ngModel)]="minPlaytime" type="number" value = ""></ion-input>
+        <ion-input [(ngModel)]="min_playtime" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Maximum Play Time</ion-label>
-        <ion-input [(ngModel)]="maxPlaytime" type="number" value = ""></ion-input>
+        <ion-input [(ngModel)]="max_playtime" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Difficulty</ion-label>
-        <ion-select [(ngModel)]="difficulty">
-          <ion-option>Beginner</ion-option>
-          <ion-option>Intermediate</ion-option>
-          <ion-option>Advanced</ion-option>
+        <ion-label floating>Year Published</ion-label>
+        <ion-input [(ngModel)]="year_published" type="number" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Description</ion-label>
+        <ion-input [(ngModel)]="description" type="text" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Maximum Complexity</ion-label>
+        <ion-input [(ngModel)]="complexity" type="number" value = ""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Condition</ion-label>
+        <ion-select [(ngModel)]="condition">
+          <ion-option value=""></ion-option>
+          <ion-option>New</ion-option>
+          <ion-option>Good</ion-option>
+          <ion-option>OK</ion-option>
+          <ion-option>Poor</ion-option>
+          <ion-option>In Repair</ion-option>
         </ion-select>
       </ion-item>
-    </ion-list>
-    <ion-list *ngSwitchCase="'publisher'">
       <ion-item>
-        <ion-label floating>Name</ion-label>
-        <ion-input [(ngModel)]="pubName" type="text" value = ""></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Country</ion-label>
-        <ion-input [(ngModel)]="pubCountry" type="text" value = ""></ion-input>
+        <ion-label text-wrap>Available for Borrowing</ion-label>
+        <ion-checkbox [(ngModel)]="available"></ion-checkbox>
       </ion-item>
     </ion-list>
-    <ion-list *ngSwitchCase="'genre'">
-      <ion-item>
-        <ion-label floating>Genre</ion-label>
-        <ion-input [(ngModel)]="genreName" type="text" value = ""></ion-input>
-      </ion-item>
-    </ion-list>
-  </div>
-  <div>
-    <ion-item>
-      <ion-label>Include publishers in the result.</ion-label>
-      <ion-checkbox [(ngModel)]="projectpublisher"></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-label>Include ratings in the result.</ion-label>
-      <ion-checkbox [(ngModel)]="projectrating"></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-label>Include description in the result.</ion-label>
-      <ion-checkbox [(ngModel)]="projectdescription"></ion-checkbox>
-    </ion-item>
   </div>
   <div padding>
-    <button ion-button (click)="search()">Search</button>
+    <button ion-button (click)="search()" text-center>Search</button>
   </div>
 </ion-content>
