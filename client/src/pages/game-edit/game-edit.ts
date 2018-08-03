@@ -31,7 +31,6 @@ export class GameEditPage {
   year_published: any;
   description: any;
   complexity: any;
-  publisher: any;
   available_copies: any;
   total_copies: any;
   condition: any;
@@ -44,21 +43,6 @@ export class GameEditPage {
     if (navParams.data.game != null) {
       this.fillInGivenGameInfo(navParams.data.game);
     }
-
-    // this.title = "test game"; // note that you don't actually have to declare this variable for ngModel to work, but I prefer to declare it for clarity that it exists in model
-    // this.rating = 3;
-    // this.min_players = 2;
-    // this.max_players = 4;
-    // this.min_playtime = 20;
-    // this.max_playtime = 40;
-    // this.complexity = 'Beginner';
-    // this.year_published = 1998;
-    // this.description = 'lol';
-    // this.publishers_selected = ['Hasbro', 'Parker Bros'];
-    // this.categorys_selected = ['Traditional', 'Strategy'];
-    // this.monthPurchased = '02'; // for ion-options, needs to be a string b/c value corresponds to a string
-    // this.yearPurchased = 2000;
-    // this.language = "English";
   }
 
   fillInGivenGameInfo(game: any) {
@@ -72,7 +56,6 @@ export class GameEditPage {
     this.complexity = game.complexity;
     this.year_published = game.year_published;
     this.description = game.description;
-    this.publisher = game.publisher;
     this.category = game.category;
     this.available_copies = game.available_copies;
     this.total_copies = game.total_copies;
@@ -95,7 +78,6 @@ export class GameEditPage {
       year_published: this.year_published,
       description: this.description,
       complexity: this.complexity,
-      publisher: this.publisher,
       category: this.category,
       available_copies: this.available_copies,
       total_copies: this.total_copies,
@@ -205,7 +187,6 @@ export class GameEditPage {
   //     year_published: this.year_published,
   //     description: this.description,
   //     complexity: this.complexity,
-  //     publishers: this.publishers_selected,
   //     categorys: this.categorys_selected,
   //     language: this.language,
   //     datePurchased: this.yearPurchased + "-" + this.monthPurchased + "-01"
