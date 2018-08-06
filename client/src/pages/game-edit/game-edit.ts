@@ -4,6 +4,7 @@ import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
 import { SanitizerProvider } from '../../providers/providers';
+import { Storage } from "@ionic/storage";
 
 
 /**
@@ -38,11 +39,16 @@ export class GameEditPage {
   show_main_page: any;
   thumbnail: any;
   image: any;
+  token: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider, public storage: Storage) {
+    this.storage.get('token').then((token) => {
+      this.token = token;
+    })
     if (navParams.data.game != null) {
       this.fillInGivenGameInfo(navParams.data.game);
     }
+
   }
 
   fillInGivenGameInfo(game: any) {
@@ -85,7 +91,8 @@ export class GameEditPage {
       expansion_of: this.expansion_of,
       show_main_page: this.show_main_page,
       thumbnail: this.thumbnail,
-      image: this.image
+      image: this.image,
+      token: this.token
     }
 
     var integers = [this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.year_published, this.available_copies, this.total_copies];
@@ -149,7 +156,11 @@ export class GameEditPage {
       });
       error.present();
     } else {
-      this.api.put('games/' + this.id, body).subscribe(
+     /* return this.storage.get('token').then(function(token) {
+        console.log("hello there " + token);
+        body['token'] = token;
+        console.log(body);
+      return*/ this.api.put('games/' + this.id, body).subscribe(
         resp => {
           console.log(resp);
           let toast = this.toastCtrl.create({
@@ -170,6 +181,7 @@ export class GameEditPage {
           });
           toast.present();
         }
+
       )
     }
 
