@@ -1,6 +1,8 @@
 var events = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
+var jwt = require('jsonwebtoken');
+var secret = require('./secret');
 
 events.get('/', (req, res) => {
   var sql = 'SELECT * FROM events ORDER BY date';
@@ -56,6 +58,40 @@ events.get('/:id', (req, res) => {
 				});
 	  });
 });
+
+/*token verification (put in here instead of index.js as the '/games' path had to be split
+  based on the verb being used, rather than just the path.
+  The same code is copied in games.
+*/
+events.use((req,res,next) => {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+if (token) {
+
+  jwt.verify(token, secret.secret, function(err, decoded) {
+
+    if (err) {return res.status(403)
+      .json({
+        message: "wrong token"
+      })
+    }
+
+    else {
+      //save decoded token for use elsewhere
+      req.decoded = decoded;
+      next();
+    }
+
+
+  });
+} else {
+  return res.status(403)
+    .json({
+      message: "no token"
+    });
+}
+});
+
 
 events.post('/', (req, res) => {
 	if (Number(req.body.start_time) >= Number(req.body.end_time)) {

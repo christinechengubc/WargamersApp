@@ -5,6 +5,8 @@ import { Http } from '@angular/http';
 import { User } from '../../providers/providers';
 import { GameEditPage } from '../game-edit/game-edit';
 import { Api } from '../../providers/providers';
+import { Storage } from "@ionic/storage";
+import {HttpHeaders} from "@angular/common/http";
 
 /**
  * Generated class for the GamesPage page.
@@ -21,20 +23,30 @@ import { Api } from '../../providers/providers';
 export class GameInfoPage {
 
   game: any = {};
+  token: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, public storage: Storage) {
+    this.storage.get('token').then((token) => {
+      this.token = token;
+    })
   }
 
   editGame() {
+    console.log(this.user._user);
     this.navCtrl.push('GameEditPage', {
       game: this.game,
     });
   }
 
   deleteGame() {
-    this.api.delete('games/' + this.game.id).subscribe(
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': this.token
+      })
+    };
+    this.api.delete('games/' + this.game.id, httpOptions).subscribe(
       resp => {
-        console.log(resp);
+
         let toast = this.toastCtrl.create({
           message: 'Succesfully deleted game from database!',
           duration: 3000,
