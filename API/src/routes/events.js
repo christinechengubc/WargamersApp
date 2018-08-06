@@ -72,7 +72,7 @@ if (token) {
 
     if (err) {return res.status(403)
       .json({
-        message: "wrong token"
+        message: "not logged in"
       })
     }
 
@@ -87,7 +87,7 @@ if (token) {
 } else {
   return res.status(403)
     .json({
-      message: "no token"
+      message: "not logged in"
     });
 }
 });
