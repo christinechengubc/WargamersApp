@@ -8,7 +8,7 @@ var app = require('express')();
 
 
 
-const expiryTime = 180; //the time for expiry for a token
+const expiryTime = 180; //the time for expiry for a token (3 minutes for testing purposes)
 
 
 login.post('/', (req, res) => {
