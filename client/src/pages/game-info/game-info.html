@@ -16,6 +16,7 @@
 </ion-header>
 
 <ion-content padding>
+<div class="game-description">
   <ion-list *ngIf="game">
     <img [src]="game.image" />
     <ion-item text-wrap class="game-title"> {{ game.title }} ({{ game.year_published }})</ion-item>
@@ -30,6 +31,7 @@
     <ion-item text-wrap><b>Condition:</b> {{ game.condition }}</ion-item>
     <ion-item text-wrap *ngIf="game.expansion_of !== null"><b>Expansion of</b> {{ game.expansion_of }}</ion-item>
   </ion-list>
+</div>
 
   <ion-fab right bottom>
   <!-- <ion-fab right bottom *ngIf="user._user != null"> -->
