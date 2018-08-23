@@ -1,6 +1,7 @@
 page-games {
     .card {
-        background-color: #1E2123; 
+        background-color: #1E2123;
+        box-shadow: 2px 2px 23px 3px rgba(0,0,0,0.75); 
     }
     .card-header {
         font-weight: bold;
@@ -9,7 +10,7 @@ page-games {
     }
     .card-content {
             p {
-        color: #F7CD46; 
+        color: #fff;
         }
     }
 }

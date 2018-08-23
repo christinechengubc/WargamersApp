@@ -2,10 +2,34 @@
 .wargamers {
   text-align: center; 
   margin-top: 10px; 
+}
 
+.info {
+  margin-left: 18.5px;
+}
+.groups {
+  margin-left: 90px; 
+}
+.groups2 {
+  margin-left: 115px; 
+}
+
+.club-info {
+  text-align: center; 
+}
+.title-md {
+  .toolbar-title-md {
+    color: #F7CD46;
+  }
+  
 }
 
 .club-description {
-  text-align: center;
+  p {
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px 0;
+  }
+
 }
 
