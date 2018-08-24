@@ -19,6 +19,5 @@ export class PopoverPage {
 
   adminLogin() {
    this.navCtrl.push('LoginPage');
-    // this.viewCtrl.dismiss();
   }
 }
