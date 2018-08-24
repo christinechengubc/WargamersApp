@@ -225,10 +225,8 @@ games.put('/:id', (req, res) => {
 		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
 								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page,
 							  req.body.thumbnail];
-  console.log("in games.put!");
 	db.none(sql)
 		.then((data) => {
-
 			res.status(200)
 				.json({
 					status: 'ok',
