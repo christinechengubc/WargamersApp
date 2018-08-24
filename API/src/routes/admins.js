@@ -10,9 +10,8 @@ admins.post('/', (req, res) => {
   bcrypt.hash(req.body.password, saltRounds, function(err,hash) {
 
   var sql = new PQ('INSERT INTO app_admins (email, hash) VALUES ($1, $2)');
-  console.log(req.body.email);
+
   sql.values = [req.body.email, hash];
-  console.log(hash);
 
 
      db.any(sql)
