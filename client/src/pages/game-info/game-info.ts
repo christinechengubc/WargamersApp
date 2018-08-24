@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events, AlertController } from 'ionic-angular';
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { User } from '../../providers/providers';
@@ -22,7 +22,7 @@ export class GameInfoPage {
 
   game: any = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, private alertCtrl: AlertController) {
   }
 
   editGame() {
@@ -54,7 +54,29 @@ export class GameInfoPage {
         toast.present();
       }
     )
+  }
 
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Delete this game?',
+      message: 'Do you really want to delete this game?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteGame();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   ionViewDidLoad() {
