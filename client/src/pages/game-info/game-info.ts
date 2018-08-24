@@ -32,7 +32,6 @@ export class GameInfoPage {
   }
 
   editGame() {
-    console.log(this.user._user);
     this.navCtrl.push('GameEditPage', {
       game: this.game,
     });

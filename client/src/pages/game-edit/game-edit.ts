@@ -156,13 +156,8 @@ export class GameEditPage {
       });
       error.present();
     } else {
-     /* return this.storage.get('token').then(function(token) {
-        console.log("hello there " + token);
-        body['token'] = token;
-        console.log(body);
-      return*/ this.api.put('games/' + this.id, body).subscribe(
+      this.api.put('games/' + this.id, body).subscribe(
         resp => {
-          console.log(resp);
           let toast = this.toastCtrl.create({
             message: 'Succesfully edited game!',
             duration: 3000,

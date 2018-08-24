@@ -17,11 +17,11 @@ login.post('/', (req, res) => {
   var sql = new PQ('SELECT hash FROM App_Admins WHERE email = $1');
   sql.values = [req.body.email];
 
-  console.log(req.body.email);
-  console.log(req.body.password);
+/*  console.log(req.body.email);
+  console.log(req.body.password);*/
 db.oneOrNone(sql)
   .then((data) => {
-  console.log(data);
+
    //incorrect username
    if (!data) {
      return res.status(401)
@@ -36,9 +36,9 @@ db.oneOrNone(sql)
 
     //the hashed password received
     var hashPassword = data.hash;
-    console.log(hashPassword);
+   // console.log(hashPassword);
    bcrypt.compare(req.body.password, hashPassword, function (err, success) {
-      console.log(success);
+    //  console.log(success);
 
       if (success) {
         const payload = {
