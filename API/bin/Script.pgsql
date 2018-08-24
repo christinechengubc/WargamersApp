@@ -67,7 +67,7 @@ CREATE TABLE App_Admins(
 	hash VARCHAR(100) NOT NULL
 );
 
-INSERT INTO App_Admins (email, hash) VALUES ('dev', 'admin'), ('wargamers', 'wARGamERs2018?'), ('test2', '$2b$10$77gEDFSVoXWz.7/IA6BT9.HUD2rWsUBkhuh0w6siKReqJalC9.71y')
+INSERT INTO App_Admins (email, hash) VALUES ('test2', '$2b$10$77gEDFSVoXWz.7/IA6BT9.HUD2rWsUBkhuh0w6siKReqJalC9.71y')
 
 
 /* test2 password is 'testPassword!' */
