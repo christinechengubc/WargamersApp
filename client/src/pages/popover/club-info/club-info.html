@@ -20,28 +20,28 @@
   </div>
 
   <ion-list class ="club-info">
-    <ion-item><b>Contact Information</b></ion-item>
-    <ion-item><span class="info"><b>Club Email:</b> wargamersubc@gmail.com</span></ion-item>
-    <ion-item><b>Club Website:</b> ubcwargamers.com</ion-item>
-    <ion-item><b>Club Facebook Pages</b>
+    <ion-item no-lines><b>Contact Information</b></ion-item>
+    <ion-item no-lines><span class="info"><b>Club Email:</b> wargamersubc@gmail.com</span></ion-item>
+    <ion-item no-lines><b>Club Website:</b> ubcwargamers.com</ion-item>
+    <ion-item no-lines><b>Club Facebook Pages</b>
       <ion-list class="facebook-pages">
-        <ion-item><b>Magic the Gathering:</b>xxxxx</ion-item>
-        <ion-item><b><span class="groups">General:</span></b>xxxxx</ion-item>
-        <ion-item><b><span class="groups2">RPG:</span></b>xxxxx</ion-item>
+        <ion-item no-lines><b>Magic the Gathering:</b>xxxxx</ion-item>
+        <ion-item no-lines><b><span class="groups">General:</span></b>xxxxx</ion-item>
+        <ion-item no-lines><b><span class="groups2">RPG:</span></b>xxxxx</ion-item>
       </ion-list>
     </ion-item>
   </ion-list>
 
   <ion-list>
-    <ion-item>
+    <ion-item no-lines>
       <b>Club Execs</b>
     </ion-item>
-    <ion-item *ngFor="let exec of execs">
+    <ion-item no-lines *ngFor="let exec of execs">
       <b>{{ exec.position }}:</b> {{ exec.name }}
     </ion-item>
   </ion-list>
 
-  <div text-center>
+  <div class="find-us" text-center>
     Find us at the AMS Nest, Room 3206, in UBC!
   </div>
 
