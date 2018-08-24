@@ -29,27 +29,27 @@
   <div [ngSwitch]="searchBy">
     <ion-list *ngSwitchCase="'game'">
       <ion-item>
-        <ion-label floating>Title</ion-label>
+        <ion-label color="light" floating>Title</ion-label>
         <ion-input [(ngModel)]="title" type="text" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Minimum Players</ion-label>
+        <ion-label color="light" floating>Minimum Players</ion-label>
         <ion-input [(ngModel)]="minPlayers" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Maximum Players</ion-label>
+        <ion-label color="light" floating>Maximum Players</ion-label>
         <ion-input [(ngModel)]="maxPlayers" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Minimum Play Time</ion-label>
+        <ion-label color="light" floating>Minimum Play Time</ion-label>
         <ion-input [(ngModel)]="minPlaytime" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Maximum Play Time</ion-label>
+        <ion-label color="light" floating>Maximum Play Time</ion-label>
         <ion-input [(ngModel)]="maxPlaytime" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Difficulty</ion-label>
+        <ion-label color="light" floating>Difficulty</ion-label>
         <ion-select [(ngModel)]="difficulty">
           <ion-option>Beginner</ion-option>
           <ion-option>Intermediate</ion-option>
@@ -59,17 +59,17 @@
     </ion-list>
     <ion-list *ngSwitchCase="'publisher'">
       <ion-item>
-        <ion-label floating>Name</ion-label>
+        <ion-label color="light" floating>Name</ion-label>
         <ion-input [(ngModel)]="pubName" type="text" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Country</ion-label>
+        <ion-label color="light" floating>Country</ion-label>
         <ion-input [(ngModel)]="pubCountry" type="text" value = ""></ion-input>
       </ion-item>
     </ion-list>
     <ion-list *ngSwitchCase="'genre'">
       <ion-item>
-        <ion-label floating>Genre</ion-label>
+        <ion-label color="light" floating>Genre</ion-label>
         <ion-input [(ngModel)]="genreName" type="text" value = ""></ion-input>
       </ion-item>
     </ion-list>
