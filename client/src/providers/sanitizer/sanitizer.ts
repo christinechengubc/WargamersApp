@@ -20,48 +20,20 @@ export class SanitizerProvider {
   checkGameBody(game: any) {
     let checks: any[] = [];
 
-    if (game.title) {
-      checks.push(this.checkTitle(game.title));
-    }
-    if (game.rating) {
-      checks.push(this.checkRating(game.rating));
-    }
-    if (game.min_players && game.max_players) {
-      checks.push(this.checkPlayers(game.min_players, game.max_players));
-    }
-    if (game.min_playtime && game.max_playtime) {
-      checks.push(this.checkPlaytime(game.min_playtime, game.max_playtime));
-    }
-    if (game.year_published) {
-      checks.push(this.checkYearPublished(game.year_published));
-    }
-    if (game.description) {
-      checks.push(this.checkDescription(game.description));
-    }
-    if (game.complexity) {
-      checks.push(this.checkComplexity(game.complexity));
-    }
-    if (game.category) {
-      checks.push(this.checkCategory(game.category));
-    }
-    if (game.available_copies && game.total_copies) {
-      checks.push(this.checkCopies(game.available_copies, game.total_copies));
-    }
-    if (game.condition) {
-      checks.push(this.checkCondition(game.condition));
-    }
-    if (game.expansion_of) {
-      checks.push(this.checkExpansionOf(game.expansion_of));
-    }
-    if (game.show_main_page) {
-      checks.push(this.checkShowMainPage(game.show_main_page));
-    }
-    if (game.thumbnail) {
-      checks.push(this.checkThumbnail(game.thumbnail));
-    }
-    if (game.image) {
-      checks.push(this.checkImage(game.image));
-    }
+    checks.push(this.checkTitle(game.title));
+    checks.push(this.checkRating(game.rating));
+    checks.push(this.checkPlayers(game.min_players, game.max_players));
+    checks.push(this.checkPlaytime(game.min_playtime, game.max_playtime));
+    checks.push(this.checkYearPublished(game.year_published));
+    checks.push(this.checkDescription(game.description));
+    checks.push(this.checkComplexity(game.complexity));
+    checks.push(this.checkCategory(game.category));
+    checks.push(this.checkCopies(game.available_copies, game.total_copies));
+    checks.push(this.checkCondition(game.condition));
+    checks.push(this.checkExpansionOf(game.expansion_of));
+    checks.push(this.checkShowMainPage(game.show_main_page));
+    checks.push(this.checkThumbnail(game.thumbnail));
+    checks.push(this.checkImage(game.image));
 
     for (var check of checks) {
       if (check != "") return check;
@@ -175,7 +147,7 @@ export class SanitizerProvider {
     if (!(String(available_copies).match(/^0*[1-9]\d*$/))) {
       return "Available number of copies must be an integer!";
     }
-    if (!(String(available_copies).match(/^0*[1-9]\d*$/))) {
+    if (!(String(total_copies).match(/^0*[1-9]\d*$/))) {
       return "Total number of copies must be an integer!";
     }
     if (available_copies < 0) {
@@ -209,46 +181,4 @@ export class SanitizerProvider {
   checkImage(image: any) {
     return ""
   }
-
-
-  checkIfIntegersArePositive(integers: any) {
-    var areIntegersPositive: boolean = true;
-    integers.forEach((integer) => {
-      if (integer < 0) {
-        areIntegersPositive = false;
-      }
-    });
-    return areIntegersPositive;
-  }
-
-  checkIfPositive(numbers: any) {
-    var isPositive: boolean = true;
-    numbers.forEach((number) => {
-      if (number < 0) {
-        isPositive = false;
-      }
-    });
-    return isPositive;
-  }
-
-  checkIfIntegersOnlyIncludeNumerical(integers: any) {
-    var onlyNumerical: boolean = true;
-    integers.forEach((integer) => {
-      if (!(String(integer).match(/^0*[1-9]\d*$/))) {
-        onlyNumerical = false;
-      }
-    });
-    return onlyNumerical;
-  }
-
-  checkIfInput(integers: any) {
-    var asdf: boolean = true;
-    integers.forEach((integer) => {
-      if (integer == '') {
-        asdf = false;
-      }
-    });
-    return asdf;
-  }
-
 }
