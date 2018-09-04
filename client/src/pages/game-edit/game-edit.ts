@@ -86,182 +86,42 @@ export class GameEditPage {
       show_main_page: this.show_main_page,
       thumbnail: this.thumbnail,
       image: this.image
+    };
+
+    if (this.sanitizer.checkGameBody(body) != "") {
+      let error = this.toastCtrl.create({
+        message: this.sanitizer.checkGameBody(body),
+        duration: 3000,
+        position: 'top'
+      });
+      error.present();
+      return;
     }
 
-    var integers = [this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.year_published, this.available_copies, this.total_copies];
-    var numbers = [this.title, this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.available_copies, this.total_copies];
-    var positives = [this.rating, this.min_players, this.max_players, this.min_playtime, this.max_playtime, this.year_published, this.complexity, this.available_copies, this.total_copies];
-
-    if (!this.sanitizer.checkIfInput(numbers)) {
-      let error = this.toastCtrl.create({
-        message: 'Include an input!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else if (!this.sanitizer.checkIfIntegersOnlyIncludeNumerical(integers)) {
-      let error = this.toastCtrl.create({
-        message: 'Integers must only include numerical!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else if (!this.sanitizer.checkIfPositive(positives)) {
-      let error = this.toastCtrl.create({
-        message: 'You cannot provide negative numbers!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else if (this.rating < 0 || this.rating > 10) {
-      let error = this.toastCtrl.create({
-        message: 'Rating must be between 0 and 10!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else if (this.complexity < 0 || this.complexity > 5) {
-      let error = this.toastCtrl.create({
-        message: 'Complexity must be between 0 and 5!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else if (this.min_players > this.max_players) {
-      let error = this.toastCtrl.create({
-        message: 'Minimum players cannot be greater than maximum players!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else if (this.min_playtime > this.max_playtime) {
-      let error = this.toastCtrl.create({
-        message: 'Minimum play time cannot be greater than maximum play time!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else if (this.available_copies > this.total_copies) {
-      let error = this.toastCtrl.create({
-        message: 'Available copies cannot be greater than total copies!',
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-    } else {
-      this.api.put('games/' + this.id, body).subscribe(
-        resp => {
-          console.log(resp);
-          let toast = this.toastCtrl.create({
-            message: 'Succesfully edited game!',
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-          this.navCtrl.pop();
-          this.events.publish('refresh');
-        },
-        err => {
-          console.log(err);
-          let toast = this.toastCtrl.create({
-            message: 'Failed to edit game. Error: ' + err.error.detail,
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-        }
-      )
-    }
-
+    this.api.put('games/' + this.id, body).subscribe(
+      resp => {
+        console.log(resp);
+        let toast = this.toastCtrl.create({
+          message: 'Successfully edited game!',
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+        this.navCtrl.pop();
+        this.events.publish('refresh');
+      },
+      err => {
+        console.log(err);
+        let toast = this.toastCtrl.create({
+          message: 'Failed to edit game. Error: ' + err.error.detail,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      }
+    )
   }
 
-  // // Add a game
-  // add() {
-  //   let body: any = {
-  //     title: this.title,
-  //     rating: this.rating,
-  //     min_players: this.min_players,
-  //     max_players: this.max_players,
-  //     min_playtime: this.min_playtime,
-  //     max_playtime: this.max_playtime,
-  //     year_published: this.year_published,
-  //     description: this.description,
-  //     complexity: this.complexity,
-  //     categorys: this.categorys_selected,
-  //     language: this.language,
-  //     datePurchased: this.yearPurchased + "-" + this.monthPurchased + "-01"
-  //   }
-  //   console.log(body);
-  //
-  //   var integers = [this.rating, this.min_players, this.max_players, this.min_playtime, this.max_playtime];
-    //   var values = [this.title, this.rating, this.min_players, this.max_players, this.min_playtime, this.max_playtime];
-  //   if (!this.sanitizer.checkIfInput(values)) {
-  //     let error = this.toastCtrl.create({
-  //       message: 'Include an input!',
-  //       duration: 3000,
-  //       position: 'top'
-  //     });
-  //     error.present();
-  //   } else if (!this.sanitizer.checkIfIntegersOnlyIncludeNumerical(integers)) {
-  //     let error = this.toastCtrl.create({
-  //       message: 'Integers must only include numerical!',
-  //       duration: 3000,
-  //       position: 'top'
-  //     });
-  //     error.present();
-  //   } else if (!this.sanitizer.checkIfIntegersArePositive(integers)) {
-  //     let error = this.toastCtrl.create({
-  //       message: 'You cannot provide negative numbers!',
-  //       duration: 3000,
-  //       position: 'top'
-  //     });
-  //     error.present();
-  //   } else if (this.rating < 0 || this.rating > 5) {
-  //     let error = this.toastCtrl.create({
-  //       message: 'Rating must be between 0 and 5!',
-  //       duration: 3000,
-  //       position: 'top'
-  //     });
-  //     error.present();
-  //   } else if (this.min_players > this.max_players) {
-  //     let error = this.toastCtrl.create({
-  //       message: 'min_players has to be less than max_players!',
-  //       duration: 3000,
-  //       position: 'top'
-  //     });
-  //     error.present();
-  //   } else if (this.min_playtime > this.max_playtime) {
-  //     let error = this.toastCtrl.create({
-  //       message: 'min_playtime has to be less than max_playtime!',
-  //       duration: 3000,
-  //       position: 'top'
-  //     });
-  //     error.present();
-  //   } else {
-  //     this.api.post('game-edit/new', body).subscribe(
-  //       resp => {
-  //         console.log(resp);
-  //         let toast = this.toastCtrl.create({
-  //           message: 'Succesfully posted game to database!',
-  //           duration: 3000,
-  //           position: 'top'
-  //         });
-  //         toast.present();
-  //         this.navCtrl.pop();
-  //         this.events.publish('refresh');
-  //       },
-  //       err => {
-  //         console.log(err);
-  //         let toast = this.toastCtrl.create({
-  //           message: 'Failed to post game to database. Error: ' + err.error.detail,
-  //           duration: 3000,
-  //           position: 'top'
-  //         });
-  //         toast.present();
-  //       }
-  //     )
-  //   }
-  // }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GameEditPage');
