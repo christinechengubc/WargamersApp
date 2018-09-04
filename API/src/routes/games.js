@@ -124,12 +124,21 @@ games.post('/', (req, res) => {
 	if (Number(req.body.year_published) > Number(req.body.current_year)) {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: year_published > current_year."});
 	}
+  if (Number(req.body.available_copies) > Number(req.body.total_copies)) {
+    return res.status(400).json({status: 'error', code: 400, message: "Bad Request: available_copies >  total_copies."});
+  }
 	if (req.body.rating < 0) {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: rating < 0."});
 	}
 	if (req.body.rating > 10) {
-	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: rating > 0."});
+	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: rating > 10."});
 	}
+  if (req.body.complexity < 0) {
+    return res.status(400).json({status: 'error', code: 400, message: "Bad Request: complexity < 0."});
+  }
+  if (req.body.complexity > 5) {
+    return res.status(400).json({status: 'error', code: 400, message: "Bad Request: complexity > 5."});
+  }
 	if (req.body.users_rated < 0) {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: users_rated < 0."});
 	}
@@ -139,13 +148,10 @@ games.post('/', (req, res) => {
 	if (req.body.total_copies < 0) {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: total_copies < 0."});
 	}
-	if (Number(req.body.available_copies) > Number(req.body.total_copies)) {
-	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: available_copies >  total_copies."});
-	}
 	if (req.body.bgg_id === undefined) {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: bgg_id is undefined."});
 	}
-	if (req.body.show_main_page != "true" && req.body.show_main_page != "false") {
+	if (req.body.show_main_page !== "true" && req.body.show_main_page !== "false") {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: show_main_page is not true or false."});
 	}
 	var sql = new PQ('INSERT INTO games (title, category, min_players, max_players, min_playtime, max_playtime, year_published, description, ' +
