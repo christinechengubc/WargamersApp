@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var secret = require('./secret');
 
 events.get('/', (req, res) => {
-  var sql = 'SELECT * FROM events ORDER BY date';
+  var sql = 'SELECT * FROM events WHERE always_show = true OR events.date > now() ORDER BY date';
 
   db.many(sql)
     .then((data) => {
