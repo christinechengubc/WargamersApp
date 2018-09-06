@@ -48,7 +48,6 @@ export class LoginPage {
       toast.present();
     }, (err) => {
       // Unable to log in
-      this.navCtrl.push(MainPage);
       let toast = this.toastCtrl.create({
         message: this.loginErrorString,
         duration: 3000,
