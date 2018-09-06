@@ -1,6 +1,10 @@
 var games = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
+var jwt = require('jsonwebtoken');
+var secret = require('./secret');
+
+
 
 games.get('/', (req, res) => {
 	var sql = 'SELECT * FROM games WHERE show_main_page = TRUE LIMIT 10';
@@ -114,6 +118,41 @@ games.get('/', (req, res) => {
 // 	  });
 // });
 
+
+/*token verification (put in here instead of index.js as the '/games' path had to be split
+  based on the verb being used, rather than just the path.
+  The same code is copied in events.
+*/
+games.use((req,res,next) => {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+if (token) {
+
+  jwt.verify(token, secret.secret, function(err, decoded) {
+
+    if (err) {return res.status(403)
+      .json({
+        message: "not logged in"
+      })
+    }
+
+    else {
+      //save decoded token for use elsewhere
+      req.decoded = decoded;
+      next();
+    }
+
+
+  });
+} else {
+  return res.status(403)
+    .json({
+      message: "not logged in"
+    });
+}
+});
+
+
 games.post('/', (req, res) => {
 	if (Number(req.body.max_players) < Number(req.body.min_players)) {
 	 return res.status(400).json({status: 'error', code: 400, message: "Bad Request: max_players < min_players."});
@@ -192,9 +231,8 @@ games.put('/:id', (req, res) => {
 		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
 								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page,
 							  req.body.thumbnail];
-
 	db.none(sql)
-		.then(() => {
+		.then((data) => {
 			res.status(200)
 				.json({
 					status: 'ok',

@@ -4,6 +4,8 @@ import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { User } from '../../providers/providers';
 import { Api } from '../../providers/providers';
+import { Storage } from "@ionic/storage";
+import {HttpHeaders} from "@angular/common/http";
 
 /**
  * Generated class for the eventsPage page.
@@ -20,9 +22,14 @@ import { Api } from '../../providers/providers';
 export class EventInfoPage {
 
   event: any = {};
+  token: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, private alertCtrl: AlertController) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, public storage: Storage, private alertCtrl: AlertController) {
     this.event = navParams.data.event;
+    this.storage.get('token').then((token) => {
+      this.token = token;
+    })
   }
 
   editEvent() {
@@ -33,7 +40,13 @@ export class EventInfoPage {
   }
 
   deleteEvent() {
-    this.api.delete('events/' + this.event.id).subscribe(
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': this.token
+      })
+    };
+    console.log("delete");
+    this.api.delete('events/' + this.event.id, httpOptions).subscribe(
       resp => {
         console.log(resp);
         let toast = this.toastCtrl.create({

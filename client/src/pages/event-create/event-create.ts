@@ -4,6 +4,7 @@ import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
 import { SanitizerProvider } from '../../providers/providers';
+import { Storage } from "@ionic/storage";
 
 /**
  * Generated class for the EventsPage page.
@@ -19,6 +20,7 @@ import { SanitizerProvider } from '../../providers/providers';
 })
 export class EventCreatePage {
 
+  token: string = null;
   event: any = {};
   action: any;
   execs: any = [];
@@ -27,7 +29,8 @@ export class EventCreatePage {
   hours: any = [];
   minutes: any = [0,15,30,45];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider, public storage: Storage) {
     this.http.get(API_URL + "/executives").map(res => res.json()).subscribe(
       data => {
         this.execs = data.result.executives;
@@ -38,6 +41,11 @@ export class EventCreatePage {
         console.log(err);
       }
     );
+
+    this.storage.get('token').then((token) => {
+      this.token = token;
+    })
+
 
     for (let h = 0; h <= 23; h++) {
       this.hours.push(h);
@@ -57,6 +65,7 @@ export class EventCreatePage {
     if (navParams.data.action != null) {
       this.action = navParams.data.action;
     }
+
   }
 
   getDate() {
@@ -89,10 +98,10 @@ export class EventCreatePage {
       always_show: this.event.always_show,
       lead_exec: this.event.lead_exec,
       fb_event_page: this.event.fb_event_page,
-      image: this.event.image
+      image: this.event.image,
+      token: this.token
     }
 
-    console.log(body);
 
     if (this.action === "Edit") {
       this.api.put('events/' + this.event.id, body).subscribe(
