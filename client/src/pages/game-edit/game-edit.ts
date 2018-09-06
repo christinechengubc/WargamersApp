@@ -4,6 +4,7 @@ import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
 import { SanitizerProvider } from '../../providers/providers';
+import { Storage } from "@ionic/storage";
 
 
 /**
@@ -38,11 +39,16 @@ export class GameEditPage {
   show_main_page: any;
   thumbnail: any;
   image: any;
+  token: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider, public storage: Storage) {
+    this.storage.get('token').then((token) => {
+      this.token = token;
+    })
     if (navParams.data.game != null) {
       this.fillInGivenGameInfo(navParams.data.game);
     }
+
   }
 
   fillInGivenGameInfo(game: any) {
@@ -85,7 +91,8 @@ export class GameEditPage {
       expansion_of: this.expansion_of,
       show_main_page: this.show_main_page,
       thumbnail: this.thumbnail,
-      image: this.image
+      image: this.image,
+      token: this.token
     };
 
     if (this.sanitizer.checkGameBody(body) != "") {
@@ -95,7 +102,28 @@ export class GameEditPage {
         position: 'top'
       });
       error.present();
-      return;
+    } else {
+      this.api.put('games/' + this.id, body).subscribe(
+        resp => {
+          let toast = this.toastCtrl.create({
+            message: 'Succesfully edited game!',
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+          this.navCtrl.pop();
+          this.events.publish('refresh');
+        },
+        err => {
+          console.log(err);
+          let toast = this.toastCtrl.create({
+            message: 'Failed to edit game. Error: ' + err.error.detail,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }
+      )
     }
 
     this.api.put('games/' + this.id, body).subscribe(
