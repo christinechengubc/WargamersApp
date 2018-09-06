@@ -9,7 +9,7 @@ const initOptions = {};
 
 const pgp = require('pg-promise')(initOptions);
 
-const cn = connection_info;cn
+const cn = connection_info;
 
 const db = pgp(cn);
 

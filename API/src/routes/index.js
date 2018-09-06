@@ -4,8 +4,6 @@ var events = require('./events');
 var executives = require('./executives');
 var admins = require('./admins');
 var login = require('./login');
-var secret = require('./secret');
-var jwt = require('jsonwebtoken');
 
 
 var search = require('./search');

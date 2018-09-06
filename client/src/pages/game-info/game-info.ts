@@ -25,7 +25,6 @@ export class GameInfoPage {
   game: any = {};
   token: any;
 
-<<<<<<< HEAD
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, public storage: Storage, private alertCtrl: AlertController) {
     this.storage.get('token').then((token) => {
       this.token = token;
