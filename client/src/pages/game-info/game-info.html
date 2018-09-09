@@ -7,7 +7,7 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      Wargamers App
+      Game Information
     </ion-title>
     <ion-buttons end>
       <main-menu></main-menu>
@@ -20,7 +20,6 @@
   <ion-list *ngIf="game">
     <img [src]="game.image" />
     <ion-item no-lines class="game-title"> {{ game.title }} ({{ game.year_published }})</ion-item>
-    <ion-item no-lines text-wrap class="align0"><b>Published by:</b> {{ game.publisher }}</ion-item>
     <ion-item no-lines text-wrap class="align"><b>Categories:</b> {{ game.category }}</ion-item>
     <ion-item no-lines text-wrap class="align1"><b>Rating:</b> {{ game.rating }} ({{ game.users_rated }} Users Rated on BGG)</ion-item>
     <ion-item no-lines text-wrap class="align2"><b>Players:</b> {{ game.min_players }} - {{ game.max_players }}</ion-item>
@@ -36,6 +35,6 @@
   <ion-fab right bottom>
   <!-- <ion-fab right bottom *ngIf="user._user != null"> -->
     <button (click)="editGame()" ion-fab><ion-icon name="create"></ion-icon></button>
-    <button (click)="deleteGame()" ion-fab><ion-icon name="close"></ion-icon></button>
+    <button (click)="presentConfirm()" ion-fab><ion-icon name="close"></ion-icon></button>
   </ion-fab>
 </ion-content>

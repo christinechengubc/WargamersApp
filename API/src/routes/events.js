@@ -1,9 +1,11 @@
 var events = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
+var jwt = require('jsonwebtoken');
+var secret = require('./secret');
 
 events.get('/', (req, res) => {
-  var sql = 'SELECT * FROM events ORDER BY date';
+  var sql = 'SELECT * FROM events WHERE always_show = true OR events.date > now() ORDER BY date';
 
   db.many(sql)
     .then((data) => {
@@ -56,6 +58,43 @@ events.get('/:id', (req, res) => {
 				});
 	  });
 });
+
+/*token verification (put in here instead of index.js as the '/games' path had to be split
+  based on the verb being used, rather than just the path.
+  The same code is copied in games. Any type of task that requires authentication (ie. updating events) must be put
+  below this events.use. This ensures that all those tasks will go through events.use and hence require authentication in
+  order for it to work.
+*/
+events.use((req,res,next) => {
+  //retrieve token from client side
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+if (token) {
+  //verify token using the token and secret as the key
+  jwt.verify(token, secret.secret, function(err, decoded) {
+
+    if (err) {return res.status(403)
+      .json({
+        message: "not logged in"
+      })
+    }
+
+    else {
+      //save decoded token for use elsewhere
+      req.decoded = decoded;
+      next();
+    }
+
+
+  });
+} else {
+  return res.status(403)
+    .json({
+      message: "not logged in"
+    });
+}
+});
+
 
 events.post('/', (req, res) => {
 	if (Number(req.body.start_time) >= Number(req.body.end_time)) {
