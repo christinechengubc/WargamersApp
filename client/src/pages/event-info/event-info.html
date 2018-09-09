@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
       Event Information
     </ion-title>
@@ -18,15 +18,15 @@
 <ion-content padding>
   <ion-list>
     <img *ngIf="event.image != null" [src]="event.image" />
-    <ion-item class="title">{{ event.title }}</ion-item>
+    <ion-item no-lines class="title">{{ event.title }}</ion-item>
     <ng-container *ngIf="!event.always_show">
-      <ion-item text-wrap *ngIf="event.date != null; else date_tba"><b>Date:</b> {{ event.date.substring(0,10) }}</ion-item>
+      <ion-item no-lines text-wrap class="date" *ngIf="event.date != null; else date_tba"><b>Date:</b> {{ event.date.substring(0,10) }}</ion-item>
     </ng-container>
-    <ion-item text-wrap *ngIf="event.start_time != null && event.end_time != null; else time_tba"><b>Time:</b> {{ event.start_time?.substring(0,5) }} - {{ event.end_time?.substring(0,5) }}</ion-item>
-    <ion-item text-wrap *ngIf="event.location != null; else location_tba"><b>Location:</b> {{ event.location }}</ion-item>
-    <ion-item text-wrap><b>Description:</b> {{ event.description }}</ion-item>
-    <ion-item text-wrap><b>Lead Executive / Host:</b> {{ event.lead_exec }}</ion-item>
-    <ion-item text-wrap><b>Facebook Event Page:</b> {{ event.fb_event_page }}</ion-item>
+    <ion-item no-lines text-wrap class="time" *ngIf="event.start_time != null && event.end_time != null; else time_tba"><b>Time:</b> {{ event.start_time?.substring(0,5) }} - {{ event.end_time?.substring(0,5) }}</ion-item>
+    <ion-item no-lines text-wrap class="location" *ngIf="event.location != null; else location_tba"><b>Location:</b> {{ event.location }}</ion-item>
+    <ion-item no-lines class="description" text-wrap><b>Description:</b> {{ event.description }}</ion-item>
+    <ion-item no-lines class="lead-exec" text-wrap><b>Lead Executive / Host:</b> {{ event.lead_exec }}</ion-item>
+    <ion-item no-lines class="fb-event-page" text-wrap><b>Facebook Event Page:</b> {{ event.fb_event_page }}</ion-item>
   </ion-list>
 
   <!-- <ion-fab *ngIf="user._user != null" right bottom> -->
@@ -36,6 +36,6 @@
   </ion-fab>
 </ion-content>
 
-<ng-template #date_tba><ion-item text-wrap><b>Date:</b> TBA</ion-item></ng-template>
-<ng-template #time_tba><ion-item text-wrap><b>Time:</b> TBA</ion-item></ng-template>
-<ng-template #location_tba><ion-item text-wrap><b>Location:</b> TBA</ion-item></ng-template>
+<ng-template #date_tba><ion-item no-lines  text-wrap class="date"><b>Date:</b> TBA</ion-item></ng-template>
+<ng-template #time_tba><ion-item no-lines  text-wrap class="time"><b>Time:</b> TBA</ion-item></ng-template>
+<ng-template #location_tba><ion-item no-lines  text-wrap class="location"><b>Location:</b> TBA</ion-item></ng-template>
