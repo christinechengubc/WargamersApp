@@ -11,19 +11,10 @@ page-event-info {
     .event-info {
         background-color: black;
     }
-    .description {
-        margin-left: 64px;
-    }
-    .fb-event-page {
-        margin-left: 3px;
-    }
-    .time {
-        margin-left: 105px;
-    }
-    .date {
-        margin-left: 107px;
-    }
-    .location {
-        margin-left: 82px;
+    .label-md {
+        font-size: 3rem;
+        b {
+            color: #F7CD46;
+        }
     }
 }   
