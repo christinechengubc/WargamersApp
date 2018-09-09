@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
       Search For a Game
     </ion-title>
@@ -37,47 +37,47 @@
     </ion-list>
     <ion-list *ngSwitchCase="'advanced'">
       <ion-item>
-        <ion-label floating>Title</ion-label>
+        <ion-label color="light" floating>Title</ion-label>
         <ion-input [(ngModel)]="title" type="text" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Category</ion-label>
+        <ion-label color="light" floating>Category</ion-label>
         <ion-input [(ngModel)]="category" type="text" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Minimum Rating</ion-label>
+        <ion-label color="light" floating>Minimum Rating</ion-label>
         <ion-input [(ngModel)]="rating" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Minimum Players</ion-label>
+        <ion-label color="light" floating>Minimum Players</ion-label>
         <ion-input [(ngModel)]="min_players" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Maximum Players</ion-label>
+        <ion-label color="light" floating>Maximum Players</ion-label>
         <ion-input [(ngModel)]="max_players" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Minimum Play Time</ion-label>
+        <ion-label color="light" floating>Minimum Play Time</ion-label>
         <ion-input [(ngModel)]="min_playtime" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Maximum Play Time</ion-label>
+        <ion-label color="light" floating>Maximum Play Time</ion-label>
         <ion-input [(ngModel)]="max_playtime" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Year Published</ion-label>
+        <ion-label color="light" floating>Year Published</ion-label>
         <ion-input [(ngModel)]="year_published" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Description</ion-label>
+        <ion-label color="light" floating>Description</ion-label>
         <ion-input [(ngModel)]="description" type="text" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Maximum Complexity</ion-label>
+        <ion-label color="light" floating>Maximum Complexity</ion-label>
         <ion-input [(ngModel)]="complexity" type="number" value = ""></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Condition</ion-label>
+        <ion-label color="light" floating>Condition</ion-label>
         <ion-select [(ngModel)]="condition">
           <ion-option value=""></ion-option>
           <ion-option>New</ion-option>
@@ -88,7 +88,7 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label text-wrap>Available for Borrowing</ion-label>
+        <ion-label color="light" text-wrap>Available for Borrowing</ion-label>
         <ion-checkbox [(ngModel)]="available"></ion-checkbox>
       </ion-item>
     </ion-list>
