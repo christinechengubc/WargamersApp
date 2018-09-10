@@ -25,31 +25,13 @@ export class GamesPage {
       this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
         data => {
           this.games = data.result.games;
-          console.log("now logging");
-          console.log(data.result.games);
         },
         err => {
-          console.log("Oops!");
-          console.log(err);
         }
       );
     } else {
-      console.log(navParams.data.games);
       this.games = navParams.data.games.result.games;
-      console.log(this.games);
     }
-
-    events.subscribe('refresh', () => {
-      this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
-        data => {
-          this.games = data.data;
-
-        },
-        err => {
-
-        }
-      );
-    });
   }
 
   gameInfo(game) {
@@ -64,6 +46,18 @@ export class GamesPage {
       currentActionDescription: "Add a game",
       currentAction: "addingGame"
     });
+  }
+
+  doRefresh(refresher) {
+    this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
+      data => {
+        this.games = data.result.games;
+        refresher.complete();
+      },
+      err => {
+        refresher.complete();
+      }
+    );
   }
 
   searchGame() {
