@@ -17,6 +17,11 @@
 
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
   <ion-list>
     <ion-card *ngFor="let event of events" (click)="eventInfo(event)" class="card">
       <img *ngIf="event.image != null" [src]="event.image" />
