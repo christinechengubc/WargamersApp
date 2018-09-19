@@ -25,12 +25,22 @@ export class EventsPage {
     this.http.get(API_URL + '/events').map(res => res.json()).subscribe(
       data => {
         this.events = data.result.events;
-        console.log("now logging");
-        console.log(data.result.events);
+
       },
       err => {
-        console.log("Oops!");
-        console.log(err);
+
+      }
+    );
+  }
+
+  doRefresh(refresher) {
+    this.http.get(API_URL + '/events').map(res => res.json()).subscribe(
+      data => {
+        this.events = data.result.events;
+        refresher.complete();
+      },
+      err => {
+        refresher.complete();
       }
     );
   }
