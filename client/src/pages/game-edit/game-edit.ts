@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, Events } from 'io
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
-import { SanitizerProvider } from '../../providers/providers';
+import { ValidatorProvider } from '../../providers/providers';
 import { Storage } from "@ionic/storage";
 
 
@@ -41,7 +41,7 @@ export class GameEditPage {
   image: any;
   token: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider, public storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public validator: ValidatorProvider, public storage: Storage) {
     this.storage.get('token').then((token) => {
       this.token = token;
     })
@@ -95,9 +95,9 @@ export class GameEditPage {
       token: this.token
     };
 
-    if (this.sanitizer.checkGameBody(body) != "") {
+    if (this.validator.checkGameBody(body) != "") {
       let error = this.toastCtrl.create({
-        message: this.sanitizer.checkGameBody(body),
+        message: this.validator.checkGameBody(body),
         duration: 3000,
         position: 'top'
       });
@@ -117,7 +117,7 @@ export class GameEditPage {
         err => {
           console.log(err);
           let toast = this.toastCtrl.create({
-            message: 'Failed to edit game. Error: ' + err.error.detail,
+            message: 'Failed to edit game. ' + err.error.detail,
             duration: 3000,
             position: 'top'
           });
@@ -141,7 +141,7 @@ export class GameEditPage {
       err => {
         console.log(err);
         let toast = this.toastCtrl.create({
-          message: 'Failed to edit game. Error: ' + err.error.detail,
+          message: 'Failed to edit game.  ' + err.error.detail,
           duration: 3000,
           position: 'top'
         });
