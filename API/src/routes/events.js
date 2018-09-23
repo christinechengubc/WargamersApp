@@ -65,6 +65,7 @@ events.get('/:id', (req, res) => {
   below this events.use. This ensures that all those tasks will go through events.use and hence require authentication in
   order for it to work.
 */
+
 events.use((req,res,next) => {
   //retrieve token from client side
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -100,17 +101,14 @@ events.post('/', (req, res) => {
 	if (Number(req.body.start_time) >= Number(req.body.end_time)) {
 		return res.status(400).json({status: 'error', code: 400, message: "Bad Request: start_time >= end_time."});
 	}
-  // if (req.body.date < current_date) {
-  //   return res.status(400).json({status: 'error', code: 400, message: "Bad Request: date is before current_date."});
-  // }
-  if (req.body.always_show != true && req.body.always_show != false) {
-		return res.status(400).json({status: 'error', code: 400, message: "Bad Request: always_show is not true or false."});
+  if (req.body.always_show == null) {
+		return res.status(400).json({status: 'error', code: 400, message: "Bad Request: always_show is null."});
 	}
 
-  var sql = new PQ('INSERT INTO events (title, start_time, end_time, date, location, description, always_show, lead_exec, fb_event_page) ' +
-  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)');
+  var sql = new PQ('INSERT INTO events (title, start_time, end_time, date, location, description, always_show, lead_exec, fb_event_page, image) ' +
+  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)');
   sql.values = [req.body.title, req.body.start_time, req.body.end_time, req.body.date, req.body.location,
-                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page];
+                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, req.body.image];
 
   db.none(sql)
     .then((data) => {
@@ -136,10 +134,10 @@ events.post('/', (req, res) => {
 
 events.put('/:id', (req,res) => {
   var sql = new PQ('UPDATE events ' +
-    'SET title = $2, start_time = $3, end_time = $4, date = $5, location = $6, description = $7, always_show = $8, lead_exec = $9, fb_event_page = $10 ' +
+    'SET title = $2, start_time = $3, end_time = $4, date = $5, location = $6, description = $7, always_show = $8, lead_exec = $9, fb_event_page = $10, image = $11 ' +
     'WHERE id = $1');
   sql.values = [req.params.id, req.body.title, req.body.start_time, req.body.end_time, req.body.date, req.body.location,
-                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page];
+                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, req.body.image];
 
   db.none(sql)
     .then((data) => {

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
-
+import moment from "moment";
 
 /*
   Generated class for the SanitizerProvider provider.
@@ -11,10 +10,10 @@ import { Validators } from '@angular/forms';
 */
 
 @Injectable()
-export class SanitizerProvider {
+export class ValidatorProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello SanitizerProvider Provider');
+    console.log('ValidatorProvider constructed');
   }
 
   checkGameBody(game: any) {
@@ -25,7 +24,7 @@ export class SanitizerProvider {
     checks.push(this.checkPlayers(game.min_players, game.max_players));
     checks.push(this.checkPlaytime(game.min_playtime, game.max_playtime));
     checks.push(this.checkYearPublished(game.year_published));
-    checks.push(this.checkDescription(game.description));
+    checks.push(this.checkGameDescription(game.description));
     checks.push(this.checkComplexity(game.complexity));
     checks.push(this.checkCategory(game.category));
     checks.push(this.checkCopies(game.available_copies, game.total_copies));
@@ -42,14 +41,69 @@ export class SanitizerProvider {
     return "";
   }
 
+  checkEventBody(event: any) {
+    let checks: any[] = [];
+
+    checks.push(this.checkTitle(event.title));
+    checks.push(this.checkDate(event.date));
+    checks.push(this.checkEventDescription(event.description));
+    checks.push(this.checkTime(event.start_time, event.end_time));
+    checks.push(this.checkLeadExec(event.lead_exec));
+
+    for (var check of checks) {
+      if (check != "") return check;
+    }
+
+    return "";
+  }
+
+  checkDate(date: any) {
+    if (date === undefined) {
+      return "Include a date!"
+    }
+    return "";
+  }
+
+  checkTime(start_time: any, end_time: any) {
+    if (start_time === undefined) {
+      return "Include start time!";
+    }
+    if (end_time === undefined) {
+      return "Include end time!";
+    }
+
+    if (moment(start_time, "HH:mm") > moment(end_time, "HH:mm")) {
+      return "Start time cannot be after end time!";
+    }
+    return "";
+  }
+
+  checkLeadExec(lead_exec: any) {
+    if (lead_exec === undefined) {
+      return "Include an executive!";
+    }
+    return "";
+  }
+
   checkTitle(title: any) {
-    if (title == '') {
+    if (title === undefined) {
       return "Include a title!";
     }
     return "";
   }
 
+  checkEventDescription(description: any) {
+    if (description === undefined) {
+      return "Include an event description!";
+    }
+    return "";
+
+  }
+
   checkRating(rating: any) {
+    if (rating === undefined) {
+      return "Include a rating!";
+    }
     if (rating < 0) {
       return "Rating cannot be less than 0!";
     }
@@ -60,7 +114,7 @@ export class SanitizerProvider {
   }
 
   checkPlayers(min_players: any, max_players: any) {
-    if (min_players == '') {
+    if (min_players === undefined) {
       return "Include minimum number of players!";
     }
     if (max_players == '') {
@@ -85,10 +139,10 @@ export class SanitizerProvider {
   }
 
   checkPlaytime(min_playtime: any, max_playtime: any) {
-    if (min_playtime == '') {
+    if (min_playtime === undefined) {
       return "Include minimum number of players!";
     }
-    if (max_playtime == '') {
+    if (max_playtime === undefined) {
       return "Include maximum number of players!";
     }
     if (!(String(min_playtime).match(/^0*[1-9]\d*$/))) {
@@ -116,7 +170,7 @@ export class SanitizerProvider {
     return "";
   }
 
-  checkDescription(description: any) {
+  checkGameDescription(description: any) {
     return "";
   }
 
@@ -138,10 +192,10 @@ export class SanitizerProvider {
   }
 
   checkCopies(available_copies: any, total_copies: any) {
-    if (available_copies == '') {
+    if (available_copies === undefined) {
       return "Include available number of copies!";
     }
-    if (total_copies == '') {
+    if (total_copies === undefined) {
       return "Include available number of copies";
     }
     if (!(String(available_copies).match(/^0*[1-9]\d*$/))) {
