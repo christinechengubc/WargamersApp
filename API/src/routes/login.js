@@ -16,23 +16,18 @@ login.post('/', (req, res) => {
 
   var sql = new PQ('SELECT hash FROM App_Admins WHERE email = $1');
   sql.values = [req.body.email];
+  db.oneOrNone(sql)
+    .then((data) => {
 
-/*  console.log(req.body.email);
-  console.log(req.body.password);*/
-db.oneOrNone(sql)
-  .then((data) => {
-
-   //incorrect username
-   if (!data) {
-     return res.status(401)
-       .json({
-          status: 'failure',
-          code: 401,
-          message: 'authentication failed'
-       });
-   }
-
-
+     //incorrect username
+     if (!data) {
+       return res.status(401)
+         .json({
+            status: 'failure',
+            code: 401,
+            message: 'authentication failed'
+         });
+     }
 
     //the hashed password received
     var hashPassword = data.hash;
@@ -46,7 +41,6 @@ db.oneOrNone(sql)
           admin: true
         };
         //set secret to retrieve from secret.json
-
         var token = jwt.sign(payload, secret.secret, {expiresIn: expiryTime});
 
         return res.status(200)
@@ -77,5 +71,39 @@ db.oneOrNone(sql)
   });
 
 });
+
+login.use((req,res,next) => {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+if (token) {
+
+  jwt.verify(token, secret.secret, function(err, decoded) {
+    console.log("success");
+    if (err) {return res.status(403)
+      .json({
+        message: "not logged in"
+      })
+    }
+
+    else {
+      //save decoded token for use elsewhere
+      req.decoded = decoded;
+      next();
+    }
+  });
+} else {
+  return res.status(403)
+    .json({
+      message: "not logged in"
+    });
+}
+});
+
+login.get('/', (req, res) => {
+  return res.status(200).json({
+    status: 'success',
+    code:200,
+})
+})
+
 
 module.exports = login;
