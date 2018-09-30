@@ -39,6 +39,7 @@ export class LoginPage {
     this.user.login(this.account).subscribe((resp: any) => {
       var token = resp.token;
       this.storage.set("token", token);
+      this.storage.set("login", 1);
       this.navCtrl.push(MainPage);
       let toast = this.toastCtrl.create({
         message: 'Logged in successfully! Welcome!',
