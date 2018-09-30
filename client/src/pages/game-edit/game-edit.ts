@@ -125,29 +125,6 @@ export class GameEditPage {
         }
       )
     }
-
-    this.api.put('games/' + this.id, body).subscribe(
-      resp => {
-        console.log(resp);
-        let toast = this.toastCtrl.create({
-          message: 'Successfully edited game!',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        this.navCtrl.pop();
-        this.events.publish('refresh');
-      },
-      err => {
-        console.log(err);
-        let toast = this.toastCtrl.create({
-          message: 'Failed to edit game. Error: ' + err.error.detail,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-      }
-    )
   }
 
 
