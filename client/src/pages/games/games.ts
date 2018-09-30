@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { API_URL } from '../url';
 import { User } from '../../providers/providers';
+import { Storage } from "@ionic/storage";
 
 /**
  * Generated class for the GamesPage page.
@@ -18,8 +19,9 @@ import { User } from '../../providers/providers';
 })
 export class GamesPage {
   games: any = [];
+  login = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public events: Events, public storage: Storage) {
 
     if (typeof navParams.data.games === 'undefined') {
       this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
@@ -32,6 +34,10 @@ export class GamesPage {
     } else {
       this.games = navParams.data.games.result.games;
     }
+
+    this.storage.get('login').then((login) => {
+      this.login = login;
+    })
   }
 
   gameInfo(game) {
@@ -62,6 +68,10 @@ export class GamesPage {
 
   searchGame() {
     this.navCtrl.push('SearchPage');
+  }
+
+  isLoggedIn() {
+    return this.login;
   }
 
   ionViewDidLoad() {

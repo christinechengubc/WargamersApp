@@ -6,6 +6,8 @@ import { User } from '../../providers/providers';
 import { Api } from '../../providers/providers';
 import { Storage } from "@ionic/storage";
 import {HttpHeaders} from "@angular/common/http";
+import {MainPage} from "../pages";
+import {EventsPage} from "../events/events";
 
 /**
  * Generated class for the eventsPage page.
@@ -23,20 +25,45 @@ export class EventInfoPage {
 
   event: any = {};
   token: any;
+  login: any;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, public storage: Storage, private alertCtrl: AlertController) {
     this.event = navParams.data.event;
+    this.login = 0;
     this.storage.get('token').then((token) => {
       this.token = token;
+    });
+    this.storage.get('login').then((login) => {
+      this.login = login;
     })
   }
 
   editEvent() {
-    this.navCtrl.push('EventCreatePage', {
-      event: this.event,
-      action: "Edit",
-    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': this.token
+      })
+    };
+
+    this.api.get('login/', null, httpOptions).subscribe(
+      resp => {
+        this.navCtrl.push('EventCreatePage', {
+          event: this.event,
+          action: "Edit",
+        });
+      },
+      err => {
+        this.storage.set('login', 0);
+        let toast = this.toastCtrl.create({
+          message: 'Cannot edit game. Error: not logged in',
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+        this.navCtrl.setRoot(EventsPage);
+      }
+    )
   }
 
   deleteEvent() {
@@ -57,15 +84,18 @@ export class EventInfoPage {
         toast.present();
         this.navCtrl.pop();
         this.events.publish('refresh');
+
       },
       err => {
         console.log(err);
+        this.storage.set('login', 0);
         let toast = this.toastCtrl.create({
-          message: 'Failed to delete event from database. Error: ' + err.error.detail,
+          message: 'Failed to delete event from database. Error: not logged in',
           duration: 3000,
           position: 'top'
         });
         toast.present();
+        this.navCtrl.setRoot(EventsPage);
       }
     )
   }
@@ -92,6 +122,11 @@ export class EventInfoPage {
     });
     alert.present();
   }
+
+  isLoggedIn() {
+    return this.login;
+  }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EventInfoPage');

@@ -5,6 +5,7 @@ import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
 import { SanitizerProvider } from '../../providers/providers';
 import { Storage } from "@ionic/storage";
+import {GamesPage} from "../games/games";
 
 
 /**
@@ -44,7 +45,7 @@ export class GameEditPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider, public storage: Storage) {
     this.storage.get('token').then((token) => {
       this.token = token;
-    })
+    });
     if (navParams.data.game != null) {
       this.fillInGivenGameInfo(navParams.data.game);
     }
@@ -116,17 +117,18 @@ export class GameEditPage {
         },
         err => {
           console.log(err);
+          this.storage.set('login', 0);
           let toast = this.toastCtrl.create({
-            message: 'Failed to edit game. Error: ' + err.error.detail,
+            message: 'Failed to edit game. Error: not logged in',
             duration: 3000,
             position: 'top'
           });
           toast.present();
+          this.navCtrl.setRoot(GamesPage);
         }
       )
     }
   }
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GameEditPage');

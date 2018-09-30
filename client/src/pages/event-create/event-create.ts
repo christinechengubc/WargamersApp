@@ -5,6 +5,7 @@ import { Http } from '@angular/http';
 import { Api } from '../../providers/providers';
 import { SanitizerProvider } from '../../providers/providers';
 import { Storage } from "@ionic/storage";
+import {EventsPage} from "../events/events";
 
 /**
  * Generated class for the EventsPage page.
@@ -44,8 +45,7 @@ export class EventCreatePage {
 
     this.storage.get('token').then((token) => {
       this.token = token;
-    })
-
+    });
 
     for (let h = 0; h <= 23; h++) {
       this.hours.push(h);
@@ -100,7 +100,7 @@ export class EventCreatePage {
       fb_event_page: this.event.fb_event_page,
       image: this.event.image,
       token: this.token
-    }
+    };
 
 
     if (this.action === "Edit") {
@@ -118,12 +118,15 @@ export class EventCreatePage {
         },
         err => {
           console.log(err);
+          this.storage.set('login', 0);
           let toast = this.toastCtrl.create({
-            message: 'Failed to edit event. Error: ' + err.error.detail,
+            message: 'Failed to edit event. Error: not logged in',
             duration: 3000,
             position: 'top'
           });
           toast.present();
+          this.navCtrl.setRoot(EventsPage);
+
         }
       );
     }
@@ -143,16 +146,19 @@ export class EventCreatePage {
         },
         err => {
           console.log(err);
+          this.storage.set('login', 0);
           let toast = this.toastCtrl.create({
-            message: 'Failed to create event. Error: ' + err.error.message,
+            message: 'Failed to create event. Error: not logged in',
             duration: 3000,
             position: 'top'
           });
           toast.present();
+          this.navCtrl.setRoot(EventsPage);
         }
       );
     }
   }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EventCreatePage');
