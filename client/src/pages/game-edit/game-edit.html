@@ -15,55 +15,55 @@
   <ion-list>
     <ion-item>
       <ion-label fixed>Title</ion-label>
-      <ion-input [(ngModel)]="title" type="text" value =""></ion-input>
+      <ion-input [(ngModel)]="game.title" type="text" value =""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Year Published</ion-label>
-      <ion-input [(ngModel)]="year_published" type="number"></ion-input>
+      <ion-input [(ngModel)]="game.year_published" type="number"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Rating</ion-label>
-      <ion-input [(ngModel)]="rating"  type="number" value = ""></ion-input>
+      <ion-input [(ngModel)]="game.rating"  type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Min Players</ion-label>
-      <ion-input  [(ngModel)]="min_players" type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="game.min_players" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Max Players</ion-label>
-      <ion-input  [(ngModel)]="max_players" type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="game.max_players" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Min Playtime</ion-label>
-      <ion-input  [(ngModel)]="min_playtime" type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="game.min_playtime" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Max Playtime</ion-label>
-      <ion-input  [(ngModel)]="max_playtime" type="number" value = ""></ion-input>
+      <ion-input  [(ngModel)]="game.max_playtime" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Complexity</ion-label>
-      <ion-input [(ngModel)]="complexity" type="number" value = ""></ion-input>
+      <ion-input [(ngModel)]="game.complexity" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Categories</ion-label>
-      <ion-input [(ngModel)]="category" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="game.category" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Description</ion-label>
-      <ion-input [(ngModel)]="description" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="game.description" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Available Copies</ion-label>
-      <ion-input [(ngModel)]="available_copies" type="number" value = ""></ion-input>
+      <ion-input [(ngModel)]="game.available_copies" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Total Copies</ion-label>
-      <ion-input [(ngModel)]="total_copies" type="number" value = ""></ion-input>
+      <ion-input [(ngModel)]="game.total_copies" type="number" value = ""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Condition</ion-label>
-      <ion-select [(ngModel)]="condition" value = "">
+      <ion-select [(ngModel)]="game.condition" value = "">
         <ion-option>New</ion-option>
         <ion-option>Good</ion-option>
         <ion-option>OK</ion-option>
@@ -73,19 +73,19 @@
     </ion-item>
     <ion-item>
       <ion-label fixed>Expansion Of</ion-label>
-      <ion-input [(ngModel)]="expansion_of" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="game.expansion_of" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Image Source String</ion-label>
-      <ion-input [(ngModel)]="image" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="game.image" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Thumbnail Source String</ion-label>
-      <ion-input [(ngModel)]="thumbnail" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="game.thumbnail" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Show on Games Tab</ion-label>
-      <ion-checkbox [(ngModel)]="show_main_page"></ion-checkbox>
+      <ion-checkbox [(ngModel)]="game.show_main_page"></ion-checkbox>
     </ion-item>
   </ion-list>
   <button (click)="save()" ion-button>Save</button>

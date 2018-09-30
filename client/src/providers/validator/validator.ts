@@ -10,10 +10,9 @@ import moment from "moment";
 */
 
 @Injectable()
-export class ValidatorProvider {
+export class Validator {
 
   constructor(public http: HttpClient) {
-    console.log('ValidatorProvider constructed');
   }
 
   checkGameBody(game: any) {
@@ -24,15 +23,8 @@ export class ValidatorProvider {
     checks.push(this.checkPlayers(game.min_players, game.max_players));
     checks.push(this.checkPlaytime(game.min_playtime, game.max_playtime));
     checks.push(this.checkYearPublished(game.year_published));
-    checks.push(this.checkGameDescription(game.description));
     checks.push(this.checkComplexity(game.complexity));
-    checks.push(this.checkCategory(game.category));
     checks.push(this.checkCopies(game.available_copies, game.total_copies));
-    checks.push(this.checkCondition(game.condition));
-    checks.push(this.checkExpansionOf(game.expansion_of));
-    checks.push(this.checkShowMainPage(game.show_main_page));
-    checks.push(this.checkThumbnail(game.thumbnail));
-    checks.push(this.checkImage(game.image));
 
     for (var check of checks) {
       if (check != "") return check;
@@ -46,7 +38,6 @@ export class ValidatorProvider {
 
     checks.push(this.checkTitle(event.title));
     checks.push(this.checkDate(event.date));
-    checks.push(this.checkEventDescription(event.description));
     checks.push(this.checkTime(event.start_time, event.end_time));
     checks.push(this.checkLeadExec(event.lead_exec));
 
@@ -58,17 +49,17 @@ export class ValidatorProvider {
   }
 
   checkDate(date: any) {
-    if (date === undefined) {
+    if (date == null || date === "") {
       return "Include a date!"
     }
     return "";
   }
 
   checkTime(start_time: any, end_time: any) {
-    if (start_time === undefined) {
+    if (start_time == null || start_time === "") {
       return "Include start time!";
     }
-    if (end_time === undefined) {
+    if (end_time == null || end_time === "") {
       return "Include end time!";
     }
 
@@ -79,30 +70,22 @@ export class ValidatorProvider {
   }
 
   checkLeadExec(lead_exec: any) {
-    if (lead_exec === undefined) {
+    if (lead_exec == null || lead_exec === "") {
       return "Include an executive!";
     }
     return "";
   }
 
   checkTitle(title: any) {
-    if (title === undefined) {
+    if (title == null || title === "") {
       return "Include a title!";
     }
     return "";
   }
 
-  checkEventDescription(description: any) {
-    if (description === undefined) {
-      return "Include an event description!";
-    }
-    return "";
-
-  }
-
   checkRating(rating: any) {
-    if (rating === undefined) {
-      return "Include a rating!";
+    if (!((String(rating).match(/^0*[1-9]\d*$/)) || (String(rating).match(/\d/)))) {
+      return "Rating must be an integer!"
     }
     if (rating < 0) {
       return "Rating cannot be less than 0!";
@@ -114,10 +97,10 @@ export class ValidatorProvider {
   }
 
   checkPlayers(min_players: any, max_players: any) {
-    if (min_players === undefined) {
+    if (min_players == null || min_players === "") {
       return "Include minimum number of players!";
     }
-    if (max_players == '') {
+    if (max_players == null || max_players === "") {
       return "Include maximum number of players!";
     }
     if (!(String(min_players).match(/^0*[1-9]\d*$/))) {
@@ -139,11 +122,11 @@ export class ValidatorProvider {
   }
 
   checkPlaytime(min_playtime: any, max_playtime: any) {
-    if (min_playtime === undefined) {
-      return "Include minimum number of players!";
+    if (min_playtime == null || min_playtime === "") {
+      return "Include minimum playtime!";
     }
-    if (max_playtime === undefined) {
-      return "Include maximum number of players!";
+    if (max_playtime == null || max_playtime === "") {
+      return "Include maximum playtime!";
     }
     if (!(String(min_playtime).match(/^0*[1-9]\d*$/))) {
       return "Minimum playtime must be an integer!";
@@ -170,12 +153,8 @@ export class ValidatorProvider {
     return "";
   }
 
-  checkGameDescription(description: any) {
-    return "";
-  }
-
   checkComplexity(complexity: any) {
-    if (!(String(complexity).match(/^0*[1-9]\d*$/))) {
+    if (!((String(complexity).match(/^0*[1-9]\d*$/)) || (String(complexity).match(/\d/)))) {
       return "Complexity must be an integer!"
     }
     if (complexity < 0) {
@@ -187,15 +166,11 @@ export class ValidatorProvider {
     return "";
   }
 
-  checkCategory(category: any) {
-    return "";
-  }
-
   checkCopies(available_copies: any, total_copies: any) {
-    if (available_copies === undefined) {
+    if (available_copies == null || available_copies === "") {
       return "Include available number of copies!";
     }
-    if (total_copies === undefined) {
+    if (total_copies == null || total_copies === "") {
       return "Include available number of copies";
     }
     if (!(String(available_copies).match(/^0*[1-9]\d*$/))) {
@@ -214,25 +189,5 @@ export class ValidatorProvider {
       return "Available number of copies cannot be greater than the total!";
     }
     return "";
-  }
-
-  checkCondition(condition: any) {
-    return ""
-  }
-
-  checkExpansionOf(expansion_of: any) {
-    return ""
-  }
-
-  checkShowMainPage(show_main_page: any) {
-    return ""
-  }
-
-  checkThumbnail(thumbnail: any) {
-    return ""
-  }
-
-  checkImage(image: any) {
-    return ""
   }
 }

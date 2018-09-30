@@ -1,4 +1,3 @@
-Einer was here :p 
 # WargamersApp
 Originally made for the 2018W2 offering of CPSC 304, the purpose of this app is two-fold:
 

@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
-import { API_URL } from '../url';
-import { Http } from '@angular/http';
-import { Api } from '../../providers/providers';
-import { ValidatorProvider } from '../../providers/providers';
+import {ExecutiveProvider, EventProvider, Validator} from '../../providers/providers';
 import { Storage } from "@ionic/storage";
-/**
- * Generated class for the EventsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {Response} from "../../models/Response";
+import {Executive} from "../../models/Executive";
+import {Event} from '../../models/Event';
 
 @IonicPage()
 @Component({
@@ -22,60 +16,38 @@ export class EventCreatePage {
   MIN_YEAR = new Date(Date.now()).getFullYear();
   MAX_YEAR = this.MIN_YEAR + 2;
 
-  token: string = null;
-  event: any = {};
-  action: any;
-  execs: any = [];
+  event: Event = new Event();
+  executives: Executive[] = [];
 
-  date: string;
-  start_time: string;
-  end_time: string;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public eventProvider: EventProvider, public execProvider: ExecutiveProvider,
+    public toastCtrl: ToastController, public events: Events, public validator: Validator, public storage: Storage) {
+    if (this.navParams.data.action === "Edit" && navParams.data.event != null) {
+      this.event = navParams.data.event;
+    }
+    this.getExecs();
+  }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public validator: ValidatorProvider, public storage: Storage) {
-    this.http.get(API_URL + "/executives").map(res => res.json()).subscribe(
-      data => {
-        this.execs = data.result.executives;
+  getExecs() {
+    this.execProvider.getFromCache().subscribe(
+      (executives: Executive[]) => {
+        this.executives = executives;
       },
-      err => {
-
+      (err: any) => {
+        let error = this.toastCtrl.create({
+          message: "Error with fetching executives from cache: " + err,
+          duration: 3000,
+          position: 'top'
+        });
+        error.present();
+        this.executives = [];
       }
     );
-
-    this.storage.get('token').then((token) => {
-      this.token = token;
-    });
-
-    if (navParams.data.event != null) {
-      this.event = navParams.data.event;
-      this.date = this.event.date;
-      this.start_time = this.event.start_time;
-      this.end_time = this.event.end_time;
-    }
-    if (navParams.data.action != null) {
-      this.action = navParams.data.action;
-    }
   }
 
   save() {
-    if (this.event.always_show == null) {
-      this.event.always_show = false;
-    }
+    this.fillEventWithDefault();
 
-    let body: any = {
-      title: this.event.title,
-      date: this.date,
-      description: this.event.description,
-      start_time: this.start_time,
-      end_time: this.end_time,
-      location: this.event.location,
-      always_show: this.event.always_show,
-      lead_exec: this.event.lead_exec,
-      fb_event_page: this.event.fb_event_page,
-      image: this.event.image,
-      token: this.token
-    };
-
-    let check = this.validator.checkEventBody(body);
+    let check = this.validator.checkEventBody(this.event);
     if (check != "") {
       let error = this.toastCtrl.create({
         message: check,
@@ -83,65 +55,82 @@ export class EventCreatePage {
         position: 'top'
       });
       error.present();
-    } else if (this.action === "Edit") {
-      this.editEvent(body);
-    } else if (this.action === "Create") {
-      this.createEvent(body);
+      return;
+    }
+
+    if (this.navParams.data.action === "Edit") {
+      this.editEvent(this.event);
+    } else if (this.navParams.data.action === "Create") {
+      this.createEvent(this.event);
     }
   }
 
-  editEvent(body: any) {
-    this.api.put('events/' + this.event.id, body).subscribe(
-      resp => {
-        console.log(resp);
-        let toast = this.toastCtrl.create({
-          message: 'Succesfully edited event!',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        this.navCtrl.pop();
-        this.events.publish('refresh');
+  fillEventWithDefault() {
+    if (this.event.always_show == null) {
+      this.event.always_show = false;
+    }
+    if (this.event.location === "") {
+      this.event.location = "TBA";
+    }
+    if (this.event.description === "") {
+      this.event.description = "N/A";
+    }
+    if (this.event.fb_event_page === "") {
+      this.event.fb_event_page = "N/A";
+    }
+  }
+
+  editEvent(event: any) {
+    this.eventProvider.put(event).subscribe(
+      (res: Response) => {
+        if (res.code === 200) {
+          let message = res.message;
+          if (res.result.event_count == 0) {
+            message = "No event was updated. Maybe it was previously deleted - try refreshing.";
+          }
+          let toast = this.toastCtrl.create({
+            message: message,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+          this.navCtrl.pop();
+          this.events.publish('refreshEvents');
+        }
       },
       err => {
-        console.log(err);
-        let toast = this.toastCtrl.create({
-          message: 'Failed to edit event. ' + err.error.detail,
+        let error = this.toastCtrl.create({
+          message: "Error editing an event: " + err.error.message,
           duration: 3000,
           position: 'top'
         });
-        toast.present();
+        error.present();
       }
     );
   }
 
-  createEvent(body: any) {
-    this.api.post('events', body).subscribe(
-      resp => {
-        console.log(resp);
-        let toast = this.toastCtrl.create({
-          message: 'Succesfully created event!',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        this.navCtrl.pop();
-        this.events.publish('refresh');
+  createEvent(event: any) {
+    this.eventProvider.post(event).subscribe(
+      (res: Response) => {
+        if (res.code === 200) {
+          let toast = this.toastCtrl.create({
+            message: res.message,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+          this.navCtrl.pop();
+          this.events.publish('refreshEvents');
+        }
       },
       err => {
-        console.log(err);
-        let toast = this.toastCtrl.create({
-          message: 'Failed to create event. ' + err.error.message,
+        let error = this.toastCtrl.create({
+          message: "Error posting an event: " + err.error.message,
           duration: 3000,
           position: 'top'
         });
-        toast.present();
+        error.present();
       }
     );
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EventCreatePage');
-  }
-
 }

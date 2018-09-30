@@ -106,24 +106,26 @@ events.post('/', (req, res) => {
 	}
 
   var sql = new PQ('INSERT INTO events (title, start_time, end_time, date, location, description, always_show, lead_exec, fb_event_page, image) ' +
-  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)');
+  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id') ;
   sql.values = [req.body.title, req.body.start_time, req.body.end_time, req.body.date, req.body.location,
                 req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, req.body.image];
 
-  db.none(sql)
+  db.one(sql)
     .then((data) => {
       res.status(200)
         .json({
           status: 'ok',
   				code: 200,
   				message: 'Created a new event',
-          result: {},
+          result: {
+            event_id: data.id
+          },
         });
     })
     .catch((err) => {
       console.error('\n[ERROR]: POST /events\n');
       console.error(err);
-  		res.status(500)
+  		return res.status(500)
   			.json({
   				status: 'error',
   				code: 500,
@@ -139,14 +141,16 @@ events.put('/:id', (req,res) => {
   sql.values = [req.params.id, req.body.title, req.body.start_time, req.body.end_time, req.body.date, req.body.location,
                 req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, req.body.image];
 
-  db.none(sql)
-    .then((data) => {
+  db.result(sql)
+    .then((r) => {
       res.status(200)
         .json({
           status: 'ok',
           code: 200,
           message: 'Updated event with id: ' + req.params.id,
-          result: {}
+          result: {
+            event_count: r.rowCount
+          }
         });
     })
     .catch((err) => {
@@ -167,11 +171,7 @@ events.delete('/:id', (req, res) => {
 
   db.result(sql)
     .then((r) => {
-      if (r.rowCount === 0) {
-        return res.status(200).json({status: 'ok', code: 200, message: 'No rows were deleted', result: {}});
-      } else {
-        return res.status(200).json({status: 'ok', code: 200, message: 'Deleted event with id: ' + req.params.id, result: {}});
-      }
+      return res.status(200).json({status: 'ok', code: 200, message: 'Deleted event with id: ' + req.params.id, result: {event_count: r.rowCount}});
     })
     .catch((err) => {
       console.error('\n[ERROR]: DEL /events\n');
