@@ -10,7 +10,7 @@ import {Events} from "ionic-angular";
   templateUrl: 'events.html',
 })
 export class EventsPage {
-  events: any = [];
+  events: Event[] = [];
 
   constructor(public navCtrl: NavController, public eventProvider: EventProvider, public user: User, public toastCtrl: ToastController, public appEvents: Events) {
     this.getEventsFromCache();

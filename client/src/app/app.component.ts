@@ -48,7 +48,6 @@ export class MyApp {
       this.statusBar.backgroundColorByHexString("#1E2123");
       this.statusBar.show();
       this.splashScreen.hide();
-      storage.clear();
     });
     this.initTranslate();
     this.initNetwork();
