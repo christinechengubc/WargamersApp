@@ -1,18 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events, AlertController } from 'ionic-angular';
-import { API_URL } from '../url';
-import { Http } from '@angular/http';
-import { User } from '../../providers/providers';
-import { Api } from '../../providers/providers';
+import {EventProvider, User} from '../../providers/providers';
 import { Storage } from "@ionic/storage";
-import {HttpHeaders} from "@angular/common/http";
-
-/**
- * Generated class for the eventsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {Response} from "../../models/Response";
 
 @IonicPage()
 @Component({
@@ -22,14 +12,12 @@ import {HttpHeaders} from "@angular/common/http";
 export class EventInfoPage {
 
   event: any = {};
-  token: any;
 
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, public storage: Storage, private alertCtrl: AlertController) {
-    this.event = navParams.data.event;
-    this.storage.get('token').then((token) => {
-      this.token = token;
-    })
+  constructor(public navCtrl: NavController, public navParams: NavParams, public user: User, public toastCtrl: ToastController,
+              public events: Events, public storage: Storage, private alertCtrl: AlertController, private eventProvider: EventProvider) {
+    if (navParams.data.event != null) {
+      this.event = navParams.data.event;
+    }
   }
 
   editEvent() {
@@ -39,35 +27,33 @@ export class EventInfoPage {
     });
   }
 
-  deleteEvent() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'x-access-token': this.token
-      })
-    };
-    console.log("delete");
-    this.api.delete('events/' + this.event.id, httpOptions).subscribe(
-      resp => {
-        console.log(resp);
-        let toast = this.toastCtrl.create({
-          message: 'Succesfully deleted event from database!',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        this.navCtrl.pop();
-        this.events.publish('refresh');
+  deleteEvent(event: Event) {
+    this.eventProvider.delete(event).subscribe(
+      (res: Response) => {
+        if (res.code === 200) {
+          let message = res.message;
+          if (res.result.event_count == 0) {
+            message = "No event was deleted. Maybe it was previously deleted - try refreshing.";
+          }
+          let toast = this.toastCtrl.create({
+            message: message,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+          this.navCtrl.pop();
+          this.events.publish('refreshEvents');
+        }
       },
       err => {
-        console.log(err);
-        let toast = this.toastCtrl.create({
-          message: 'Failed to delete event from database. Error: ' + err.error.detail,
+        let error = this.toastCtrl.create({
+          message: "Error deleting an event: " + err.error.message,
           duration: 3000,
           position: 'top'
         });
-        toast.present();
+        error.present();
       }
-    )
+    );
   }
 
   presentConfirm() {
@@ -79,13 +65,12 @@ export class EventInfoPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'Delete',
           handler: () => {
-            this.deleteEvent();
+            this.deleteEvent(this.event);
           }
         }
       ]

@@ -4,7 +4,7 @@ page-event-info {
         margin-bottom: 0;
     }
     .title {
-        color: #F7CD46;
+        color: $secondary-color;
         font-weight: bold;
         font-size: 200%;
     }
@@ -14,7 +14,7 @@ page-event-info {
     .label-md {
         font-size: 3rem;
         b {
-            color: #F7CD46;
+            color: $secondary-color;
         }
     }
 }   

@@ -17,15 +17,15 @@
     </ion-item>
     <ion-item>
       <ion-label color="light" fixed>Date</ion-label>
-      <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="date" [min]="MIN_YEAR" [max]="MAX_YEAR"></ion-datetime>
+      <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="event.date" [min]="MIN_YEAR" [max]="MAX_YEAR"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="light" fixed>Start Time</ion-label>
-      <ion-datetime displayFormat="HH:mm" [(ngModel)]="start_time"></ion-datetime>
+      <ion-datetime displayFormat="HH:mm" [(ngModel)]="event.start_time"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="light" fixed>End Time</ion-label>
-      <ion-datetime displayFormat="HH:mm" [(ngModel)]="end_time"></ion-datetime>
+      <ion-datetime displayFormat="HH:mm" [(ngModel)]="event.end_time"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="light" fixed>Location</ion-label>
@@ -38,7 +38,7 @@
     <ion-item>
       <ion-label color="light" fixed>Lead Executive / Host</ion-label>
       <ion-select [(ngModel)]="event.lead_exec">
-        <ion-option *ngFor="let exec of execs">{{ exec.name }}</ion-option>
+        <ion-option *ngFor="let exec of executives">{{ exec.name }}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>

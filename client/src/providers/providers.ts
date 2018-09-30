@@ -1,13 +1,19 @@
 import { Api } from './api/api';
-import { Items } from '../mocks/providers/items';
-import { Settings } from './settings/settings';
 import { User } from './user/user';
-import { ValidatorProvider } from './validator/validator';
+import { Validator } from './validator/validator';
+import { ExecutiveProvider } from "./executive/executive";
+import { NetworkProvider } from "./network/network";
+import { EventProvider } from "./event/event";
+import {GlobalVars} from "./global-vars/global-vars";
+import {GameProvider} from "./game/game";
 
 export {
     Api,
-    Items,
-    Settings,
     User,
-    ValidatorProvider
+    Validator,
+    GlobalVars,
+    NetworkProvider,
+    ExecutiveProvider,
+    EventProvider,
+    GameProvider
 };
