@@ -2,7 +2,12 @@ var events = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 var jwt = require('jsonwebtoken');
-var secret = require('./secret');
+var secret;
+try {
+  secret = require('./secret');
+} catch (err) {
+  secret = process.env.SECRET_KEY;
+}
 
 events.get('/', (req, res) => {
   var sql = 'SELECT * FROM events WHERE always_show = true OR events.date > now() ORDER BY date';
@@ -72,7 +77,7 @@ events.use((req,res,next) => {
 
 if (token) {
   //verify token using the token and secret as the key
-  jwt.verify(token, secret.secret, function(err, decoded) {
+  jwt.verify(token, secret, function(err, decoded) {
 
     if (err) {return res.status(403)
       .json({
