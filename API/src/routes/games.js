@@ -2,8 +2,12 @@ var games = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 var jwt = require('jsonwebtoken');
-var secret = require('./secret');
-
+var secret;
+try {
+  secret = require('./secret');
+} catch (err) {
+  secret = process.env.SECRET_KEY;
+}
 
 
 games.get('/', (req, res) => {
@@ -42,9 +46,7 @@ games.use((req,res,next) => {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
 if (token) {
-
-  jwt.verify(token, secret.secret, function(err, decoded) {
-
+  jwt.verify(token, secret, function(err, decoded) {
     if (err) {return res.status(403)
       .json({
         message: "not logged in"
