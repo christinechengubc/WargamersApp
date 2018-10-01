@@ -12,6 +12,7 @@ log.txt
 .vscode/
 npm-debug.log*
 API/src/connection_info.js
+API/src/routes/secret.json
 
 .idea/
 .sourcemaps/

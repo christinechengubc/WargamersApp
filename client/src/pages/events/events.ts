@@ -1,18 +1,8 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
-import { Http } from '@angular/http';
-import { API_URL } from '../url';
-import { User } from '../../providers/providers';
-import { Storage } from "@ionic/storage";
-import {HttpHeaders} from "@angular/common/http";
-import { Api } from '../../providers/providers';
-
-/**
- * Generated class for the EventsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { EventProvider, User} from '../../providers/providers';
+import { Response } from "../../models/Response";
+import {Events} from "ionic-angular";
 
 @IonicPage()
 @Component({
@@ -20,20 +10,30 @@ import { Api } from '../../providers/providers';
   templateUrl: 'events.html',
 })
 export class EventsPage {
+  events: Event[] = [];
 
-  events: any;
-  login = 0;
-  token: any;
+  constructor(public navCtrl: NavController, public eventProvider: EventProvider, public user: User, public toastCtrl: ToastController, public appEvents: Events) {
+    this.getEventsFromCache();
+    this.appEvents.subscribe("refreshEvents",
+      () => {
+        this.getEventsFromCache();
+      }
+    )
+  }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public storage: Storage) {
-    console.log(API_URL);
-    this.http.get(API_URL + '/events').map(res => res.json()).subscribe(
-      data => {
-        this.events = data.result.events;
-
+  getEventsFromCache() {
+    this.eventProvider.getFromCache().subscribe(
+      (events: Event[]) => {
+        this.events = events;
       },
-      err => {
-
+      (err: any) => {
+        let error = this.toastCtrl.create({
+          message: "Error with fetching events from cache: " + err,
+          duration: 3000,
+          position: 'top'
+        });
+        error.present();
+        this.events = [];
       }
     );
 
@@ -47,12 +47,21 @@ export class EventsPage {
   }
 
   doRefresh(refresher) {
-    this.http.get(API_URL + '/events').map(res => res.json()).subscribe(
-      data => {
-        this.events = data.result.events;
-        refresher.complete();
+    this.eventProvider.getAndStoreInCache().subscribe(
+      (res: Response) => {
+        if (res.code === 200) {
+          this.events = res.result.events;
+          refresher.complete();
+        }
       },
-      err => {
+      (err: any) => {
+        let error = this.toastCtrl.create({
+          message: "Error with fetching events from API: " + err.error.message,
+          duration: 3000,
+          position: 'top'
+        });
+        error.present();
+        this.events = [];
         refresher.complete();
       }
     );
@@ -93,9 +102,4 @@ export class EventsPage {
   isLoggedIn() {
     return this.login;
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EventsPage');
-  }
-
 }
