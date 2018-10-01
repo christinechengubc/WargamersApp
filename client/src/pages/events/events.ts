@@ -36,6 +36,14 @@ export class EventsPage {
         this.events = [];
       }
     );
+
+    this.storage.get('token').then((token) => {
+      this.token = token;
+    });
+
+    this.storage.get('login').then((login) => {
+      this.login = login;
+    })
   }
 
   doRefresh(refresher) {
@@ -66,8 +74,32 @@ export class EventsPage {
   }
 
   addEvent() {
-    this.navCtrl.push('EventCreatePage', {
-      action: "Create",
-    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': this.token
+      })
+    };
+
+    this.api.get('login/', null, httpOptions).subscribe(
+      resp => {
+        this.navCtrl.push('EventCreatePage', {
+          action: "Create",
+        });
+      },
+      err => {
+        this.storage.set('login', 0);
+        let toast = this.toastCtrl.create({
+          message: 'Cannot edit game. Error: not logged in',
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+        this.navCtrl.setRoot('EventsPage');
+      }
+    )
+  }
+
+  isLoggedIn() {
+    return this.login;
   }
 }
