@@ -21,10 +21,30 @@ export class EventInfoPage {
   }
 
   editEvent() {
-    this.navCtrl.push('EventCreatePage', {
-      event: this.event,
-      action: "Edit",
-    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': this.token
+      })
+    };
+
+    this.api.get('login/', null, httpOptions).subscribe(
+      resp => {
+        this.navCtrl.push('EventCreatePage', {
+          event: this.event,
+          action: "Edit",
+        });
+      },
+      err => {
+        this.storage.set('login', 0);
+        let toast = this.toastCtrl.create({
+          message: 'Cannot edit game. Error: not logged in',
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+        this.navCtrl.setRoot(EventsPage);
+      }
+    )
   }
 
   deleteEvent(event: Event) {
@@ -77,9 +97,4 @@ export class EventInfoPage {
     });
     alert.present();
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EventInfoPage');
-  }
-
 }

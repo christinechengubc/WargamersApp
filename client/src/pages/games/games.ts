@@ -73,6 +73,7 @@ export class GamesPage {
   //   });
   // }
 
+
   searchGame() {
     this.navCtrl.push('SearchPage');
   }

@@ -95,7 +95,6 @@ export class EventCreatePage {
           });
           toast.present();
           this.navCtrl.pop();
-          this.events.publish('refreshEvents');
         }
       },
       err => {
