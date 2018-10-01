@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { Storage} from "@ionic/storage";
 
-import { User } from '../../providers/providers';
+import {GlobalVars, User} from '../../providers/providers';
 import { MainPage } from '../pages';
 
 @IonicPage()
@@ -27,7 +27,8 @@ export class LoginPage {
     public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    public storage: Storage) {
+    public storage: Storage,
+    public globalVars: GlobalVars) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
@@ -38,8 +39,10 @@ export class LoginPage {
   doLogin() {
     this.user.login(this.account).subscribe((resp: any) => {
       var token = resp.token;
-      this.storage.set("token", token);
-      this.storage.set("login", 1);
+      if (token != null) {
+        this.storage.set("token", token);
+        this.globalVars.setToken(token);
+      }
       this.navCtrl.push(MainPage);
       let toast = this.toastCtrl.create({
         message: 'Logged in successfully! Welcome!',
