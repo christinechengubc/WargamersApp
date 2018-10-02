@@ -9,54 +9,57 @@ import { Api } from '../../providers/providers';
 })
 export class SearchPage {
 
-  searchBy: any = 'game';
+  searchBy: any = 'basic';
   title: any;
-  minPlayers: any;
-  maxPlayers: any;
-  minPlaytime: any;
-  maxPlaytime: any;
-  difficulty: any;
-  pubName: any;
-  pubCountry: any;
-  genreName: any;
-  projectpublisher: any = false;
-  projectrating: any = false;
-  projectdescription: any = false;
+  min_players: any;
+  max_players: any;
+  min_playtime: any;
+  max_playtime: any;
+  available: any;
+  category: any;
+  rating: any;
+  year_published: any;
+  description: any;
+  complexity: any;
+  condition: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api, public toastCtrl: ToastController) { }
 
   search() {
-    let body: any = {
-      projectpublisher: this.projectpublisher,
-      projectrating: this.projectrating,
-      projectdescription: this.projectdescription
-    };
-    console.log(body);
-    if (this.searchBy === 'game') {
-      // search by game
-      body.title = this.title;
-      body.minPlayer = this.minPlayers;
-      body.maxPlayer = this.maxPlayers;
-      body.minPlaytime = this.minPlaytime;
-      body.maxPlaytime = this.maxPlaytime;
-      body.difficulty = this.difficulty;
-    } else if (this.searchBy === 'publisher') {
-      // search by publisher
-      body.publisher = this.pubName;
-      body.country = this.pubCountry;
-    } else if (this.searchBy === 'genre') {
-      // search by genre
-      body.genre = this.genreName;
+    if (!this.title) {
+      let toast = this.toastCtrl.create({
+        message: 'Please specify a title.',
+        duration: 1000,
+        position: 'top'
+      });
+      toast.present();
+      return
+    }
+
+    let body: any = {};
+    body.title = this.title;
+    body.available = this.available;
+    if (body.available == null) {
+      body.available = false;
+    }
+
+    if (this.searchBy === 'advanced') {
+      body.min_players = this.min_players;
+      body.max_players = this.max_players;
+      body.min_playtime = this.min_playtime;
+      body.max_playtime = this.max_playtime;
+      body.category = this.category;
+      body.rating = this.rating;
+      body.year_published = this.year_published;
+      body.description = this.description;
+      body.complexity = this.complexity;
+      body.condition = this.condition;
     }
 
 
     this.api.post('search/' + this.searchBy, body).subscribe(
       resp => {
-        let toast = this.toastCtrl.create({
-          message: 'Succesfully posted game to database!',
-          duration: 3000,
-          position: 'top'
-        });
+        console.log(resp);
         this.navCtrl.push('GamesPage', {
           games: resp
         });

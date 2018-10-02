@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events, AlertController } from 'ionic-angular';
 import { API_URL } from '../url';
 import { Http } from '@angular/http';
 import { User } from '../../providers/providers';
 import { GameEditPage } from '../game-edit/game-edit';
 import { Api } from '../../providers/providers';
+import { Storage } from "@ionic/storage";
+import {HttpHeaders} from "@angular/common/http";
 
 /**
  * Generated class for the GamesPage page.
@@ -21,8 +23,12 @@ import { Api } from '../../providers/providers';
 export class GameInfoPage {
 
   game: any = {};
+  token: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events, public storage: Storage, private alertCtrl: AlertController) {
+    this.storage.get('token').then((token) => {
+      this.token = token;
+    })
   }
 
   editGame() {
@@ -32,9 +38,14 @@ export class GameInfoPage {
   }
 
   deleteGame() {
-    this.api.delete('games/' + this.game.id).subscribe(
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': this.token
+      })
+    };
+    this.api.delete('games/' + this.game.id, httpOptions).subscribe(
       resp => {
-        console.log(resp);
+
         let toast = this.toastCtrl.create({
           message: 'Succesfully deleted game from database!',
           duration: 3000,
@@ -54,7 +65,29 @@ export class GameInfoPage {
         toast.present();
       }
     )
+  }
 
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Delete this game?',
+      message: 'Do you really want to delete this game?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteGame();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   ionViewDidLoad() {
