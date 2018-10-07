@@ -18,19 +18,50 @@ export class GameProvider {
   // You can use it to cancel or retry the call.
   // A subscription is created to store the results in the cache.
   getAndStoreInCache() {
-    let gamesObservable = this.http.get<Response>(API_URL + '/' + "games", this.globalVars.getHeaderWithToken()).share();
+    let gamesObservable = this.http.get<Response>(API_URL + '/' + "games/" + 0, this.globalVars.getHeaderWithToken()).share();
+
+    return Observable.create(observer => {
+      gamesObservable.subscribe(
+        (res: Response) => {
+          let games = res.result.games;
+          this.storage.set("games", games).then(
+            () => {
+              observer.next(games);
+              observer.complete();
+            }
+          );
+        },
+        (err) => {
+          observer.error(err);
+        },
+        () => {
+        }
+      );
+    });
+  }
+
+  // Used for when scrolling down multiple pages.
+  getAndAddToCache(page: number) {
+    let gamesObservable = this.http.get<Response>(API_URL + '/' + "games/" + page, this.globalVars.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       gamesObservable.subscribe(
         (res: Response) => {
           if (res.code === 200) {
-            let games = res.result.games;
-            this.storage.set("games", games).then(
-              () => {
-                observer.next(res);
-                observer.complete();
+            let games: Game[] = res.result.games;
+            this.storage.get("games").then((storedGames: Game[]) => {
+              for (let game of games) {
+                storedGames.push(game);
               }
-            );
+              this.storage.set("games", storedGames).then(
+                () => {
+                  observer.next(storedGames);
+                  observer.complete();
+                }
+              );
+            });
+          } else if (res.code === 204) {
+            observer.next([]); // you've reached the last page
           }
         },
         (err) => {

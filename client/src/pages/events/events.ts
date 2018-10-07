@@ -46,13 +46,12 @@ export class EventsPage {
     })
   }
 
+
   doRefresh(refresher) {
     this.eventProvider.getAndStoreInCache().subscribe(
-      (res: Response) => {
-        if (res.code === 200) {
-          this.events = res.result.events;
-          refresher.complete();
-        }
+      (events: Event[]) => {
+        this.events = events;
+        refresher.complete();
       },
       (err: any) => {
         let error = this.toastCtrl.create({

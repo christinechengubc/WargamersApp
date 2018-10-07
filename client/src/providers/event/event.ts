@@ -27,7 +27,7 @@ export class EventProvider {
             let events = res.result.events;
             this.storage.set("events", events).then(
               () => {
-                observer.next(res);
+                observer.next(events);
                 observer.complete();
               }
             );
