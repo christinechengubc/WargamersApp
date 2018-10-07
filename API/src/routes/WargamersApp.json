@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "absolute-apogee-218018",
+  "private_key_id": "7a13d5bc42811f3315f6473695f9e30c48bf4e87",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCefeFXINPSK9Lx\neF1gFSmlaP54M+sgZZLCSFBd1dFNJR06fTTtgorSEXJAH6Ig61zUBkSlry+xGQ7A\n/LMpXr09IjxKg7EZyaLdJdS2AqUSJ95w2WKm9+18wWNHcNlpcOgmY/Y/lrsuKyFs\n4rqIgAdBFl7xaty+LntogQhB4GcMm7AJ5sFOTAxDVgrQhqxQBEsv+/H6jFn2a9QL\nWFq1gGL2eyOqrBnWSZG/rUMFDXJfxNUf6OTNicyGctOY8icVKvtFynZeL48gJ3O8\nYLlk7+icHCUtDfENPDmB5+gRU1Ykchbv3keodDehDcUa+j0R50O3pYmguDFVLg8s\nm2XadjCtAgMBAAECggEAEHYNDT5W2b2c/WDtu9C+4FPxGB12VolOLpkRpclTIYLR\nEBXYhTGZhvtyZRgT//zKCah0AUxadPegCWnFlu6k04BmiCu43W+Ml5D6EIRiTiov\nZ4OghCx8cUhprg4ZuqKULgaUWSLn4oHuyQ8cZhh8CGXRKxxY/HS58w7xw1vSACRS\nctOU+DYVQ37TxCc2/yLDiYPEGp1qQxq0gL04sH5IUdjTqjuISeOpo+Ok94q3zcXd\nhsdc96j+nWui/2W4qKkHHg77o5UpMBkCLAf5653qwfBzt9FmFTF6R6/xoWNck7EF\nXI5qOQllewS3BXil+dRGpUacA0kSTLquV4ejKXwmSQKBgQDZqmhk7BnfpHiSfhNb\nftI/H/HFlQc4NrcTG6R5gAVLBc/XiVXpJElmtL0UTQUDfVSZP2W7kI+F7v9TF2oX\nYjpJ86PIkmVZNUzoZowA3WiKM32rBOAZ3aG1NO3jcDUH1DgDNkLeKqzLfrO9Cx6e\ndGSgv+M7PfYmAN5Kz5T//BSnVQKBgQC6Z5QbYgi/hW2ZdPx91QzTZww/NLYYTHYx\n+97QXG+oZOpP4SrE3J1DSiZC47Wtwkj+5ZWb2ltiE/7nzyi8w7w+rub9IZ0H+g83\nSRNe/I68UO+TnjQRlyQQ45hcpHdITaDL7z84WyU2BFm/d9oPjuFKtIp0TOJ/jQcc\nnbbpdeOz+QKBgQCF351dlSlEt+/AifJ178Z4NLmLAGH0XRK0mefLIsYeonB27Gz+\ne+b5WGiCt+xBfTAvISL8/aiIg7pd7KS/xRZ8rXEqx3+2ImYu+gNZ9NN7TLgaG2GK\nBxqSTP+TR0wWiJv6vcDay/yDHGaH+vLWGlhZ1it4IF/od9hAwvOtjelWEQKBgFpk\nwlDpIH7n0HdbYNoQh/C4hxrbj/aGlca1cp6uRMNvdKUZ9yiSJ30rJxTG4iKKFeXu\nJbf3ktskATgeoI2xiccIACH+u+zTWa+gs1EbvogZ46Q9Uti455d9FzTN2L5qTrC2\nq3zDzm68e107XLawvhYBKScu5aOfGzTIUpwyPCLZAoGBAKhc/3PIHwurh4GnhrBK\nxs5lJ4pkcADm0cTrO4RcvKgQ9CVnbA92z/LG9ESSgFoQPm5kppIisyzris2YqpBK\n0N6wTwdDBdxCqaudwf8IoPzVPfH40uqLVkplvyMWxtLkwDM5issl8gGqRUnRuwY5\nxu4BOEMm8X5JT11uniLnhy3k\n-----END PRIVATE KEY-----\n",
+  "client_email": "wargamers-app-owner@absolute-apogee-218018.iam.gserviceaccount.com",
+  "client_id": "114842039561795049057",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wargamers-app-owner%40absolute-apogee-218018.iam.gserviceaccount.com"
+}
