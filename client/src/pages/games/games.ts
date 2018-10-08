@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import {GameProvider, User} from '../../providers/providers';
+import {GameProvider} from '../../providers/providers';
 import {Game} from "../../models/Game";
 import {ToastController} from "ionic-angular";
-import {Response} from "../../models/Response";
 
 @IonicPage()
 @Component({
@@ -15,16 +14,13 @@ export class GamesPage {
   page: number = 0;
   infiniteScroll;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public user: User, public appEvents: Events, public gameProvider: GameProvider, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appEvents: Events, public gameProvider: GameProvider, public toastCtrl: ToastController) {
     this.getGamesFromCache();
     this.appEvents.subscribe("refreshGames",
       () => {
         this.getGamesFromCache();
-      }
-    )
+      });
   }
-
-
 
   getGamesFromCache() {
     this.gameProvider.getFromCache().subscribe(

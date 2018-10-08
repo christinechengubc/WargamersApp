@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Search Results
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-md-6 col-lg-4 col-xl-3 *ngFor="let game of games">
+        <ion-card (click)="gameInfo(game)" class="card" >
+          <img [src]="game.image" />
+          <ion-card-header class="card-header">
+            {{ game.title }}
+          </ion-card-header>
+
+          <ion-card-content class="card-content">
+            <p *ngIf="game.rating"><b>Rating:</b> {{ game.rating }}</p>
+            <p *ngIf="game.description"><b>Description:</b> {{ game.description }}</p>
+          </ion-card-content>
+          <ion-card-content class="card-content">
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

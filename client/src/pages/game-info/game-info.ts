@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events, AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
-import {GameProvider, User} from '../../providers/providers';
+import {GameProvider, LoginProvider} from '../../providers/providers';
 import { GameEditPage } from '../game-edit/game-edit';
-import { Api } from '../../providers/providers';
 import { Storage } from "@ionic/storage";
 import {HttpHeaders} from "@angular/common/http";
 import {Response} from "../../models/Response";
@@ -26,7 +25,7 @@ export class GameInfoPage {
   game: Game;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public gameProvider: GameProvider,
-              public events: Events, public storage: Storage, private alertCtrl: AlertController) {
+              public events: Events, public storage: Storage, private alertCtrl: AlertController, public loginProvider: LoginProvider) {
     if (navParams.data.game != null) {
       this.game = navParams.data.game;
     }

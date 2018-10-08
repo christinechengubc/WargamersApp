@@ -6,7 +6,7 @@ import {Config, Events, Nav, Platform, ToastController} from 'ionic-angular';
 import { Storage} from "@ionic/storage";
 import { FirstRunPage } from '../pages/pages';
 import { Network } from "@ionic-native/network";
-import {EventProvider, ExecutiveProvider, GameProvider, GlobalVars} from "../providers/providers";
+import {EventProvider, ExecutiveProvider, GameProvider, LoginProvider} from "../providers/providers";
 import {LoadingController} from "ionic-angular";
 import {Observable} from "rxjs";
 
@@ -40,9 +40,9 @@ export class MyApp {
   ];
 
   constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,
-              private network: Network, private toastCtrl: ToastController, private storage : Storage, private globalVars : GlobalVars,
+              private network: Network, private toastCtrl: ToastController, private storage : Storage,
               private eventProvider : EventProvider, private execProvider : ExecutiveProvider, private gameProvider : GameProvider, private loadingCtrl: LoadingController,
-              private appEvents: Events) {
+              private appEvents: Events, private loginProvider: LoginProvider) {
     platform.ready().then(() => {
       this.statusBar.overlaysWebView(true);
       this.statusBar.backgroundColorByHexString("#1E2123");
@@ -99,10 +99,11 @@ export class MyApp {
       content: 'Please wait...'
     });
     loading.present();
+
     this.storage.get("token").then(
       token => {
         if (token != null) {
-          this.globalVars.setToken(token);
+          this.loginProvider.checkIfTokenStillValid(token);
         }
         Observable.forkJoin(
           this.gameProvider.getAndStoreInCache(),
