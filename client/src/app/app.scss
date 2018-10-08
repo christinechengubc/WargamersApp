@@ -31,4 +31,22 @@ $secondary-color: #F7CD46;
   color: #F7CD46;
 }
 
+.card {
+  background-color: #1E2123;
+  box-shadow: 2px 2px 23px 3px rgba(0,0,0,0.75);
+}
+.card-header {
+  font-weight: bold;
+  font-size: 175%;
+  color: #F7CD46;
+}
+.card-content {
+  p {
+    color: #fff;
+  }
+  b {
+    color: #F7CD46;
+  }
+}
+
 

@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Storage} from "@ionic/storage";
-import {NetworkProvider} from "../network/network";
 import {Response} from "../../models/Response";
 import {API_URL} from "../API_URL";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {GlobalVars} from "../global-vars/global-vars";
-
+import {LoginProvider} from "../login/login";
 
 @Injectable()
 export class ExecutiveProvider {
 
-  constructor (public http: HttpClient, public storage: Storage, public networkProvider: NetworkProvider, public globalVars: GlobalVars) {
+  constructor (public http: HttpClient, public storage: Storage, public loginProvider: LoginProvider) {
   }
 
   // Returns an Observable of the GET request.
   // You can use it to cancel or retry the call.
   // A subscription is created to store the results in the cache.
   getAndStoreInCache() {
-    let eventsObservable = this.http.get<Response>(API_URL + '/' + "executives", this.globalVars.getHeaderWithToken()).share();
+    let eventsObservable = this.http.get<Response>(API_URL + '/' + "executives", this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       eventsObservable.subscribe(

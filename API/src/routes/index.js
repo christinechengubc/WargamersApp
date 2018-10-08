@@ -4,8 +4,6 @@ var events = require('./events');
 var executives = require('./executives');
 var admins = require('./admins');
 var login = require('./login');
-
-
 var search = require('./search');
 
 routes.use('/login', login);

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import {GameProvider, User} from '../../providers/providers';
+import {GameProvider} from '../../providers/providers';
 import {Game} from "../../models/Game";
 import {ToastController} from "ionic-angular";
-import {Response} from "../../models/Response";
 
 @IonicPage()
 @Component({
@@ -12,14 +11,15 @@ import {Response} from "../../models/Response";
 })
 export class GamesPage {
   games: Game[] = [];
+  page: number = 0;
+  infiniteScroll;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public user: User, public appEvents: Events, public gameProvider: GameProvider, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appEvents: Events, public gameProvider: GameProvider, public toastCtrl: ToastController) {
     this.getGamesFromCache();
     this.appEvents.subscribe("refreshGames",
       () => {
         this.getGamesFromCache();
-      }
-    )
+      });
   }
 
   getGamesFromCache() {
@@ -41,11 +41,11 @@ export class GamesPage {
 
   doRefresh(refresher) {
     this.gameProvider.getAndStoreInCache().subscribe(
-      (res: Response) => {
-        if (res.code === 200) {
-          this.games = res.result.games;
-          refresher.complete();
-        }
+      (games: Game[]) => {
+        if (this.infiniteScroll) this.infiniteScroll.enable(true);
+        this.page = 0;
+        this.games = games;
+        refresher.complete();
       },
       (err: any) => {
         let error = this.toastCtrl.create({
@@ -76,5 +76,35 @@ export class GamesPage {
 
   searchGame() {
     this.navCtrl.push('SearchPage');
+  }
+
+  doInfinite(infiniteScroll) {
+    this.infiniteScroll = infiniteScroll;
+    this.page = this.page + 1;
+    this.gameProvider.getAndAddToCache(this.page).subscribe(
+      (games: Game[]) => {
+        if (games.length === 0) {
+          let lastPage = this.toastCtrl.create({
+            message: "Last page reached.",
+            duration: 500,
+            position: 'bottom'
+          });
+          lastPage.present();
+          infiniteScroll.enable(false);
+        } else {
+          this.games = games;
+        }
+        infiniteScroll.complete();
+      },
+      (err: any) => {
+        let error = this.toastCtrl.create({
+          message: "Error with fetching games from API: " + err.error.message,
+          duration: 3000,
+          position: 'top'
+        });
+        error.present();
+        this.games = [];
+      }
+    );
   }
 }

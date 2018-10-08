@@ -6,15 +6,17 @@
   "author": "Trevin Wong, Christine Cheng, Bryce Miranda, Crystal Kwong",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^2.0.3",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
-    "pg-promise": "^8.2.2"
+    "pg-promise": "^8.2.2",
+    "sharp": "^0.20.8"
   },
   "devDependencies": {
-    "nodemon": "^1.17.2"
+    "nodemon": "^1.18.4"
   },
   "scripts": {
     "start": "nodemon"

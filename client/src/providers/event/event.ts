@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Storage } from "@ionic/storage";
-import { NetworkProvider } from "../network/network";
-import {HttpClient, HttpEvent, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {API_URL} from "../API_URL";
 import {Response} from "../../models/Response";
 import {Event} from "../../models/Event";
-import {GlobalVars} from "../global-vars/global-vars";
+import {LoginProvider} from "../login/login";
 
 @Injectable()
 export class EventProvider {
 
-  constructor(public http: HttpClient, public storage: Storage, public globalVars : GlobalVars) {
+  constructor(public http: HttpClient, public storage: Storage, public loginProvider : LoginProvider) {
   }
 
   // Returns an Observable of the GET request.
   // You can use it to cancel or retry the call.
   // A subscription is created to store the results in the cache.
   getAndStoreInCache() {
-    let eventsObservable = this.http.get<Response>(API_URL + '/' + "events", this.globalVars.getHeaderWithToken()).share();
+    let eventsObservable = this.http.get<Response>(API_URL + '/' + "events", this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       eventsObservable.subscribe(
@@ -27,7 +26,7 @@ export class EventProvider {
             let events = res.result.events;
             this.storage.set("events", events).then(
               () => {
-                observer.next(res);
+                observer.next(events);
                 observer.complete();
               }
             );
@@ -62,7 +61,7 @@ export class EventProvider {
   // Returns an Observable of the PUT request.
   // A subscription is created to edit the event in the cache, if it exists. If it doesn't, it is added.
   put(event: any) {
-    let eventsObservable = this.http.put<Response>(API_URL + '/' + "events/" + event.id, event, this.globalVars.getHeaderWithToken()).share();
+    let eventsObservable = this.http.put<Response>(API_URL + '/' + "events/" + event.id, event, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       eventsObservable.subscribe(
@@ -91,7 +90,7 @@ export class EventProvider {
   // Returns an Observable of the POST request.
   // A subscription is created to add the event to the cache.
   post(event: any) {
-    let eventsObservable = this.http.post<Response>(API_URL + '/' + "events", event, this.globalVars.getHeaderWithToken()).share();
+    let eventsObservable = this.http.post<Response>(API_URL + '/' + "events", event, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       eventsObservable.subscribe(
@@ -121,7 +120,7 @@ export class EventProvider {
   // Returns an Observable of the DELETE request.
   // A subscription is created to delete the event from the cache, if it exists.
   delete(event: any) {
-    let eventsObservable = this.http.delete<Response>(API_URL + '/' + "events/" + event.id, this.globalVars.getHeaderWithToken()).share();
+    let eventsObservable = this.http.delete<Response>(API_URL + '/' + "events/" + event.id, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       eventsObservable.subscribe(

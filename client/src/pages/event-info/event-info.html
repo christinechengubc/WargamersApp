@@ -29,8 +29,7 @@
     <ion-item no-lines class="fb-event-page" text-wrap><b>Facebook Event Page:</b> {{ event.fb_event_page }}</ion-item>
   </ion-list>
 
-  <ion-fab *ngIf="isLoggedIn()" right bottom>
-  <!--ion-fab right bottom> -->
+  <ion-fab *ngIf="this.loginProvider.getToken()" right bottom>
     <button (click)="editEvent()" ion-fab><ion-icon name="create"></ion-icon></button>
     <button (click)="presentConfirm()" ion-fab><ion-icon name="close"></ion-icon></button>
   </ion-fab>

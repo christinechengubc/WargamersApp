@@ -3,7 +3,11 @@ var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-var secret = require('./secret');
+try {
+  secret = require('./secret');
+} catch (err) {
+  secret = process.env.SECRET_KEY;
+}
 var app = require('express')();
 
 
@@ -41,14 +45,16 @@ login.post('/', (req, res) => {
           admin: true
         };
         //set secret to retrieve from secret.json
-        var token = jwt.sign(payload, secret.secret, {expiresIn: expiryTime});
+        var token = jwt.sign(payload, secret, {expiresIn: expiryTime});
 
         return res.status(200)
           .json({
             status: 'success',
             code: 200,
             message: 'logged in!',
-            token: token
+            result: {
+              token: token
+            }
           });
       }
       //incorrect password
@@ -76,7 +82,7 @@ login.use((req,res,next) => {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 if (token) {
 
-  jwt.verify(token, secret.secret, function(err, decoded) {
+  jwt.verify(token, secret, function(err, decoded) {
     console.log("success");
     if (err) {return res.status(403)
       .json({
@@ -103,7 +109,7 @@ login.get('/', (req, res) => {
     status: 'success',
     code:200,
 })
-})
+});
 
 
 module.exports = login;
