@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { Http } from '@angular/http';
-import { API_URL } from '../url';
-import { User } from '../../providers/providers';
-
-/**
- * Generated class for the GamesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {GameProvider, User} from '../../providers/providers';
+import {Game} from "../../models/Game";
+import {ToastController} from "ionic-angular";
+import {Response} from "../../models/Response";
 
 @IonicPage()
 @Component({
@@ -17,55 +11,70 @@ import { User } from '../../providers/providers';
   templateUrl: 'games.html',
 })
 export class GamesPage {
-  games: any = [];
+  games: Game[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public events: Events) {
-
-    if (typeof navParams.data.games === 'undefined') {
-      this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
-        data => {
-          this.games = data.result.games;
-        },
-        err => {
-        }
-      );
-    } else {
-      this.games = navParams.data.games.result.games;
-    }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public user: User, public appEvents: Events, public gameProvider: GameProvider, public toastCtrl: ToastController) {
+    this.getGamesFromCache();
+    this.appEvents.subscribe("refreshGames",
+      () => {
+        this.getGamesFromCache();
+      }
+    )
   }
 
-  gameInfo(game) {
-    console.log("In games.ts the title is " + game);
-    this.navCtrl.push('GameInfoPage', {
-      game: game
-    });
-  }
-
-  addGame() {
-    this.navCtrl.push('GameCreatePage', {
-      currentActionDescription: "Add a game",
-      currentAction: "addingGame"
-    });
+  getGamesFromCache() {
+    this.gameProvider.getFromCache().subscribe(
+      (games: Game[]) => {
+        this.games = games;
+      },
+      (err: any) => {
+        let error = this.toastCtrl.create({
+          message: "Error with fetching games from cache: " + err.error.message,
+          duration: 3000,
+          position: 'top'
+        });
+        error.present();
+        this.games = [];
+      }
+    );
   }
 
   doRefresh(refresher) {
-    this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
-      data => {
-        this.games = data.result.games;
-        refresher.complete();
+    this.gameProvider.getAndStoreInCache().subscribe(
+      (res: Response) => {
+        if (res.code === 200) {
+          this.games = res.result.games;
+          refresher.complete();
+        }
       },
-      err => {
+      (err: any) => {
+        let error = this.toastCtrl.create({
+          message: "Error with fetching games from API: " + err.error.message,
+          duration: 3000,
+          position: 'top'
+        });
+        error.present();
+        this.games = [];
         refresher.complete();
       }
     );
   }
 
+  gameInfo(game) {
+    this.navCtrl.push('GameInfoPage', {
+      game: game
+    });
+  }
+
+  // addGame() {
+  //   this.navCtrl.push('GameCreatePage', {
+  //     currentActionDescription: "Add a game",
+  //     currentAction: "addingGame"
+  //   });
+  // }
+
+
   searchGame() {
     this.navCtrl.push('SearchPage');
   }
-
-  ionViewDidLoad() {
-
-  }
-
 }
