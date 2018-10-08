@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import {GameProvider} from '../../providers/providers';
-import {Game} from "../../models/Game";
-import {ToastController} from "ionic-angular";
+import { Http } from '@angular/http';
+import { API_URL } from '../url';
+import { User } from '../../providers/providers';
+
+/**
+ * Generated class for the GamesPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
@@ -10,101 +17,60 @@ import {ToastController} from "ionic-angular";
   templateUrl: 'games.html',
 })
 export class GamesPage {
-  games: Game[] = [];
-  page: number = 0;
-  infiniteScroll;
+  games: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public appEvents: Events, public gameProvider: GameProvider, public toastCtrl: ToastController) {
-    this.getGamesFromCache();
-    this.appEvents.subscribe("refreshGames",
-      () => {
-        this.getGamesFromCache();
-      });
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public events: Events) {
 
-  getGamesFromCache() {
-    this.gameProvider.getFromCache().subscribe(
-      (games: Game[]) => {
-        this.games = games;
-      },
-      (err: any) => {
-        let error = this.toastCtrl.create({
-          message: "Error with fetching games from cache: " + err.error.message,
-          duration: 3000,
-          position: 'top'
-        });
-        error.present();
-        this.games = [];
-      }
-    );
-  }
+    if (typeof navParams.data.games === 'undefined') {
+      this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
+        data => {
+          this.games = data.result.games;
+          console.log("now logging");
+          console.log(data.result.games);
+        },
+        err => {
+          console.log("Oops!");
+          console.log(err);
+        }
+      );
+    } else if (navParams.data.games == true) {
+      this.games = navParams.data.games.data;
+    }
 
-  doRefresh(refresher) {
-    this.gameProvider.getAndStoreInCache().subscribe(
-      (games: Game[]) => {
-        if (this.infiniteScroll) this.infiniteScroll.enable(true);
-        this.page = 0;
-        this.games = games;
-        refresher.complete();
-      },
-      (err: any) => {
-        let error = this.toastCtrl.create({
-          message: "Error with fetching games from API: " + err.error.message,
-          duration: 3000,
-          position: 'top'
-        });
-        error.present();
-        this.games = [];
-        refresher.complete();
-      }
-    );
+    events.subscribe('refresh', () => {
+      this.http.get(API_URL + '/games').map(res => res.json()).subscribe(
+        data => {
+          this.games = data.data;
+
+        },
+        err => {
+
+        }
+      );
+    });
   }
 
   gameInfo(game) {
+    console.log("In games.ts the title is " + game);
     this.navCtrl.push('GameInfoPage', {
       game: game
     });
   }
 
-  // addGame() {
-  //   this.navCtrl.push('GameCreatePage', {
-  //     currentActionDescription: "Add a game",
-  //     currentAction: "addingGame"
-  //   });
-  // }
-
+  addGame() {
+    this.navCtrl.push('GameCreatePage', {
+      currentActionDescription: "Add a game",
+      currentAction: "addingGame"
+    });
+  }
 
   searchGame() {
     this.navCtrl.push('SearchPage');
   }
 
-  doInfinite(infiniteScroll) {
-    this.infiniteScroll = infiniteScroll;
-    this.page = this.page + 1;
-    this.gameProvider.getAndAddToCache(this.page).subscribe(
-      (games: Game[]) => {
-        if (games.length === 0) {
-          let lastPage = this.toastCtrl.create({
-            message: "Last page reached.",
-            duration: 500,
-            position: 'bottom'
-          });
-          lastPage.present();
-          infiniteScroll.enable(false);
-        } else {
-          this.games = games;
-        }
-        infiniteScroll.complete();
-      },
-      (err: any) => {
-        let error = this.toastCtrl.create({
-          message: "Error with fetching games from API: " + err.error.message,
-          duration: 3000,
-          position: 'top'
-        });
-        error.present();
-        this.games = [];
-      }
-    );
+  ionViewDidLoad() {
+    if (this.navParams.data.games) this.games = this.navParams.data.games.data;
+
   }
+
 }

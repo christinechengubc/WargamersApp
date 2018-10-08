@@ -1,15 +1,13 @@
-import { Validator } from './validator/validator';
-import { ExecutiveProvider } from "./executive/executive";
-import { NetworkProvider } from "./network/network";
-import { EventProvider } from "./event/event";
-import {GameProvider} from "./game/game";
-import {LoginProvider} from './login/login';
+import { Api } from './api/api';
+import { Items } from '../mocks/providers/items';
+import { Settings } from './settings/settings';
+import { User } from './user/user';
+import { SanitizerProvider } from './sanitizer/sanitizer';
 
 export {
-    Validator,
-    NetworkProvider,
-    ExecutiveProvider,
-    EventProvider,
-    GameProvider,
-    LoginProvider
+    Api,
+    Items,
+    Settings,
+    User,
+    SanitizerProvider
 };

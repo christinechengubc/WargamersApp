@@ -1,20 +1,7 @@
 page-event-info {
-    ion-item {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
     .title {
-        color: $secondary-color;
+        color: #AF80ED;
         font-weight: bold;
         font-size: 200%;
     }
-    .event-info {
-        background-color: black;
-    }
-    .label-md {
-        font-size: 3rem;
-        b {
-            color: $secondary-color;
-        }
-    }
-}   
+}

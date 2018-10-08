@@ -1,19 +1,13 @@
 import { Component } from '@angular/core';
-import {ViewController, NavController, NavParams, ToastController} from 'ionic-angular';
-import {Storage} from "@ionic/storage";
-import {TabsPage} from "../tabs/tabs";
-import {LoginProvider} from "../../providers/providers";
-import {MainPage} from "../pages";
+import { ViewController, NavController, NavParams } from 'ionic-angular';
+import { User } from '../../providers/providers';
 
 @Component({
   selector: 'page-popover',
   templateUrl: 'popover.html'
 })
 export class PopoverPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public toastCtrl: ToastController,
-              public loginProvider: LoginProvider) {
-  }
+  constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public user: User) {}
 
   clubInfo() {
     this.navCtrl.push('ClubInfoPage');
@@ -24,17 +18,6 @@ export class PopoverPage {
   }
 
   adminLogin() {
-   this.navCtrl.push('LoginPage');
-  }
-
-  adminLogout() {
-    this.loginProvider.logout();
-    let toast = this.toastCtrl.create({
-      message: 'Successfully logged out!',
-      duration: 3000,
-      position: 'top'
-    });
-    toast.present();
-    this.navCtrl.push(MainPage);
+    this.viewCtrl.dismiss();
   }
 }

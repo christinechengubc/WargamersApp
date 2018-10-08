@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Events, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
+import { API_URL } from '../url';
 import { Http } from '@angular/http';
-import {GameProvider, LoginProvider} from '../../providers/providers';
+import { User } from '../../providers/providers';
 import { GameEditPage } from '../game-edit/game-edit';
-import { Storage } from "@ionic/storage";
-import {HttpHeaders} from "@angular/common/http";
-import {Response} from "../../models/Response";
-import {Game} from "../../models/Game";
+import { Api } from '../../providers/providers';
 
 /**
  * Generated class for the GamesPage page.
@@ -22,70 +20,48 @@ import {Game} from "../../models/Game";
 })
 export class GameInfoPage {
 
-  game: Game;
+  game: any = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public gameProvider: GameProvider,
-              public events: Events, public storage: Storage, private alertCtrl: AlertController, public loginProvider: LoginProvider) {
-    if (navParams.data.game != null) {
-      this.game = navParams.data.game;
-    }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public user: User, public api: Api, public toastCtrl: ToastController, public events: Events) {
   }
 
   editGame() {
     this.navCtrl.push('GameEditPage', {
-      game: this.game
+      game: this.game,
     });
   }
 
-  deleteGame(game: Game) {
-    this.gameProvider.delete(game).subscribe(
-      (res: Response) => {
-        if (res.code === 200) {
-          let message = res.message;
-          if (res.result.game_count == 0) {
-            message = "No game was deleted. Maybe it was previously deleted - try refreshing.";
-          }
-          let toast = this.toastCtrl.create({
-            message: message,
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-          this.navCtrl.pop();
-          this.events.publish('refreshGames');
-        }
-      },
-      err => {
-        let error = this.toastCtrl.create({
-          message: "Error deleting a game: " + err.error.message,
+  deleteGame() {
+    this.api.delete('games/' + this.game.id).subscribe(
+      resp => {
+        console.log(resp);
+        let toast = this.toastCtrl.create({
+          message: 'Succesfully deleted game from database!',
           duration: 3000,
           position: 'top'
         });
-        error.present();
+        toast.present();
+        this.navCtrl.pop();
+        this.events.publish('refresh');
+      },
+      err => {
+        console.log(err);
+        let toast = this.toastCtrl.create({
+          message: 'Failed to delete game from database. Error: ' + err.error.detail,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
       }
-    );
+    )
+
   }
 
-  presentConfirm() {
-    let alert = this.alertCtrl.create({
-      title: 'Delete this game?',
-      message: 'Do you really want to delete this game?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.deleteGame(this.game);
-          }
-        }
-      ]
-    });
-    alert.present();
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad GameInfoPage');
+  }
+
+  ionViewWillEnter() {
+    this.game = this.navParams.data.game;
   }
 }

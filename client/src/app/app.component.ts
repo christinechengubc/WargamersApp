@@ -2,13 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
-import {Config, Events, Nav, Platform, ToastController} from 'ionic-angular';
-import { Storage} from "@ionic/storage";
+import { Config, Nav, Platform } from 'ionic-angular';
+
 import { FirstRunPage } from '../pages/pages';
-import { Network } from "@ionic-native/network";
-import {EventProvider, ExecutiveProvider, GameProvider, LoginProvider} from "../providers/providers";
-import {LoadingController} from "ionic-angular";
-import {Observable} from "rxjs";
+import { Settings } from '../providers/providers';
 
 @Component({
   template: `<ion-menu [content]="content">
@@ -35,23 +32,27 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   pages: any[] = [
-    { title: 'Main', component: 'TabsPage' },
+    { title: 'Tutorial', component: 'TutorialPage' },
+    { title: 'Welcome', component: 'WelcomePage' },
+    { title: 'Tabs', component: 'TabsPage' },
+    { title: 'Cards', component: 'CardsPage' },
+    { title: 'Content', component: 'ContentPage' },
+    { title: 'Login', component: 'LoginPage' },
+    { title: 'Signup', component: 'SignupPage' },
+    { title: 'Master Detail', component: 'ListMasterPage' },
+    { title: 'Menu', component: 'MenuPage' },
+    { title: 'Settings', component: 'SettingsPage' },
     { title: 'Search', component: 'SearchPage' },
-  ];
+  ]
 
-  constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,
-              private network: Network, private toastCtrl: ToastController, private storage : Storage,
-              private eventProvider : EventProvider, private execProvider : ExecutiveProvider, private gameProvider : GameProvider, private loadingCtrl: LoadingController,
-              private appEvents: Events, private loginProvider: LoginProvider) {
+  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      this.statusBar.overlaysWebView(true);
-      this.statusBar.backgroundColorByHexString("#1E2123");
-      this.statusBar.show();
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
     this.initTranslate();
-    this.initNetwork();
-    this.initLoad();
   }
 
   initTranslate() {
@@ -75,58 +76,9 @@ export class MyApp {
       this.translate.use('en'); // Set your language here
     }
 
-
     this.translate.get(['BACK_BUTTON_TEXT']).subscribe(values => {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
-  }
-
-  initNetwork() {
-    this.network.onDisconnect().subscribe(() => {
-      let toast = this.toastCtrl.create({
-        message: 'You are currently offline. Some features may be disabled while offline.',
-        duration: 3000,
-        position: 'bottom'
-      });
-      toast.present();
-    });
-    this.network.onConnect().subscribe(() => {
-    });
-  }
-
-  initLoad() {
-    let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-    loading.present();
-
-    this.storage.get("token").then(
-      token => {
-        if (token != null) {
-          this.loginProvider.checkIfTokenStillValid(token);
-        }
-        Observable.forkJoin(
-          this.gameProvider.getAndStoreInCache(),
-          this.eventProvider.getAndStoreInCache(),
-          this.execProvider.getAndStoreInCache(),
-        ).subscribe(
-          () => {},
-          (err) => {
-            let error = this.toastCtrl.create({
-              message: "Error with fetching games from API: " + err.error.message,
-              duration: 3000,
-              position: 'top'
-            });
-            error.present();
-          },
-          () => {
-            loading.dismiss();
-            this.appEvents.publish("refreshEvents");
-            this.appEvents.publish("refreshGames");
-          }
-        )
-      }
-    )
   }
 
   openPage(page) {

@@ -5,9 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar>
     <ion-title>
-      Game Information
+      Wargamers App
     </ion-title>
     <ion-buttons end>
       <main-menu></main-menu>
@@ -16,25 +16,24 @@
 </ion-header>
 
 <ion-content padding>
-<div class="game-description">
   <ion-list *ngIf="game">
     <img [src]="game.image" />
-    <ion-item no-lines class="game-title"> {{ game.title }} ({{ game.year_published }})</ion-item>
-    <ion-item no-lines text-wrap class="align"><b>Categories:</b> {{ game.category }}</ion-item>
-    <ion-item no-lines text-wrap class="align1"><b>Rating:</b> {{ game.rating }} ({{ game.users_rated }} Users Rated on BGG)</ion-item>
-    <ion-item no-lines text-wrap class="align2"><b>Players:</b> {{ game.min_players }} - {{ game.max_players }}</ion-item>
-    <ion-item no-lines text-wrap class="align3"><b>Play Time:</b> {{ game.min_playtime }} - {{ game.max_playtime }}</ion-item>
-    <ion-item no-lines text-wrap class="align4"><b>Complexity:</b> {{ game.complexity }} / 5</ion-item>
-    <ion-item no-lines text-wrap class="align5"><b>Description:</b> {{ game.description }}</ion-item>
-    <ion-item no-lines text-wrap class="align6"><b>Available for Borrowing:</b> {{ game.available_copies }} / {{ game.total_copies }}</ion-item>
-    <ion-item no-lines text-wrap class="align7"><b>Condition:</b> {{ game.condition }}</ion-item>
-    <ion-item no-lines text-wrap *ngIf="game.expansion_of !== null"><b>Expansion of</b> {{ game.expansion_of }}</ion-item>
+    <ion-item text-wrap class="game-title"> {{ game.title }} ({{ game.year_published }})</ion-item>
+    <ion-item text-wrap><b>Published by:</b> {{ game.publisher }}</ion-item>
+    <ion-item text-wrap><b>Categories:</b> {{ game.category }}</ion-item>
+    <ion-item text-wrap><b>Rating:</b> {{ game.rating }} ({{ game.users_rated }} Users Rated on BGG)</ion-item>
+    <ion-item text-wrap><b>Players:</b> {{ game.min_players }} - {{ game.max_players }}</ion-item>
+    <ion-item text-wrap><b>Play Time:</b> {{ game.min_playtime }} - {{ game.max_playtime }}</ion-item>
+    <ion-item text-wrap><b>Complexity:</b> {{ game.complexity }} / 5</ion-item>
+    <ion-item text-wrap><b>Description:</b> {{ game.description }}</ion-item>
+    <ion-item text-wrap><b>Available for Borrowing:</b> {{ game.available_copies }} / {{ game.total_copies }}</ion-item>
+    <ion-item text-wrap><b>Condition:</b> {{ game.condition }}</ion-item>
+    <ion-item text-wrap *ngIf="game.expansion_of !== null"><b>Expansion of</b> {{ game.expansion_of }}</ion-item>
   </ion-list>
-</div>
 
-
-  <ion-fab right bottom *ngIf="this.loginProvider.getToken()">
+  <ion-fab right bottom>
+  <!-- <ion-fab right bottom *ngIf="user._user != null"> -->
     <button (click)="editGame()" ion-fab><ion-icon name="create"></ion-icon></button>
-    <button (click)="presentConfirm()" ion-fab><ion-icon name="close"></ion-icon></button>
+    <button (click)="deleteGame()" ion-fab><ion-icon name="close"></ion-icon></button>
   </ion-fab>
 </ion-content>

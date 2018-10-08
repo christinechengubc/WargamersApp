@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
-import {ExecutiveProvider, EventProvider, Validator} from '../../providers/providers';
-import { Storage } from "@ionic/storage";
-import {Response} from "../../models/Response";
-import {Executive} from "../../models/Executive";
-import {Event} from '../../models/Event';
+import { API_URL } from '../url';
+import { Http } from '@angular/http';
+import { Api } from '../../providers/providers';
+import { SanitizerProvider } from '../../providers/providers';
+
+/**
+ * Generated class for the EventsPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
@@ -13,124 +19,134 @@ import {Event} from '../../models/Event';
 })
 export class EventCreatePage {
 
-  MIN_YEAR = new Date(Date.now()).getFullYear();
-  MAX_YEAR = this.MIN_YEAR + 2;
+  event: any = {};
+  action: any;
+  execs: any = [];
+  days: any = [];
+  years: any = [];
+  hours: any = [];
+  minutes: any = [0,15,30,45];
 
-  event: Event = new Event();
-  executives: Executive[] = [];
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public eventProvider: EventProvider, public execProvider: ExecutiveProvider,
-    public toastCtrl: ToastController, public events: Events, public validator: Validator, public storage: Storage) {
-    if (this.navParams.data.action === "Edit" && navParams.data.event != null) {
-      this.event = navParams.data.event;
-    }
-    this.getExecs();
-  }
-
-  getExecs() {
-    this.execProvider.getFromCache().subscribe(
-      (executives: Executive[]) => {
-        this.executives = executives;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public api: Api, public toastCtrl: ToastController, public events: Events, public sanitizer: SanitizerProvider) {
+    this.http.get(API_URL + "/executives").map(res => res.json()).subscribe(
+      data => {
+        this.execs = data.result.executives;
+        console.log(this.execs);
       },
-      (err: any) => {
-        let error = this.toastCtrl.create({
-          message: "Error with fetching executives from cache: " + err,
-          duration: 3000,
-          position: 'top'
-        });
-        error.present();
-        this.executives = [];
+      err => {
+        console.log("Oops!");
+        console.log(err);
       }
     );
+
+    for (let h = 0; h <= 23; h++) {
+      this.hours.push(h);
+    }
+    for (let i = 1; i <= 31; i++) {
+      this.days.push(i);
+    }
+    let startYear = 1900;
+    let endYear = 2018;
+    for (let j = endYear; j >= startYear; j--) {
+      this.years.push(j);
+    }
+    console.log(navParams.data);
+    if (navParams.data.event != null) {
+      this.event = navParams.data.event;
+    }
+    if (navParams.data.action != null) {
+      this.action = navParams.data.action;
+    }
+  }
+
+  getDate() {
+    // TODO: output correct date format
+  }
+
+  getStartTime() {
+    // TODO: output correct start time format
+  }
+
+  getEndTime() {
+    // TODO: output correct end time format
   }
 
   save() {
-    this.fillEventWithDefault();
-
-    let check = this.validator.checkEventBody(this.event);
-    if (check != "") {
-      let error = this.toastCtrl.create({
-        message: check,
-        duration: 3000,
-        position: 'top'
-      });
-      error.present();
-      return;
-    }
-
-    if (this.navParams.data.action === "Edit") {
-      this.editEvent(this.event);
-    } else if (this.navParams.data.action === "Create") {
-      this.createEvent(this.event);
-    }
-  }
-
-  fillEventWithDefault() {
+    let date = this.getDate();
+    let start_time = this.getStartTime();
+    let end_time = this.getEndTime();
     if (this.event.always_show == null) {
       this.event.always_show = false;
     }
-    if (this.event.location === "") {
-      this.event.location = "TBA";
-    }
-    if (this.event.description === "") {
-      this.event.description = "N/A";
-    }
-    if (this.event.fb_event_page === "") {
-      this.event.fb_event_page = "N/A";
-    }
-  }
 
-  editEvent(event: any) {
-    this.eventProvider.put(event).subscribe(
-      (res: Response) => {
-        if (res.code === 200) {
-          let message = res.message;
-          if (res.result.event_count == 0) {
-            message = "No event was updated. Maybe it was previously deleted - try refreshing.";
-          }
+    let body: any = {
+      title: this.event.title,
+      date: date,
+      description: this.event.description,
+      start_time: start_time,
+      end_time: end_time,
+      location: this.event.location,
+      always_show: this.event.always_show,
+      lead_exec: this.event.lead_exec,
+      fb_event_page: this.event.fb_event_page,
+      image: this.event.image
+    }
+
+    console.log(body);
+
+    if (this.action === "Edit") {
+      this.api.put('events/' + this.event.id, body).subscribe(
+        resp => {
+          console.log(resp);
           let toast = this.toastCtrl.create({
-            message: message,
+            message: 'Succesfully edited event!',
             duration: 3000,
             position: 'top'
           });
           toast.present();
           this.navCtrl.pop();
-          this.events.publish('refreshEvents');
-        }
-      },
-      err => {
-        let error = this.toastCtrl.create({
-          message: "Error editing an event: " + err.error.message,
-          duration: 3000,
-          position: 'top'
-        });
-        error.present();
-      }
-    );
-  }
-
-  createEvent(event: any) {
-    this.eventProvider.post(event).subscribe(
-      (res: Response) => {
-        if (res.code === 200) {
+          this.events.publish('refresh');
+        },
+        err => {
+          console.log(err);
           let toast = this.toastCtrl.create({
-            message: res.message,
+            message: 'Failed to edit event. Error: ' + err.error.detail,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }
+      );
+    }
+
+    if (this.action === "Create") {
+      this.api.post('events', body).subscribe(
+        resp => {
+          console.log(resp);
+          let toast = this.toastCtrl.create({
+            message: 'Succesfully created event!',
             duration: 3000,
             position: 'top'
           });
           toast.present();
           this.navCtrl.pop();
-          this.events.publish('refreshEvents');
+          this.events.publish('refresh');
+        },
+        err => {
+          console.log(err);
+          let toast = this.toastCtrl.create({
+            message: 'Failed to create event. Error: ' + err.error.message,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
         }
-      },
-      err => {
-        let error = this.toastCtrl.create({
-          message: "Error posting an event: " + err.error.message,
-          duration: 3000,
-          position: 'top'
-        });
-        error.present();
-      }
-    );
+      );
+    }
   }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad EventCreatePage');
+  }
+
 }

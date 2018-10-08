@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar>
     <ion-title>
       Create an Event
     </ion-title>
@@ -12,45 +12,73 @@
 <ion-content padding>
   <ion-list>
     <ion-item>
-      <ion-label color="light" fixed>Event Name</ion-label>
-      <ion-input color="secondary"[(ngModel)]="event.title" type="text" value = ""></ion-input>
+      <ion-label fixed>Event Name</ion-label>
+      <ion-input [(ngModel)]="event.title" type="text" value = ""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label color="light" fixed>Date</ion-label>
-      <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="event.date" [min]="MIN_YEAR" [max]="MAX_YEAR"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label color="light" fixed>Start Time</ion-label>
-      <ion-datetime displayFormat="HH:mm" [(ngModel)]="event.start_time"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label color="light" fixed>End Time</ion-label>
-      <ion-datetime displayFormat="HH:mm" [(ngModel)]="event.end_time"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label color="light" fixed>Location</ion-label>
-      <ion-input [(ngModel)]="event.location" type="text" value = ""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="light" fixed>Description</ion-label>
-      <ion-input [(ngModel)]="event.description" type="text" value = ""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="light" fixed>Lead Executive / Host</ion-label>
-      <ion-select [(ngModel)]="event.lead_exec">
-        <ion-option *ngFor="let exec of executives">{{ exec.name }}</ion-option>
+      <ion-label fixed>Date</ion-label>
+      <ion-select [(ngModel)]="day">
+        <ion-option *ngFor="let day of days">{{ day }}</ion-option>
+      </ion-select>
+      <ion-select [(ngModel)]="month">
+        <ion-option value="01">January</ion-option>
+        <ion-option value="02">February</ion-option>
+        <ion-option value="03">March</ion-option>
+        <ion-option value="04">April</ion-option>
+        <ion-option value="05">May</ion-option>
+        <ion-option value="06">June</ion-option>
+        <ion-option value="07">July</ion-option>
+        <ion-option value="08">August</ion-option>
+        <ion-option value="09">September</ion-option>
+        <ion-option value="10">October</ion-option>
+        <ion-option value="11">November</ion-option>
+        <ion-option value="12" checked="true">December</ion-option>
+      </ion-select>
+      <ion-select [(ngModel)]="year">
+        <ion-option *ngFor="let year of years">{{ year }}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label color="light" fixed>Link to Facebook Page</ion-label>
+      <ion-label fixed>Start Time</ion-label>
+      <ion-select [(ngModel)]="startHour">
+        <ion-option *ngFor="let hour of hours">{{ hour }}</ion-option>
+      </ion-select>
+      <ion-select [(ngModel)]="startMin">
+        <ion-option *ngFor="let minute of minutes">{{ minute }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>End Time</ion-label>
+      <ion-select [(ngModel)]="endHour">
+        <ion-option *ngFor="let hour of hours">{{ hour }}</ion-option>
+      </ion-select>
+      <ion-select [(ngModel)]="endMin">
+        <ion-option *ngFor="let minute of minutes">{{ minute }}</ion-option>
+      </ion-select>    </ion-item>
+    <ion-item>
+      <ion-label fixed>Location</ion-label>
+      <ion-input [(ngModel)]="event.location" type="text" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Description</ion-label>
+      <ion-input [(ngModel)]="event.description" type="text" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Lead Executive / Host</ion-label>
+      <ion-select [(ngModel)]="event.lead_exec">
+        <ion-option *ngFor="let exec of execs">{{ exec.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Link to Facebook Page</ion-label>
       <ion-input [(ngModel)]="event.fb_event_page" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label color="light" fixed>Link to Image Source</ion-label>
+      <ion-label fixed>Link to Image Source</ion-label>
       <ion-input [(ngModel)]="event.image" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label color="light">Always show this event on the event tab</ion-label>
+      <ion-label>Always show this event on the event tab</ion-label>
       <ion-checkbox [(ngModel)]="event.always_show" checked="false"></ion-checkbox>
     </ion-item>
   </ion-list>
