@@ -19,6 +19,7 @@ interface IGame {
   show_main_page: boolean;
   thumbnail: string;
   image: string;
+  available: boolean;
 }
 
 export class Game {
@@ -42,6 +43,7 @@ export class Game {
   public show_main_page: boolean;
   public thumbnail: string;
   public image: string;
+  public available: boolean;
 
   constructor(obj?: IGame) {
     this.id                =  obj && obj.id;
@@ -64,5 +66,6 @@ export class Game {
     this.show_main_page    =  obj && obj.show_main_page || false;
     this.thumbnail         =  obj && obj.thumbnail || "";
     this.image             =  obj && obj.image || "";
+    this.available         = obj && obj.available || false;
   }
 }

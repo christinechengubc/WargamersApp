@@ -8,9 +8,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
-
-import { User } from '../providers/providers';
-import { Api } from '../providers/api/api';
 import { MyApp } from './app.component';
 import { PopoverPage } from '../pages/popover/popover';
 import { Validator } from '../providers/validator/validator';
@@ -19,7 +16,7 @@ import { EventProvider } from '../providers/event/event';
 import { GameProvider } from '../providers/game/game';
 import { Network } from '@ionic-native/network';
 import { NetworkProvider } from '../providers/network/network';
-import { GlobalVars } from '../providers/global-vars/global-vars';
+import { LoginProvider } from '../providers/login/login';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -52,8 +49,6 @@ export function createTranslateLoader(http: HttpClient) {
     PopoverPage,
   ],
   providers: [
-    Api,
-    User,
     SplashScreen,
     Network,
     StatusBar,
@@ -64,7 +59,7 @@ export function createTranslateLoader(http: HttpClient) {
     EventProvider,
     GameProvider,
     NetworkProvider,
-    GlobalVars
+    LoginProvider
   ]
 })
 export class AppModule { }

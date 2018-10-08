@@ -90,30 +90,4 @@ export class GameEditPage {
       }
     );
   }
-
-  // createGame(game: any) {
-  //   this.gameProvider.post(game).subscribe(
-  //     (res: Response) => {
-  //       if (res.code === 200) {
-  //         let toast = this.toastCtrl.create({
-  //           message: res.message,
-  //           duration: 3000,
-  //           position: 'top'
-  //         });
-  //         toast.present();
-  //         this.navCtrl.pop();
-  //         this.events.publish('refresh');
-  //       }
-  //     },
-  //     err => {
-  //       // TO-DO: Retry the call before displaying the error. Could be connection problems.
-  //       let error = this.toastCtrl.create({
-  //         message: "Error posting a game: " + err.error.message,
-  //         duration: 3000,
-  //         position: 'top'
-  //       });
-  //       error.present();
-  //     }
-  //   );
-  // }
 }

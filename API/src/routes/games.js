@@ -131,12 +131,17 @@ games.post('/', async (req, res) => {
 	var sql = new PQ('INSERT INTO games (title, category, min_players, max_players, min_playtime, max_playtime, year_published, description, ' +
 		'image, rating, users_rated, complexity, available_copies, total_copies, condition, expansion_of, bgg_id, show_main_page, thumbnail) ' +
 	  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING id');
-  let imageCompressedURL = await imageCompressor.compress(req.body.image).catch((err) => {
-    console.error("Could not compress and upload image.");
-    return res.status(500).json({status: 'error', code: 500, message: err.message});
-  });
+  if (req.body.image !== "") {
+    try {
+      req.body.image = await imageCompressor.compress(req.body.image)
+    } catch (err) {
+      console.error("Could not compress and upload image.");
+      res.status(500).json({status: 'error', code: 500, message: err.message});
+      return;
+    }
+  }
   sql.values = [req.body.title, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
-		 						req.body.max_playtime, req.body.year_published, req.body.description, imageCompressedURL, req.body.rating, req.body.users_rated, req.body.complexity,
+		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
 								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page, req.body.thumbnail];
 
    db.one(sql)
@@ -168,12 +173,17 @@ games.put('/:id', async (req, res) => {
 	  'SET title = $2, category = $3, min_players = $4, max_players = $5, min_playtime = $6, max_playtime = $7, year_published = $8, description = $9, ' +
 		'image = $10, rating = $11, users_rated = $12, complexity = $13, available_copies = $14, total_copies = $15, condition = $16, expansion_of = $17, bgg_id = $18, '+
 		'show_main_page = $19, thumbnail = $20' + 'WHERE id = $1');
-  let imageCompressedURL = await imageCompressor.compress(req.body.image).catch((err) => {
-    console.error("Could not compress and upload image.");
-    return res.status(500).json({status: 'error', code: 500, message: err.message});
-  });
+  if (req.body.image !== "") {
+    try {
+      req.body.image = await imageCompressor.compress(req.body.image)
+    } catch (err) {
+      console.error("Could not compress and upload image.");
+      res.status(500).json({status: 'error', code: 500, message: err.message});
+      return;
+    }
+  }
   sql.values = [req.params.id, req.body.title, req.body.category, req.body.min_players, req.body.max_players, req.body.min_playtime,
-		 						req.body.max_playtime, req.body.year_published, req.body.description, imageCompressedURL, req.body.rating, req.body.users_rated, req.body.complexity,
+		 						req.body.max_playtime, req.body.year_published, req.body.description, req.body.image, req.body.rating, req.body.users_rated, req.body.complexity,
 								req.body.available_copies, req.body.total_copies, req.body.condition, req.body.expansion_of, req.body.bgg_id, req.body.show_main_page,
 							  req.body.thumbnail];
 	db.result(sql)
@@ -255,7 +265,9 @@ games.delete('/:id', (req, res) => {
     .then((data) => {
       db.result(sql)
         .then(async (r) => {
-          await imageCompressor.deleteCompressed(data.image);
+          if (data.image !== "") {
+            await imageCompressor.deleteCompressed(data.image);
+          }
           res.status(200)
             .json({
               status: 'ok',

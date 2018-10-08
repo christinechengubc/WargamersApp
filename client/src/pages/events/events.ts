@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
-import { EventProvider, User} from '../../providers/providers';
-import { Response } from "../../models/Response";
+import {EventProvider, LoginProvider} from '../../providers/providers';
 import {Events} from "ionic-angular";
 
 @IonicPage()
@@ -12,7 +11,7 @@ import {Events} from "ionic-angular";
 export class EventsPage {
   events: Event[] = [];
 
-  constructor(public navCtrl: NavController, public eventProvider: EventProvider, public user: User, public toastCtrl: ToastController, public appEvents: Events) {
+  constructor(public navCtrl: NavController, public eventProvider: EventProvider, public toastCtrl: ToastController, public appEvents: Events, public loginProvider: LoginProvider) {
     this.getEventsFromCache();
     this.appEvents.subscribe("refreshEvents",
       () => {
@@ -36,14 +35,6 @@ export class EventsPage {
         this.events = [];
       }
     );
-
-    this.storage.get('token').then((token) => {
-      this.token = token;
-    });
-
-    this.storage.get('login').then((login) => {
-      this.login = login;
-    })
   }
 
 
@@ -73,32 +64,8 @@ export class EventsPage {
   }
 
   addEvent() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'x-access-token': this.token
-      })
-    };
-
-    this.api.get('login/', null, httpOptions).subscribe(
-      resp => {
-        this.navCtrl.push('EventCreatePage', {
-          action: "Create",
-        });
-      },
-      err => {
-        this.storage.set('login', 0);
-        let toast = this.toastCtrl.create({
-          message: 'Cannot edit game. Error: not logged in',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        this.navCtrl.setRoot('EventsPage');
-      }
-    )
-  }
-
-  isLoggedIn() {
-    return this.login;
+    this.navCtrl.push('EventCreatePage', {
+      action: "Create",
+    });
   }
 }

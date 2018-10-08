@@ -113,12 +113,18 @@ events.post('/', async (req, res) => {
 
   var sql = new PQ('INSERT INTO events (title, start_time, end_time, date, location, description, always_show, lead_exec, fb_event_page, image) ' +
   'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id') ;
-  let imageCompressedURL = await imageCompressor.compress(req.body.image).catch((err) => {
-    console.error("Could not compress and upload image.");
-    return res.status(500).json({status: 'error', code: 500, message: err.message});
-  });
+  if (req.body.image !== "") {
+    try {
+      req.body.image = await imageCompressor.compress(req.body.image)
+    } catch (err) {
+      console.error("Could not compress and upload image.");
+      res.status(500).json({status: 'error', code: 500, message: err.message});
+      return;
+    }
+  }
+
   sql.values = [req.body.title, req.body.start_time, req.body.end_time, req.body.date, req.body.location,
-                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, imageCompressedURL];
+                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, req.body.image];
 
   db.one(sql)
     .then((data) => {
@@ -148,12 +154,17 @@ events.put('/:id', async (req,res) => {
   var sql = new PQ('UPDATE events ' +
     'SET title = $2, start_time = $3, end_time = $4, date = $5, location = $6, description = $7, always_show = $8, lead_exec = $9, fb_event_page = $10, image = $11 ' +
     'WHERE id = $1');
-  let imageCompressedURL = await imageCompressor.compress(req.body.image).catch((err) => {
-    console.error("Could not compress and upload image.");
-    return res.status(500).json({status: 'error', code: 500, message: err.message});
-  });
+  if (req.body.image !== "") {
+    try {
+      req.body.image = await imageCompressor.compress(req.body.image)
+    } catch (err) {
+      console.error("Could not compress and upload image.");
+      res.status(500).json({status: 'error', code: 500, message: err.message});
+      return;
+    }
+  }
   sql.values = [req.params.id, req.body.title, req.body.start_time, req.body.end_time, req.body.date, req.body.location,
-                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, imageCompressedURL];
+                req.body.description, req.body.always_show, req.body.lead_exec, req.body.fb_event_page, req.body.image];
 
   db.result(sql)
     .then((r) => {
@@ -189,7 +200,9 @@ events.delete('/:id', (req, res) => {
     .then((data) => {
       db.result(sql)
         .then(async (r) => {
-          await imageCompressor.deleteCompressed(data.image);
+          if (data.image !== "") {
+            await imageCompressor.deleteCompressed(data.image);
+          }
           res.status(200).json({status: 'ok', code: 200, message: 'Deleted event with id: ' + req.params.id, result: {event_count: r.rowCount}});
         })
         .catch((err) => {

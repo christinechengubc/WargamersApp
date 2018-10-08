@@ -33,7 +33,7 @@
 </div>
 
 
-  <ion-fab right bottom *ngIf="isLoggedIn()">
+  <ion-fab right bottom *ngIf="this.loginProvider.getToken()">
     <button (click)="editGame()" ion-fab><ion-icon name="create"></ion-icon></button>
     <button (click)="presentConfirm()" ion-fab><ion-icon name="close"></ion-icon></button>
   </ion-fab>

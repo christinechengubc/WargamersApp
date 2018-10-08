@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Storage} from "@ionic/storage";
-import {GlobalVars} from "../global-vars/global-vars";
 import {Response} from "../../models/Response";
 import {API_URL} from "../API_URL";
 import {Observable} from "rxjs";
 import {Game} from "../../models/Game";
+import {LoginProvider} from "../login/login";
 
 @Injectable()
 export class GameProvider {
 
-  constructor(public http: HttpClient, public storage: Storage, public globalVars : GlobalVars) {
+  constructor(public http: HttpClient, public storage: Storage, public loginProvider : LoginProvider) {
 
   }
 
@@ -18,7 +18,7 @@ export class GameProvider {
   // You can use it to cancel or retry the call.
   // A subscription is created to store the results in the cache.
   getAndStoreInCache() {
-    let gamesObservable = this.http.get<Response>(API_URL + '/' + "games/" + 0, this.globalVars.getHeaderWithToken()).share();
+    let gamesObservable = this.http.get<Response>(API_URL + '/' + "games/" + 0, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       gamesObservable.subscribe(
@@ -42,7 +42,7 @@ export class GameProvider {
 
   // Used for when scrolling down multiple pages.
   getAndAddToCache(page: number) {
-    let gamesObservable = this.http.get<Response>(API_URL + '/' + "games/" + page, this.globalVars.getHeaderWithToken()).share();
+    let gamesObservable = this.http.get<Response>(API_URL + '/' + "games/" + page, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       gamesObservable.subscribe(
@@ -89,11 +89,29 @@ export class GameProvider {
     });
   }
 
+  // Returns an Observable of an array of Games.
+  getFromSearch(game: Game, searchBy: string, page: number) {
+    let gamesObservable = this.http.post<Response>(API_URL + "/search/" + searchBy + "/" + page, game, this.loginProvider.getHeaderWithToken()).share();
+
+    return Observable.create(observer => {
+      gamesObservable.subscribe(
+        (res: Response) => {
+          let games = res.result.games;
+          observer.next(games);
+          observer.complete();
+        },
+        (err) => {
+          observer.error(err);
+        }
+      )
+    });
+  }
+
 
   // Returns an Observable of the PUT request.
   // A subscription is created to edit the game in the cache, if it exists. If it doesn't, it is added.
   put(game: any) {
-    let gamesObservable = this.http.put<Response>(API_URL + '/' + "games/" + game.id, game, this.globalVars.getHeaderWithToken()).share();
+    let gamesObservable = this.http.put<Response>(API_URL + '/' + "games/" + game.id, game, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       gamesObservable.subscribe(
@@ -122,7 +140,7 @@ export class GameProvider {
   // Returns an Observable of the POST request.
   // A subscription is created to add the game to the cache.
   post(game: any) {
-    let gamesObservable = this.http.post<Response>(API_URL + '/' + "games/" + game.id, game, this.globalVars.getHeaderWithToken()).share();
+    let gamesObservable = this.http.post<Response>(API_URL + '/' + "games/" + game.id, game, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       gamesObservable.subscribe(
@@ -152,7 +170,7 @@ export class GameProvider {
   // Returns an Observable of the DELETE request.
   // A subscription is created to delete the game from the cache, if it exists.
   delete(game: any) {
-    let gamesObservable = this.http.delete<Response>(API_URL + '/' + "games/" + game.id, this.globalVars.getHeaderWithToken()).share();
+    let gamesObservable = this.http.delete<Response>(API_URL + '/' + "games/" + game.id, this.loginProvider.getHeaderWithToken()).share();
 
     return Observable.create(observer => {
       gamesObservable.subscribe(
