@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Add a Game
+    </ion-title>
+    <ion-buttons end>
+      <main-menu></main-menu>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Title</ion-label>
+      <ion-input [(ngModel)]="title" type="text" value =""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Available Copies</ion-label>
+      <ion-input [(ngModel)]="available_copies" type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Total Copies</ion-label>
+      <ion-input [(ngModel)]="total_copies" type="number" value = ""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Condition</ion-label>
+      <ion-select [(ngModel)]="condition" value = "">
+        <ion-option>New</ion-option>
+        <ion-option>Good</ion-option>
+        <ion-option>OK</ion-option>
+        <ion-option>Poor</ion-option>
+        <ion-option>In Repair</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Expansion Of</ion-label>
+      <ion-input [(ngModel)]="expansion_of" type="text" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Show on Games Tab</ion-label>
+      <ion-checkbox [(ngModel)]="show_main_page"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <button (click)="next()" ion-button>Next</button>
+</ion-content>
