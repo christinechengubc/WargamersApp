@@ -9,7 +9,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
-import { PopoverPage } from '../pages/popover/popover';
 import { Validator } from '../providers/validator/validator';
 import { ExecutiveProvider } from '../providers/executive/executive';
 import { EventProvider } from '../providers/event/event';
@@ -26,8 +25,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp,
-    PopoverPage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -45,8 +43,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    PopoverPage,
+    MyApp
   ],
   providers: [
     SplashScreen,
