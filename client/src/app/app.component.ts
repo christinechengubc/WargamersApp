@@ -113,11 +113,12 @@ export class MyApp {
           () => {},
           (err) => {
             let error = this.toastCtrl.create({
-              message: "Error with fetching games from API: " + err.error.message,
+              message: "Error fetching something from API: " + err.error.message,
               duration: 3000,
               position: 'top'
             });
             error.present();
+            loading.dismiss();
           },
           () => {
             loading.dismiss();
