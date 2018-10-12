@@ -11,7 +11,7 @@ try {
 }
 var imageCompressor = require('../imageCompressor');
 
-var LIMIT = 5;
+var LIMIT = 30;
 
 games.get('/:page', (req, res) => {
   let page = req.params.page;

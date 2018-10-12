@@ -2,7 +2,7 @@ var search = require('express').Router();
 var db = require('../db');
 var PQ = require('pg-promise').ParameterizedQuery;
 
-var LIMIT = 5;
+var LIMIT = 30;
 
 search.post('/basic/:page', (req, res) => {
   var available = '';
