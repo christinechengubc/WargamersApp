@@ -17,7 +17,7 @@ games.get('/:page', (req, res) => {
   let page = req.params.page;
   let offset = LIMIT * page;
 
-	var sql = new PQ('SELECT * FROM games WHERE show_main_page = TRUE ORDER BY id ASC LIMIT $1 OFFSET $2');
+	var sql = new PQ('SELECT * FROM games ORDER BY id ASC LIMIT $1 OFFSET $2');
 	sql.values = [LIMIT, offset];
 
   db.many(sql)
