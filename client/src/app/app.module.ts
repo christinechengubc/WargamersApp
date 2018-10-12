@@ -26,8 +26,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp,
-    PopoverPage
+    MyApp
   ],
   imports: [
     BrowserModule,
