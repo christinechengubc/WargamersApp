@@ -5,6 +5,7 @@ var executives = require('./executives');
 var admins = require('./admins');
 var login = require('./login');
 var search = require('./search');
+var bgg = require('./bgg');
 
 routes.use('/login', login);
 routes.use('/games', games);
@@ -12,6 +13,7 @@ routes.use('/events', events);
 routes.use('/executives', executives);
 routes.use('/search', search);
 routes.use('/admins', admins);
+routes.use('/bgg', bgg);
 
 routes.get('/', (req, res) => {
   res.status(200).json({ message: "Connected!"});
