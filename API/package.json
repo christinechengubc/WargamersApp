@@ -5,6 +5,9 @@
   "main": "src/app.js",
   "author": "Trevin Wong, Christine Cheng, Bryce Miranda, Crystal Kwong",
   "license": "ISC",
+  "engines": {
+    "node": "10.3.0"
+  },
   "dependencies": {
     "@google-cloud/storage": "^2.0.3",
     "axios": "^0.18.0",
