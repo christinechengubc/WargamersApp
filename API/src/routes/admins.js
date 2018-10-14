@@ -5,37 +5,37 @@ var bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
-admins.post('/', (req, res) => {
-
-  bcrypt.hash(req.body.password, saltRounds, function(err,hash) {
-
-  var sql = new PQ('INSERT INTO app_admins (email, hash) VALUES ($1, $2)');
-
-  sql.values = [req.body.email, hash];
-
-
-     db.any(sql)
-      .then((data) => {
-        res.status(200)
-          .json({
-            status: 'ok',
-            code: 200,
-            message: 'Created a new admin',
-            result: {},
-          });
-      })
-      .catch((err) => {
-        console.error('\n[ERROR]: POST /admins\n');
-        console.error(err);
-        res.status(500)
-          .json({
-            status: 'error',
-            code: 500,
-            message: err.message
-          });
-      });
-  });
-});
+// admins.post('/', (req, res) => {
+//
+//   bcrypt.hash(req.body.password, saltRounds, function(err,hash) {
+//
+//   var sql = new PQ('INSERT INTO app_admins (email, hash) VALUES ($1, $2)');
+//
+//   sql.values = [req.body.email, hash];
+//   console.log("body is " + JSON.stringify(req.body));
+//
+//      db.any(sql)
+//       .then((data) => {
+//         res.status(200)
+//           .json({
+//             status: 'ok',
+//             code: 200,
+//             message: 'Created a new admin',
+//             result: {},
+//           });
+//       })
+//       .catch((err) => {
+//         console.error('\n[ERROR]: POST /admins\n');
+//         console.error(err);
+//         res.status(500)
+//           .json({
+//             status: 'error',
+//             code: 500,
+//             message: err.message
+//           });
+//       });
+//   });
+// });
 
 
 admins.delete('/:id', (req, res) => {
