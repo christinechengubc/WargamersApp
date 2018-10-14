@@ -63,7 +63,7 @@ INSERT INTO Games (title, category, rating, min_players, max_players, min_playti
 
 CREATE TABLE App_Admins(
 	id SERIAL PRIMARY KEY,
-	email VARCHAR(20) UNIQUE NOT NULL,
+	email VARCHAR(100) UNIQUE NOT NULL,
 	hash VARCHAR(100) NOT NULL
 );
 
