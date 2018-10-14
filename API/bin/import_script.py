@@ -1,4 +1,5 @@
-import csv, urllib2
+import csv
+from urllib.request import urlopen
 import xml.etree.ElementTree as ET
 
 SEARCH_URL = "https://www.boardgamegeek.com/xmlapi/search?search="
@@ -8,7 +9,7 @@ def getGameId(title):
     id = None
     title = title.replace(" ", "%20")
 
-    contents = urllib2.urlopen(SEARCH_URL + title + "&exact=1").read()
+    contents = urlopen(SEARCH_URL + title + "&exact=1").read()
     root = ET.fromstring(contents)
 
     for child in root:
@@ -34,13 +35,26 @@ def getGameDetails(games):
     for id in games.keys():
         ids = ids + id + ","
 
-    contents = urllib2.urlopen(DETAILS_URL + ids + "?stats=1").read()
+    contents = urlopen(DETAILS_URL + ids + "?stats=1").read()
     root = ET.fromstring(contents)
 
     for boardgame in root.iter('boardgame'):
         id = boardgame.attrib['objectid']
 
         for child in boardgame:
+            games[id]["category"] = ""
+            games[id]["year_published"] = "0"
+            games[id]["min_players"] = "0"
+            games[id]["max_players"] = "0"
+            games[id]["min_playtime"] = "0"
+            games[id]["max_playtime"] = "0"
+            games[id]["description"] = ""
+            games[id]["thumbnail"] = ""
+            games[id]["image"] = ""
+            games[id]["users_rated"] = "0"
+            games[id]["rating"] = "0"
+            games[id]["complexity"] = "0"
+
             if (child.tag == "boardgamesubdomain"):
                 games[id]["category"] = child.text.partition(' ')[0]
 

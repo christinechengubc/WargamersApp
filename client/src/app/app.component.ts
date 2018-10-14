@@ -51,6 +51,55 @@ export class MyApp {
     });
   }
 
+  initNetwork() {
+    this.network.onDisconnect().subscribe(() => {
+      let toast = this.toastCtrl.create({
+        message: 'You are currently offline. Some features may be disabled while offline.',
+        duration: 3000,
+        position: 'bottom'
+      });
+      toast.present();
+    });
+    this.network.onConnect().subscribe(() => {
+    });
+  }
+
+  initLoad() {
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
+
+    this.storage.get("token").then(
+      token => {
+        if (token != null) {
+          this.loginProvider.checkIfTokenStillValid(token);
+        }
+        Observable.forkJoin(
+          this.gameProvider.getAndStoreInCache(),
+          this.eventProvider.getAndStoreInCache(),
+          this.execProvider.getAndStoreInCache(),
+        ).subscribe(
+          () => {},
+          (err) => {
+            let error = this.toastCtrl.create({
+              message: "Error fetching something from API: " + err.error.message,
+              duration: 3000,
+              position: 'top'
+            });
+            error.present();
+            loading.dismiss();
+          },
+          () => {
+            loading.dismiss();
+            this.appEvents.publish("refreshEvents");
+            this.appEvents.publish("refreshGames");
+          }
+        )
+      }
+    )
+  }
+
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
