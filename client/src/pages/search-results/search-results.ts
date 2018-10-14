@@ -27,6 +27,12 @@ export class SearchResultsPage {
     }
   }
 
+  gameInfo(game) {
+    this.navCtrl.push('GameInfoPage', {
+      game: game
+    });
+  }
+
   doInfinite(infiniteScroll) {
     this.infiniteScroll = infiniteScroll;
     this.page = this.page + 1;
