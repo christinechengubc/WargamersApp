@@ -13,7 +13,7 @@
     "postinstall": "ionic-app-scripts build --prod"
   },
   "engines": {
-    "node": "10.3.0"
+    "node": ">=10.3.0"
   },
   "dependencies": {
     "@angular/common": "5.0.3",

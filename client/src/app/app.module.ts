@@ -16,6 +16,8 @@ import { GameProvider } from '../providers/game/game';
 import { Network } from '@ionic-native/network';
 import { NetworkProvider } from '../providers/network/network';
 import { LoginProvider } from '../providers/login/login';
+import { PopoverPageModule } from '../pages/popover/popover.module';
+import { PopoverPage } from '../pages/popover/popover';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -25,7 +27,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
   ],
   imports: [
     BrowserModule,
@@ -39,11 +41,13 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    PopoverPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
+    PopoverPage
   ],
   providers: [
     SplashScreen,
